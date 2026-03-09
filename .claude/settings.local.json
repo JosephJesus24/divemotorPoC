@@ -1,0 +1,39 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls \"/c/Users/josep/OneDrive - L&S Consulting S.A.C/Escritorio/DIVEMOTOR/POC\")",
+      "Bash(find \"/c/Users/josep/OneDrive - L&S Consulting S.A.C/Escritorio/DIVEMOTOR/POC\" -type f)",
+      "Bash(npm install)",
+      "Bash(npm install next@latest)",
+      "Bash(npm run build)",
+      "Bash(node \"/c/Users/josep/OneDrive - L&S Consulting S.A.C/Escritorio/DIVEMOTOR/POC/node_modules/next/dist/bin/next\" build --cwd \"/c/Users/josep/OneDrive - L&S Consulting S.A.C/Escritorio/DIVEMOTOR/POC\")",
+      "Bash(node node_modules/next/dist/bin/next build)",
+      "Bash(find \"/c/Users/josep/OneDrive - L&S Consulting S.A.C/Escritorio/DIVEMOTOR/POC/app\" -type f)",
+      "Bash(cat \"/c/Users/josep/OneDrive - L&S Consulting S.A.C/Escritorio/DIVEMOTOR/POC/app/vehicle/[modelId]/[variantId]/page.tsx\")",
+      "WebFetch(domain:ai.google.dev)",
+      "WebFetch(domain:brandfetch.com)",
+      "WebFetch(domain:www.divemotor.com)",
+      "WebFetch(domain:qa2.divemotor.com.pe)",
+      "WebFetch(domain:www.linkedin.com)",
+      "WebFetch(domain:divemotor.com.co)",
+      "WebFetch(domain:www.behance.net)",
+      "WebFetch(domain:seminuevos.divemotor.com)",
+      "Bash(find \"/c/Users/josep/OneDrive - L&S Consulting S.A.C/Escritorio/DIVEMOTOR/POC/public/images\" -type f)",
+      "Bash(find \"/c/Users/josep/OneDrive - L&S Consulting S.A.C/Escritorio/DIVEMOTOR/POC/public\" -type f)",
+      "Bash(ls \"/c/Users/josep/OneDrive - L&S Consulting S.A.C/Escritorio/DIVEMOTOR/POC/scripts\")",
+      "Bash(find \"/c/Users/josep/OneDrive - L&S Consulting S.A.C/Escritorio/DIVEMOTOR/POC\" -maxdepth 3 -type f \\\\\\( -iname \"*.jpg\" -o -iname \"*.jpeg\" -o -iname \"*.png\" \\\\\\))",
+      "Bash(find \"/c/Users/josep/OneDrive - L&S Consulting S.A.C/Escritorio/DIVEMOTOR/POC\" -maxdepth 4 -type f \\\\\\( -iname \"*.jpg\" -o -iname \"*.jpeg\" -o -iname \"*.png\" -o -iname \"*.webp\" \\\\\\))",
+      "Bash(ls \"/c/Users/josep/OneDrive - L&S Consulting S.A.C/Escritorio/DIVEMOTOR/POC/public/uploads\")",
+      "Bash(find \"/c/Users/josep/OneDrive - L&S Consulting S.A.C/Escritorio/DIVEMOTOR/POC/app/vehicle/[modelId]/[variantId]/\" -type f -name \"*.tsx\" -o -name \"*.ts\")",
+      "Bash(ls -la \"/c/Users/josep/OneDrive - L&S Consulting S.A.C/Escritorio/DIVEMOTOR/POC/public/\")",
+      "Bash(ls -la \"/c/Users/josep/OneDrive - L&S Consulting S.A.C/Escritorio/DIVEMOTOR/POC/public/generated/\")",
+      "Bash(ls -la \"/c/Users/josep/OneDrive - L&S Consulting S.A.C/Escritorio/DIVEMOTOR/POC/components/\")",
+      "Bash(find \"/c/Users/josep/OneDrive - L&S Consulting S.A.C/Escritorio/DIVEMOTOR/POC/app/api\" -type f -name \"*.ts\")",
+      "WebFetch(domain:docs.cloud.google.com)",
+      "Bash(ls \"/c/Users/josep/OneDrive - L&S Consulting S.A.C/Escritorio/DIVEMOTOR/POC/public\")",
+      "Bash(npm install @vercel/blob)",
+      "Bash(dir /a \"C:\\\\Users\\\\josep\\\\OneDrive - L&S Consulting S.A.C\\\\Escritorio\\\\DIVEMOTOR\\\\POC\")",
+      "Bash(findstr /i \"git\")"
+    ]
+  }
+}

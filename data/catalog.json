@@ -1,0 +1,594 @@
+{
+  "models": [
+    {
+      "id": "jeep_avenger",
+      "name": "Jeep Avenger",
+      "brand": "Jeep",
+      "coverImage": "/images/avenger/altitude/frontal.jpg",
+      "description": "El Jeep Avenger es compacto y completamente eléctrico. Diseñado para la ciudad y la aventura.",
+      "variants": [
+        {
+          "id": "altitude",
+          "name": "Avenger Altitude",
+          "year": 2026,
+          "colors": [
+            "blanco",
+            "negro",
+            "rojo"
+          ],
+          "description": "Edición Altitude con acabados exclusivos y mayor equipamiento.",
+          "images": [
+            {
+              "id": "av_alt_front",
+              "view": "front",
+              "color": "blanco",
+              "date": "2026-03-01",
+              "url": "/images/avenger/altitude/frontal.jpg"
+            },
+            {
+              "id": "av_alt_side",
+              "view": "side",
+              "color": "blanco",
+              "date": "2026-03-01",
+              "url": "/images/avenger/altitude/lateral.jpg"
+            },
+            {
+              "id": "av_alt_rear",
+              "view": "rear",
+              "color": "blanco",
+              "date": "2026-03-01",
+              "url": "/images/avenger/altitude/posterior.jpg"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "jeep_commander",
+      "name": "Jeep Commander",
+      "brand": "Jeep",
+      "coverImage": "/images/commander/limited/frontal.jpeg",
+      "description": "El Jeep Commander es un SUV de 7 pasajeros con capacidad off-road y confort premium.",
+      "variants": [
+        {
+          "id": "blackhawk",
+          "name": "Commander Blackhawk",
+          "year": 2026,
+          "colors": [
+            "negro",
+            "gris",
+            "rojo"
+          ],
+          "description": "Edición Blackhawk con paquete sport y detalles negros exclusivos.",
+          "images": [
+            {
+              "id": "cmd_bh_front",
+              "view": "front",
+              "color": "negro",
+              "date": "2026-03-01",
+              "url": "/images/commander/blackhawk/frontal.jpg"
+            },
+            {
+              "id": "cmd_bh_side",
+              "view": "side",
+              "color": "negro",
+              "date": "2026-03-01",
+              "url": "/images/commander/blackhawk/lateral.jpg"
+            },
+            {
+              "id": "cmd_bh_rear",
+              "view": "rear",
+              "color": "negro",
+              "date": "2026-03-01",
+              "url": "/images/commander/blackhawk/posterior.jpg"
+            }
+          ]
+        },
+        {
+          "id": "limited",
+          "name": "Commander Limited",
+          "year": 2026,
+          "colors": [
+            "blanco",
+            "plata",
+            "negro"
+          ],
+          "description": "Versión Limited con máximo equipamiento y lujo en cada detalle.",
+          "images": [
+            {
+              "id": "cmd_lim_front",
+              "view": "front",
+              "color": "blanco",
+              "date": "2026-03-01",
+              "url": "/images/commander/limited/frontal.jpeg"
+            },
+            {
+              "id": "cmd_lim_side",
+              "view": "side",
+              "color": "blanco",
+              "date": "2026-03-01",
+              "url": "/images/commander/limited/lateral.jpeg"
+            },
+            {
+              "id": "cmd_lim_rear",
+              "view": "rear",
+              "color": "blanco",
+              "date": "2026-03-01",
+              "url": "/images/commander/limited/posterior.jpeg"
+            }
+          ]
+        },
+        {
+          "id": "overland",
+          "name": "Commander Overland",
+          "year": 2026,
+          "colors": [
+            "gris",
+            "verde",
+            "negro"
+          ],
+          "description": "Edición Overland con capacidades off-road mejoradas y equipamiento de aventura.",
+          "images": [
+            {
+              "id": "cmd_ov_front",
+              "view": "front",
+              "color": "gris",
+              "date": "2026-03-01",
+              "url": "/images/commander/overland/frontal.jpg"
+            },
+            {
+              "id": "cmd_ov_side",
+              "view": "side",
+              "color": "gris",
+              "date": "2026-03-01",
+              "url": "/images/commander/overland/lateral.jpg"
+            },
+            {
+              "id": "cmd_ov_rear",
+              "view": "rear",
+              "color": "gris",
+              "date": "2026-03-01",
+              "url": "/images/commander/overland/posterior.jpg"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "jeep_renegade",
+      "name": "Jeep Renegade",
+      "brand": "Jeep",
+      "coverImage": "/images/renegade/sport/gray/frontal.jpeg",
+      "description": "El Jeep Renegade combina estilo urbano con capacidad off-road en un paquete compacto.",
+      "variants": [
+        {
+          "id": "longitude",
+          "name": "Renegade Longitude",
+          "year": 2026,
+          "colors": [
+            "blanco",
+            "azul",
+            "rojo"
+          ],
+          "description": "Versión Longitude con excelente relación precio-equipamiento.",
+          "images": [
+            {
+              "id": "ren_lon_front",
+              "view": "front",
+              "color": "blanco",
+              "date": "2026-03-01",
+              "url": "/images/renegade/longitude/frontal.jpg"
+            },
+            {
+              "id": "ren_lon_side",
+              "view": "side",
+              "color": "blanco",
+              "date": "2026-03-01",
+              "url": "/images/renegade/longitude/lateral.jpg"
+            },
+            {
+              "id": "ren_lon_rear",
+              "view": "rear",
+              "color": "blanco",
+              "date": "2026-03-01",
+              "url": "/images/renegade/longitude/posterior.jpg"
+            }
+          ]
+        },
+        {
+          "id": "sport",
+          "name": "Renegade Sport",
+          "year": 2026,
+          "colors": [
+            "granite crystal metallic",
+            "diamond black crystal",
+            "negro",
+            "gris",
+            "rojo"
+          ],
+          "description": "Versión Sport de entrada con el espíritu aventurero Jeep.",
+          "images": [
+            {
+              "id": "gen_diamond_black_front_7ad687cd",
+              "view": "front",
+              "color": "Diamond Black Crystal",
+              "date": "2026-03-09",
+              "url": "/images/jeep_renegade/sport/jeep_renegade_sport_diamond_black_front_2b69b7.jpg",
+              "isGenerated": true,
+              "generatedFrom": "/generated/gen_jeep_renegade_sport_diamond_black_209d4f16.jpg"
+            },
+            {
+              "id": "gen_granite_crystal_front_5646053c",
+              "view": "front",
+              "color": "Granite Crystal Metallic",
+              "date": "2026-03-09",
+              "url": "/images/jeep_renegade/sport/jeep_renegade_sport_granite_crystal_front_7dfafe.jpg",
+              "isGenerated": true,
+              "generatedFrom": "/generated/gen_jeep_renegade_sport_granite_crystal_bbc2a746.jpg"
+            },
+            {
+              "id": "video_jeep_renegade_sport_mmiilyp0",
+              "type": "video",
+              "view": "360",
+              "color": "sin color",
+              "date": "2026-03-09",
+              "url": "/images/jeep_renegade/sport/veo_jeep_renegade_sport_995d3018.mp4",
+              "isGenerated": true
+            },
+            {
+              "id": "gen_granite_crystal_rear_7c66d01b",
+              "view": "rear",
+              "color": "Granite Crystal Metallic",
+              "date": "2026-03-08",
+              "url": "/images/jeep_renegade/sport/jeep_renegade_sport_granite_crystal_rear_a1408b.jpg",
+              "isGenerated": true,
+              "generatedFrom": "/generated/gen_jeep_renegade_sport_granite_crystal_91a543ed.jpg"
+            },
+            {
+              "id": "gen_granite_crystal_side_049436f6",
+              "view": "side",
+              "color": "Granite Crystal Metallic",
+              "date": "2026-03-08",
+              "url": "/images/jeep_renegade/sport/jeep_renegade_sport_granite_crystal_side_93ede6.jpg",
+              "isGenerated": true,
+              "generatedFrom": "/generated/gen_jeep_renegade_sport_granite_crystal_844a2de0.jpg"
+            },
+            {
+              "id": "gen_granite_crystal_front_897009ff",
+              "view": "front",
+              "color": "Granite Crystal Metallic",
+              "date": "2026-03-08",
+              "url": "/images/jeep_renegade/sport/jeep_renegade_sport_granite_crystal_front_fd8e63.jpg",
+              "isGenerated": true,
+              "generatedFrom": "/generated/gen_jeep_renegade_sport_granite_crystal_337584a2.jpg"
+            },
+            {
+              "id": "gen_diamond_black_rear_2d849ed1",
+              "view": "rear",
+              "color": "Diamond Black Crystal",
+              "date": "2026-03-08",
+              "url": "/images/jeep_renegade/sport/jeep_renegade_sport_diamond_black_rear_f60a24.jpg",
+              "isGenerated": true,
+              "generatedFrom": "/generated/gen_jeep_renegade_sport_diamond_black_cd89e617.jpg"
+            },
+            {
+              "id": "gen_diamond_black_side_3c7fe8f6",
+              "view": "side",
+              "color": "Diamond Black Crystal",
+              "date": "2026-03-08",
+              "url": "/images/jeep_renegade/sport/jeep_renegade_sport_diamond_black_side_cee15e.jpg",
+              "isGenerated": true,
+              "generatedFrom": "/generated/gen_jeep_renegade_sport_diamond_black_97244868.jpg"
+            },
+            {
+              "id": "gen_diamond_black_front_268e9e35",
+              "view": "front",
+              "color": "Diamond Black Crystal",
+              "date": "2026-03-08",
+              "url": "/images/jeep_renegade/sport/jeep_renegade_sport_diamond_black_front_c51892.jpg",
+              "isGenerated": true,
+              "generatedFrom": "/generated/gen_jeep_renegade_sport_diamond_black_4937ea15.jpg"
+            },
+            {
+              "id": "gen_diamond_black_front_96dff5d2",
+              "view": "front",
+              "color": "Diamond Black Crystal",
+              "date": "2026-03-08",
+              "url": "/images/jeep_renegade/sport/jeep_renegade_sport_diamond_black_front_f13ced.jpg",
+              "isGenerated": true,
+              "generatedFrom": "/generated/gen_jeep_renegade_sport_diamond_black_c60da701.jpg"
+            },
+            {
+              "id": "ren_sp_gray_side",
+              "view": "side",
+              "color": "gris",
+              "date": "2026-03-03",
+              "url": "/images/renegade/sport/gray/lateral.jpeg"
+            },
+            {
+              "id": "ren_sp_rear",
+              "view": "rear",
+              "color": "gris",
+              "date": "2026-03-03",
+              "url": "/images/renegade/sport/posterior.jpeg"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "jeep_compass",
+      "name": "Jeep Compass",
+      "brand": "Jeep",
+      "coverImage": "/images/compass/limited/frontal.jpg",
+      "description": "El Jeep Compass es el SUV compacto más versátil, con tecnología de punta y diseño refinado.",
+      "variants": [
+        {
+          "id": "limited",
+          "name": "Compass Limited",
+          "year": 2026,
+          "colors": [
+            "blanco",
+            "negro",
+            "azul"
+          ],
+          "description": "Versión Limited con acabados premium y tecnología avanzada.",
+          "images": [
+            {
+              "id": "cmp_lim_front",
+              "view": "front",
+              "color": "blanco",
+              "date": "2026-03-07",
+              "url": "/images/compass/limited/frontal.jpg"
+            },
+            {
+              "id": "cmp_lim_side",
+              "view": "side",
+              "color": "blanco",
+              "date": "2026-03-07",
+              "url": "/images/compass/limited/lateral.jpg"
+            }
+          ]
+        },
+        {
+          "id": "longitude",
+          "name": "Compass Longitude",
+          "year": 2026,
+          "colors": [
+            "gris",
+            "blanco",
+            "rojo"
+          ],
+          "description": "Versión Longitude con equilibrio perfecto entre equipamiento y precio.",
+          "images": [
+            {
+              "id": "cmp_lon_front",
+              "view": "front",
+              "color": "gris",
+              "date": "2026-03-07",
+              "url": "/images/compass/longitude/frontal.jpg"
+            },
+            {
+              "id": "cmp_lon_side",
+              "view": "side",
+              "color": "gris",
+              "date": "2026-03-07",
+              "url": "/images/compass/longitude/lateral.jpg"
+            }
+          ]
+        },
+        {
+          "id": "sport",
+          "name": "Compass Sport",
+          "year": 2026,
+          "colors": [
+            "rojo",
+            "gris",
+            "blanco"
+          ],
+          "description": "Versión Sport con el carácter aventurero de Jeep.",
+          "images": [
+            {
+              "id": "cmp_spt_front",
+              "view": "front",
+              "color": "rojo",
+              "date": "2026-03-07",
+              "url": "/images/compass/sport/frontal.jpg"
+            },
+            {
+              "id": "cmp_spt_side",
+              "view": "side",
+              "color": "rojo",
+              "date": "2026-03-07",
+              "url": "/images/compass/sport/lateral.jpg"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "jeep_gladiator",
+      "name": "Jeep Gladiator",
+      "brand": "Jeep",
+      "coverImage": "/images/gladiator/rubicon/frontal.jpg",
+      "description": "El único pickup del mundo con capacidad off-road certificada Jeep.",
+      "variants": [
+        {
+          "id": "rubicon",
+          "name": "Gladiator Rubicon",
+          "year": 2026,
+          "colors": [
+            "verde",
+            "negro",
+            "naranja"
+          ],
+          "description": "La versión más capaz para el terreno más exigente.",
+          "images": [
+            {
+              "id": "gld_rub_front",
+              "view": "front",
+              "color": "negro",
+              "date": "2026-03-07",
+              "url": "/images/gladiator/rubicon/frontal.jpg"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "jeep_grand_cherokee",
+      "name": "Jeep Grand Cherokee",
+      "brand": "Jeep",
+      "coverImage": "/images/grandcherokee/limited/frontal.jpg",
+      "description": "El SUV premium más icónico de Jeep con máximo lujo y capacidad off-road.",
+      "variants": [
+        {
+          "id": "altitude",
+          "name": "Grand Cherokee Altitude",
+          "year": 2026,
+          "colors": [
+            "negro",
+            "gris",
+            "blanco"
+          ],
+          "description": "Edición Altitude con estilo oscuro y equipamiento deportivo.",
+          "images": [
+            {
+              "id": "gc_alt_front",
+              "view": "front",
+              "color": "negro",
+              "date": "2026-03-07",
+              "url": "/images/grandcherokee/altitude/frontal.jpg"
+            },
+            {
+              "id": "gc_alt_side",
+              "view": "side",
+              "color": "negro",
+              "date": "2026-03-07",
+              "url": "/images/grandcherokee/altitude/lateral.jpg"
+            }
+          ]
+        },
+        {
+          "id": "limited",
+          "name": "Grand Cherokee Limited",
+          "year": 2026,
+          "colors": [
+            "negro",
+            "plata",
+            "blanco"
+          ],
+          "description": "Lujo y capacidad off-road en su máxima expresión.",
+          "images": [
+            {
+              "id": "gc_lim_front",
+              "view": "front",
+              "color": "negro",
+              "date": "2026-03-07",
+              "url": "/images/grandcherokee/limited/frontal.jpg"
+            },
+            {
+              "id": "gc_lim_side",
+              "view": "side",
+              "color": "negro",
+              "date": "2026-03-07",
+              "url": "/images/grandcherokee/limited/lateral.jpg"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "jeep_grand_cherokee_l",
+      "name": "Jeep Grand Cherokee L",
+      "brand": "Jeep",
+      "coverImage": "/images/grandcherokeel/summitreserve/frontal.jpg",
+      "description": "La versión de 3 filas del Grand Cherokee para familias que no renuncian a nada.",
+      "variants": [
+        {
+          "id": "summitreserve",
+          "name": "Grand Cherokee L Summit Reserve",
+          "year": 2026,
+          "colors": [
+            "blanco",
+            "negro",
+            "azul"
+          ],
+          "description": "La cúspide del lujo Jeep: 7 pasajeros, tecnología de punta y acabados premium.",
+          "images": [
+            {
+              "id": "gcl_sr_front",
+              "view": "front",
+              "color": "blanco",
+              "date": "2026-03-07",
+              "url": "/images/grandcherokeel/summitreserve/frontal.jpg"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "jeep_wrangler",
+      "name": "Jeep Wrangler",
+      "brand": "Jeep",
+      "coverImage": "/images/wrangler/rubicon/frontal.jpg",
+      "description": "El ícono original. El Jeep Wrangler es la referencia del off-road mundial.",
+      "variants": [
+        {
+          "id": "rubicon",
+          "name": "Wrangler Rubicon",
+          "year": 2026,
+          "colors": [
+            "naranja",
+            "negro",
+            "verde"
+          ],
+          "description": "El más extremo para los terrenos más exigentes.",
+          "images": [
+            {
+              "id": "wr_rub_front",
+              "view": "front",
+              "color": "negro",
+              "date": "2026-03-07",
+              "url": "/images/wrangler/rubicon/frontal.jpg"
+            },
+            {
+              "id": "wr_rub_rear",
+              "view": "rear",
+              "color": "negro",
+              "date": "2026-03-07",
+              "url": "/images/wrangler/rubicon/posterior.jpg"
+            }
+          ]
+        },
+        {
+          "id": "unlimitedsahara",
+          "name": "Wrangler Unlimited Sahara",
+          "year": 2026,
+          "colors": [
+            "azul",
+            "blanco",
+            "negro"
+          ],
+          "description": "El clásico Wrangler con 4 puertas y el confort que necesitas para la aventura.",
+          "images": [
+            {
+              "id": "wr_sah_front",
+              "view": "front",
+              "color": "azul",
+              "date": "2026-03-07",
+              "url": "/images/wrangler/unlimitedsahara/frontal.jpg"
+            },
+            {
+              "id": "wr_sah_rear",
+              "view": "rear",
+              "color": "azul",
+              "date": "2026-03-07",
+              "url": "/images/wrangler/unlimitedsahara/posterior.jpg"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

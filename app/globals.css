@@ -1,0 +1,142 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Divemotor Brand CSS Variables ─────────────────────────────────────────── */
+
+:root {
+  --bg-primary:    #09090b;
+  --bg-secondary:  #111113;
+  --accent:        #fe142f;   /* Divemotor Torch Red */
+  --accent-blue:   #003a75;   /* Divemotor Regal Blue */
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: #f5f5f7;
+  font-family: 'Inter', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─── Scrollbar ──────────────────────────────────────────────────────────────── */
+
+::-webkit-scrollbar       { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: #111113; }
+::-webkit-scrollbar-thumb {
+  background: #fe142f40;    /* Divemotor red, 25% opacity */
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover { background: #fe142f80; }
+
+/* ─── Utilities ──────────────────────────────────────────────────────────────── */
+
+@layer utilities {
+  .text-balance { text-wrap: balance; }
+
+  /* Glassmorphism panels */
+  .glass {
+    background: rgba(17, 17, 19, 0.82);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  .glass-dark {
+    background: rgba(9, 9, 11, 0.90);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+  }
+
+  /* Card hover lift */
+  .card-hover {
+    @apply transition-all duration-300 ease-out;
+  }
+  .card-hover:hover {
+    transform: translateY(-4px);
+  }
+
+  /* Loading shimmer */
+  .shimmer {
+    background: linear-gradient(
+      90deg,
+      #1e1e24 25%,
+      #2a2a36 50%,
+      #1e1e24 75%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+  }
+
+  .image-cover { @apply object-cover w-full h-full; }
+
+  /* Divemotor red accent glow — use for hero gradients */
+  .glow-red {
+    box-shadow: 0 0 60px rgba(254, 20, 47, 0.15);
+  }
+
+  /* Navy blue underline accent */
+  .underline-blue {
+    border-bottom: 2px solid var(--accent-blue);
+  }
+}
+
+/* ─── Components ─────────────────────────────────────────────────────────────── */
+
+@layer components {
+
+  /* Primary CTA — Divemotor Red */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2
+           bg-accent text-white font-bold
+           px-6 py-3 rounded-lg
+           transition-all duration-200
+           hover:bg-accent-hover active:scale-95
+           disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  /* Ghost secondary button */
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2
+           border border-border text-text-secondary
+           px-6 py-3 rounded-lg
+           transition-all duration-200
+           hover:border-border-light hover:text-text-primary
+           active:scale-95;
+  }
+
+  /* Blue ghost — for secondary branded actions */
+  .btn-blue {
+    @apply inline-flex items-center justify-center gap-2
+           bg-accent-blue text-white font-semibold
+           px-6 py-3 rounded-lg
+           transition-all duration-200
+           hover:bg-accent-blue-hover active:scale-95;
+  }
+
+  /* Small pills / tags */
+  .badge {
+    @apply inline-flex items-center gap-1
+           text-xs font-medium px-2 py-0.5
+           rounded-full;
+  }
+
+  /* Section eye-brow label — uses Divemotor red */
+  .section-label {
+    @apply text-xs font-bold uppercase tracking-widest;
+    color: var(--accent);
+  }
+
+  /* Section eye-brow label in blue variant */
+  .section-label-blue {
+    @apply text-xs font-bold uppercase tracking-widest;
+    color: var(--accent-blue);
+  }
+}

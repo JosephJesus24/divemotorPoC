@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" fill="none">
+  <rect width="800" height="450" fill="#18181b"/>
+  <text x="400" y="200" text-anchor="middle" fill="#3f3f46" font-size="64" font-family="system-ui">🚙</text>
+  <text x="400" y="280" text-anchor="middle" fill="#52525b" font-size="24" font-family="system-ui">Jeep Compass</text>
+  <text x="400" y="310" text-anchor="middle" fill="#3f3f46" font-size="14" font-family="system-ui">Imágenes próximamente</text>
+</svg>
