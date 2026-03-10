@@ -1,8 +1,9 @@
 'use client'
 
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import { Sparkles } from 'lucide-react'
+import { usePathname, useRouter } from 'next/navigation'
+import { Sparkles, LogOut } from 'lucide-react'
+import { useEffect, useState } from 'react'
 
 /**
  * Divemotor wordmark — fiel al logo real:
@@ -28,6 +29,20 @@ function DivemotorWordmark() {
 
 export function NavBar() {
   const pathname = usePathname()
+  const router   = useRouter()
+  const [user, setUser] = useState<{ email: string; name: string } | null>(null)
+
+  useEffect(() => {
+    fetch('/api/auth/me')
+      .then(r => r.ok ? r.json() : null)
+      .then(data => { if (data?.user) setUser(data.user) })
+      .catch(() => {})
+  }, [])
+
+  async function handleLogout() {
+    await fetch('/api/auth/logout')
+    router.push('/login')
+  }
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 border-b border-white/10"
@@ -60,10 +75,28 @@ export function NavBar() {
           </Link>
         </nav>
 
-        {/* ── AI pill ─────────────────────────────────────────────────────────── */}
-        <div className="hidden sm:flex items-center gap-2 text-xs font-medium text-white/40 border border-white/10 rounded-full px-3 py-1.5">
-          <Sparkles size={11} className="text-accent" />
-          NanoBanana AI
+        {/* ── Right side: AI pill + user ──────────────────────────────────────── */}
+        <div className="flex items-center gap-3">
+          <div className="hidden sm:flex items-center gap-2 text-xs font-medium text-white/40 border border-white/10 rounded-full px-3 py-1.5">
+            <Sparkles size={11} className="text-accent" />
+            NanoBanana AI
+          </div>
+
+          {user && (
+            <div className="flex items-center gap-2">
+              <span className="hidden md:block text-xs text-white/40 max-w-[180px] truncate">
+                {user.email}
+              </span>
+              <button
+                onClick={handleLogout}
+                title="Cerrar sesión"
+                className="flex items-center gap-1.5 text-xs text-white/40 hover:text-white border border-white/10 hover:border-white/20 rounded-full px-3 py-1.5 transition-all"
+              >
+                <LogOut size={11} />
+                <span className="hidden sm:inline">Salir</span>
+              </button>
+            </div>
+          )}
         </div>
       </div>
 
