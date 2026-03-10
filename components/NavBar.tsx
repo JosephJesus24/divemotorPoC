@@ -5,6 +5,26 @@ import { usePathname, useRouter } from 'next/navigation'
 import { Sparkles, LogOut } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+
+/** "anthony.vidal@grupokaufmann.com" → "Anthony Vidal" */
+function parseNameFromEmail(email: string): string {
+  const local = email.split('@')[0]           // "anthony.vidal"
+  return local
+    .split('.')
+    .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+    .join(' ')                                // "Anthony Vidal"
+}
+
+/** "Anthony Vidal" → "AV" */
+function getInitials(name: string): string {
+  return name
+    .split(' ')
+    .slice(0, 2)
+    .map(w => w.charAt(0).toUpperCase())
+    .join('')
+}
+
 /**
  * Divemotor wordmark — fiel al logo real:
  * tipografía ultra-light (Helvetica Neue UltraLight), todo en mayúsculas,
@@ -83,18 +103,45 @@ export function NavBar() {
           </div>
 
           {user && (
-            <div className="flex items-center gap-2">
-              <span className="hidden md:block text-xs text-white/40 max-w-[180px] truncate">
-                {user.email}
-              </span>
+            <div className="flex items-center gap-2.5">
+
+              {/* ── Avatar + info ─────────────────────────────────────────── */}
+              <div className="flex items-center gap-2.5">
+
+                {/* Initials circle */}
+                <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 border border-accent/40"
+                  style={{ background: 'rgba(220,38,38,0.12)' }}
+                >
+                  <span className="text-[11px] font-bold text-accent leading-none">
+                    {getInitials(parseNameFromEmail(user.email))}
+                  </span>
+                </div>
+
+                {/* Name + role — visible solo en md+ */}
+                <div className="hidden md:flex flex-col leading-tight gap-0.5">
+                  <span className="text-[13px] font-medium text-white/90 whitespace-nowrap">
+                    {parseNameFromEmail(user.email)}
+                  </span>
+                  <span className="text-[10px] text-white/35 whitespace-nowrap">
+                    Asesor Comercial&nbsp;·&nbsp;
+                    <span className="text-accent/70">Jeep®</span>
+                  </span>
+                </div>
+              </div>
+
+              {/* Separador vertical */}
+              <span className="hidden md:block h-6 w-px bg-white/10" />
+
+              {/* ── Logout ────────────────────────────────────────────────── */}
               <button
                 onClick={handleLogout}
                 title="Cerrar sesión"
-                className="flex items-center gap-1.5 text-xs text-white/40 hover:text-white border border-white/10 hover:border-white/20 rounded-full px-3 py-1.5 transition-all"
+                className="flex items-center gap-1.5 text-xs text-white/35 hover:text-white/80 transition-colors px-1 py-1"
               >
-                <LogOut size={11} />
-                <span className="hidden sm:inline">Salir</span>
+                <LogOut size={13} />
+                <span className="hidden sm:inline text-[11px]">Salir</span>
               </button>
+
             </div>
           )}
         </div>
