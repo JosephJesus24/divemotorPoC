@@ -186,8 +186,8 @@ export default function GalleryPage() {
 
             {/* Action buttons */}
             <div className="flex items-center gap-3 flex-wrap shrink-0">
-              {/* Generate video 360° */}
-              <Link
+              {/* Video 360° — temporalmente oculto durante mejoras */}
+              {false && <Link
                 href={`/vehicle/${modelId}/${variantId}/video?${images
                   .filter((img) => img.type !== 'video')
                   .slice(0, 12)
@@ -200,7 +200,7 @@ export default function GalleryPage() {
               >
                 <Video size={16} />
                 Video 360°
-              </Link>
+              </Link>}
 
               {/* Multi-select toggle */}
               <button
