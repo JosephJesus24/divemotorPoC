@@ -456,6 +456,42 @@
           "images": []
         }
       ]
+    },
+    {
+      "id": "jeep_avenger",
+      "name": "Jeep Avenger",
+      "brand": "Jeep",
+      "coverImage": "",
+      "description": "El Jeep Avenger es compacto y completamente eléctrico. Diseñado para la ciudad y la aventura.",
+      "variants": [],
+      "comingSoon": true
+    },
+    {
+      "id": "jeep_compass",
+      "name": "Jeep Compass",
+      "brand": "Jeep",
+      "coverImage": "",
+      "description": "El Jeep Compass combina versatilidad urbana con capacidad off-road.",
+      "variants": [],
+      "comingSoon": true
+    },
+    {
+      "id": "jeep_gladiator",
+      "name": "Jeep Gladiator",
+      "brand": "Jeep",
+      "coverImage": "",
+      "description": "El Jeep Gladiator es la pickup con mayor capacidad off-road de la línea.",
+      "variants": [],
+      "comingSoon": true
+    },
+    {
+      "id": "jeep_grand_cherokee_l",
+      "name": "Jeep Grand Cherokee L",
+      "brand": "Jeep",
+      "coverImage": "",
+      "description": "El Grand Cherokee L ofrece tres filas de asientos con el lujo y desempeño Jeep.",
+      "variants": [],
+      "comingSoon": true
     }
   ]
 }

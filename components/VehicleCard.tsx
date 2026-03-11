@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { ArrowRight, Images } from 'lucide-react'
+import { ArrowRight, Clock, Images } from 'lucide-react'
 import type { VehicleModel } from '@/types'
 
 interface Props {
@@ -17,6 +17,48 @@ export function VehicleCard({ model, index = 0 }: Props) {
   )
   const hasImages = model.coverImage && !model.coverImage.includes('placeholder')
 
+  // ── Coming Soon card (non-clickable) ──────────────────────────────────────
+  if (model.comingSoon) {
+    return (
+      <div
+        className="block rounded-2xl overflow-hidden border border-border bg-bg-card opacity-60 animate-fade-in cursor-default"
+        style={{ animationDelay: `${index * 60}ms` }}
+      >
+        <div className="relative aspect-[4/3] overflow-hidden bg-bg-secondary">
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-2">
+            <div className="w-14 h-14 rounded-2xl bg-bg-hover border border-border flex items-center justify-center">
+              <Clock size={22} className="text-text-muted" />
+            </div>
+            <span className="text-xs font-semibold text-text-muted tracking-widest uppercase">
+              Próximamente
+            </span>
+          </div>
+        </div>
+
+        <div className="p-5">
+          <div className="flex items-start justify-between gap-2 mb-3">
+            <div>
+              <p className="text-xs text-text-muted font-medium mb-0.5">{model.brand}</p>
+              <h3 className="font-bold text-text-secondary text-lg leading-tight">{model.name}</h3>
+            </div>
+            <div className="w-8 h-8 rounded-lg bg-bg-hover border border-border flex items-center justify-center shrink-0 mt-0.5">
+              <Clock size={14} className="text-text-muted" />
+            </div>
+          </div>
+          <div className="flex items-center gap-3">
+            <span className="badge bg-bg-hover text-text-muted border border-border text-xs">
+              Próximamente
+            </span>
+            <span className="badge bg-bg-hover text-text-muted border border-border text-xs">
+              2026
+            </span>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  // ── Normal clickable card ─────────────────────────────────────────────────
   return (
     <Link
       href={`/vehicle/${model.id}`}

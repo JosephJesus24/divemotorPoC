@@ -31,6 +31,7 @@ export interface VehicleModel {
   coverImage: string
   description?: string
   variants: VehicleVariant[]
+  comingSoon?: boolean        // true = card shown as "Próximamente", not clickable
 }
 
 export interface Catalog {
