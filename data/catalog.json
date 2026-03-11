@@ -1,110 +1,12 @@
 {
   "models": [
     {
-      "id": "jeep_avenger",
-      "name": "Jeep Avenger",
-      "brand": "Jeep",
-      "coverImage": "/images/jeep/avenger/altitude/frontal.jpg",
-      "description": "El Jeep Avenger es compacto y completamente eléctrico. Diseñado para la ciudad y la aventura.",
-      "variants": [
-        {
-          "id": "altitude",
-          "name": "Avenger Altitude",
-          "year": 2026,
-          "colors": [
-            "blanco",
-            "negro",
-            "rojo"
-          ],
-          "description": "Edición Altitude con acabados exclusivos y mayor equipamiento.",
-          "images": [
-            {
-              "id": "av_alt_front",
-              "view": "front",
-              "color": "blanco",
-              "date": "2026-03-01",
-              "url": "/images/jeep/avenger/altitude/frontal.jpg"
-            },
-            {
-              "id": "av_alt_side",
-              "view": "side",
-              "color": "blanco",
-              "date": "2026-03-01",
-              "url": "/images/jeep/avenger/altitude/lateral.jpg"
-            },
-            {
-              "id": "av_alt_rear",
-              "view": "rear",
-              "color": "blanco",
-              "date": "2026-03-01",
-              "url": "/images/jeep/avenger/altitude/posterior.jpg"
-            },
-            {
-              "id": "av_alt_red_front",
-              "view": "front",
-              "color": "rojo",
-              "date": "2026-03-10",
-              "url": "/images/jeep/avenger/altitude/red/frontal.jpg"
-            },
-            {
-              "id": "av_alt_red_side",
-              "view": "side",
-              "color": "rojo",
-              "date": "2026-03-10",
-              "url": "/images/jeep/avenger/altitude/red/lateral.jpg"
-            },
-            {
-              "id": "av_alt_red_rear",
-              "view": "rear",
-              "color": "rojo",
-              "date": "2026-03-10",
-              "url": "/images/jeep/avenger/altitude/red/posterior.jpg"
-            }
-          ]
-        }
-      ]
-    },
-    {
       "id": "jeep_commander",
       "name": "Jeep Commander",
       "brand": "Jeep",
       "coverImage": "/images/jeep/commander/limited/frontal.jpeg",
       "description": "El Jeep Commander es un SUV de 7 pasajeros con capacidad off-road y confort premium.",
       "variants": [
-        {
-          "id": "blackhawk",
-          "name": "Commander Blackhawk",
-          "year": 2026,
-          "colors": [
-            "negro",
-            "gris",
-            "rojo"
-          ],
-          "description": "Edición Blackhawk con paquete sport y detalles negros exclusivos.",
-          "images": [
-            {
-              "id": "cmd_bh_front",
-              "view": "front",
-              "color": "negro",
-              "date": "2026-03-01",
-              "url": "/images/jeep/commander/blackhawk/frontal.jpg"
-            },
-            {
-              "id": "cmd_bh_side",
-              "view": "side",
-              "color": "negro",
-              "date": "2026-03-01",
-              "url": "/images/jeep/commander/blackhawk/lateral.jpg"
-            },
-            {
-              "id": "cmd_bh_rear",
-              "view": "rear",
-              "color": "negro",
-              "date": "2026-03-01",
-              "url": "/images/jeep/commander/blackhawk/posterior.jpg"
-            }
-          ]
-        },
         {
           "id": "limited",
           "name": "Commander Limited",
@@ -138,40 +40,6 @@
               "url": "/images/jeep/commander/limited/posterior.jpeg"
             }
           ]
-        },
-        {
-          "id": "overland",
-          "name": "Commander Overland",
-          "year": 2026,
-          "colors": [
-            "gris",
-            "verde",
-            "negro"
-          ],
-          "description": "Edición Overland con capacidades off-road mejoradas y equipamiento de aventura.",
-          "images": [
-            {
-              "id": "cmd_ov_front",
-              "view": "front",
-              "color": "gris",
-              "date": "2026-03-01",
-              "url": "/images/jeep/commander/overland/frontal.jpg"
-            },
-            {
-              "id": "cmd_ov_side",
-              "view": "side",
-              "color": "gris",
-              "date": "2026-03-01",
-              "url": "/images/jeep/commander/overland/lateral.jpg"
-            },
-            {
-              "id": "cmd_ov_rear",
-              "view": "rear",
-              "color": "gris",
-              "date": "2026-03-01",
-              "url": "/images/jeep/commander/overland/posterior.jpg"
-            }
-          ]
         }
       ]
     },
@@ -182,40 +50,6 @@
       "coverImage": "/images/jeep/renegade/sport/gray/frontal.jpeg",
       "description": "El Jeep Renegade combina estilo urbano con capacidad off-road en un paquete compacto.",
       "variants": [
-        {
-          "id": "longitude",
-          "name": "Renegade Longitude",
-          "year": 2026,
-          "colors": [
-            "blanco",
-            "azul",
-            "rojo"
-          ],
-          "description": "Versión Longitude con excelente relación precio-equipamiento.",
-          "images": [
-            {
-              "id": "ren_lon_front",
-              "view": "front",
-              "color": "blanco",
-              "date": "2026-03-01",
-              "url": "/images/jeep/renegade/longitude/frontal.jpg"
-            },
-            {
-              "id": "ren_lon_side",
-              "view": "side",
-              "color": "blanco",
-              "date": "2026-03-01",
-              "url": "/images/jeep/renegade/longitude/lateral.jpg"
-            },
-            {
-              "id": "ren_lon_rear",
-              "view": "rear",
-              "color": "blanco",
-              "date": "2026-03-01",
-              "url": "/images/jeep/renegade/longitude/posterior.jpg"
-            }
-          ]
-        },
         {
           "id": "sport",
           "name": "Renegade Sport",
@@ -248,203 +82,10 @@
       ]
     },
     {
-      "id": "jeep_compass",
-      "name": "Jeep Compass",
-      "brand": "Jeep",
-      "coverImage": "/images/jeep/compass/blackhawk/frontal.jpg",
-      "description": "El Jeep Compass es el SUV compacto más versátil, con tecnología de punta y diseño refinado.",
-      "variants": [
-        {
-          "id": "blackhawk",
-          "name": "Compass Blackhawk",
-          "year": 2026,
-          "colors": [
-            "negro",
-            "gris",
-            "rojo"
-          ],
-          "description": "Edición Blackhawk con estilo oscuro y detalles deportivos exclusivos.",
-          "images": [
-            {
-              "id": "cmp_bh_front",
-              "view": "front",
-              "color": "negro",
-              "date": "2026-03-10",
-              "url": "/images/jeep/compass/blackhawk/frontal.jpg"
-            },
-            {
-              "id": "cmp_bh_rear",
-              "view": "rear",
-              "color": "negro",
-              "date": "2026-03-10",
-              "url": "/images/jeep/compass/blackhawk/posterior.jpg"
-            }
-          ]
-        },
-        {
-          "id": "limited",
-          "name": "Compass Limited",
-          "year": 2026,
-          "colors": [
-            "blanco",
-            "negro",
-            "azul"
-          ],
-          "description": "Versión Limited con acabados premium y tecnología avanzada.",
-          "images": [
-            {
-              "id": "cmp_lim_front",
-              "view": "front",
-              "color": "blanco",
-              "date": "2026-03-07",
-              "url": "/images/jeep/compass/limited/frontal.jpg"
-            },
-            {
-              "id": "cmp_lim_side",
-              "view": "side",
-              "color": "blanco",
-              "date": "2026-03-07",
-              "url": "/images/jeep/compass/limited/lateral.jpg"
-            }
-          ]
-        },
-        {
-          "id": "longitude",
-          "name": "Compass Longitude",
-          "year": 2026,
-          "colors": [
-            "gris",
-            "blanco",
-            "rojo"
-          ],
-          "description": "Versión Longitude con equilibrio perfecto entre equipamiento y precio.",
-          "images": [
-            {
-              "id": "cmp_lon_front",
-              "view": "front",
-              "color": "gris",
-              "date": "2026-03-07",
-              "url": "/images/jeep/compass/longitude/frontal.jpg"
-            },
-            {
-              "id": "cmp_lon_side",
-              "view": "side",
-              "color": "gris",
-              "date": "2026-03-07",
-              "url": "/images/jeep/compass/longitude/lateral.jpg"
-            }
-          ]
-        },
-        {
-          "id": "sport",
-          "name": "Compass Sport",
-          "year": 2026,
-          "colors": [
-            "rojo",
-            "gris",
-            "blanco"
-          ],
-          "description": "Versión Sport con el carácter aventurero de Jeep.",
-          "images": [
-            {
-              "id": "cmp_spt_front",
-              "view": "front",
-              "color": "rojo",
-              "date": "2026-03-07",
-              "url": "/images/jeep/compass/sport/frontal.jpg"
-            },
-            {
-              "id": "cmp_spt_side",
-              "view": "side",
-              "color": "rojo",
-              "date": "2026-03-07",
-              "url": "/images/jeep/compass/sport/lateral.jpg"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "jeep_gladiator",
-      "name": "Jeep Gladiator",
-      "brand": "Jeep",
-      "coverImage": "/images/jeep/gladiator/rubicon_u_12_3/frontal.jpg",
-      "description": "El único pickup del mundo con capacidad off-road certificada Jeep.",
-      "variants": [
-        {
-          "id": "rubicon",
-          "name": "Gladiator Rubicon",
-          "year": 2026,
-          "colors": [
-            "verde",
-            "negro",
-            "naranja"
-          ],
-          "description": "La versión más capaz para el terreno más exigente.",
-          "images": [
-            {
-              "id": "gld_rub_front",
-              "view": "front",
-              "color": "negro",
-              "date": "2026-03-07",
-              "url": "/images/jeep/gladiator/rubicon/frontal.jpg"
-            }
-          ]
-        },
-        {
-          "id": "rubicon_u_12_3",
-          "name": "Gladiator Rubicon U 12.3",
-          "year": 2026,
-          "colors": [
-            "negro",
-            "verde",
-            "naranja"
-          ],
-          "description": "Rubicon con pantalla Uconnect 12.3\" para la experiencia más conectada.",
-          "images": [
-            {
-              "id": "gld_u123_front",
-              "view": "front",
-              "color": "negro",
-              "date": "2026-03-10",
-              "url": "/images/jeep/gladiator/rubicon_u_12_3/frontal.jpg"
-            },
-            {
-              "id": "gld_u123_side",
-              "view": "side",
-              "color": "negro",
-              "date": "2026-03-10",
-              "url": "/images/jeep/gladiator/rubicon_u_12_3/lateral.jpg"
-            }
-          ]
-        },
-        {
-          "id": "rubicon_u_8_4",
-          "name": "Gladiator Rubicon U 8.4",
-          "year": 2026,
-          "colors": [
-            "negro",
-            "verde",
-            "naranja"
-          ],
-          "description": "Rubicon con pantalla Uconnect 8.4\" y toda la capacidad off-road Jeep.",
-          "images": [
-            {
-              "id": "gld_u84_front",
-              "view": "front",
-              "color": "negro",
-              "date": "2026-03-10",
-              "url": "/images/jeep/gladiator/rubicon_u_8_4/frontal.jpg"
-            }
-          ]
-        }
-      ]
-    },
-    {
       "id": "jeep_grand_cherokee",
       "name": "Jeep Grand Cherokee",
       "brand": "Jeep",
-      "coverImage": "/images/jeep/grandcherokee/limited/frontal.jpg",
+      "coverImage": "/images/jeep/grandcherokee/altitude/frontal.jpeg",
       "description": "El SUV premium más icónico de Jeep con máximo lujo y capacidad off-road.",
       "variants": [
         {
@@ -471,62 +112,6 @@
               "url": "/images/jeep/grandcherokee/altitude/posterior.jpeg"
             }
           ]
-        },
-        {
-          "id": "limited",
-          "name": "Grand Cherokee Limited",
-          "year": 2026,
-          "colors": [
-            "negro",
-            "plata",
-            "blanco"
-          ],
-          "description": "Lujo y capacidad off-road en su máxima expresión.",
-          "images": [
-            {
-              "id": "gc_lim_front",
-              "view": "front",
-              "color": "negro",
-              "date": "2026-03-07",
-              "url": "/images/jeep/grandcherokee/limited/frontal.jpg"
-            },
-            {
-              "id": "gc_lim_side",
-              "view": "side",
-              "color": "negro",
-              "date": "2026-03-07",
-              "url": "/images/jeep/grandcherokee/limited/lateral.jpg"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "jeep_grand_cherokee_l",
-      "name": "Jeep Grand Cherokee L",
-      "brand": "Jeep",
-      "coverImage": "/images/jeep/grandcherokeel/summitreserve/frontal.jpg",
-      "description": "La versión de 3 filas del Grand Cherokee para familias que no renuncian a nada.",
-      "variants": [
-        {
-          "id": "summitreserve",
-          "name": "Grand Cherokee L Summit Reserve",
-          "year": 2026,
-          "colors": [
-            "blanco",
-            "negro",
-            "azul"
-          ],
-          "description": "La cúspide del lujo Jeep: 7 pasajeros, tecnología de punta y acabados premium.",
-          "images": [
-            {
-              "id": "gcl_sr_front",
-              "view": "front",
-              "color": "blanco",
-              "date": "2026-03-07",
-              "url": "/images/jeep/grandcherokeel/summitreserve/frontal.jpg"
-            }
-          ]
         }
       ]
     },
@@ -537,60 +122,6 @@
       "coverImage": "/images/jeep/wrangler/rubicon_4door/frontal.jpeg",
       "description": "El ícono original. El Jeep Wrangler es la referencia del off-road mundial.",
       "variants": [
-        {
-          "id": "rubicon",
-          "name": "Wrangler Rubicon",
-          "year": 2026,
-          "colors": [
-            "naranja",
-            "negro",
-            "verde"
-          ],
-          "description": "El más extremo para los terrenos más exigentes.",
-          "images": [
-            {
-              "id": "wr_rub_front",
-              "view": "front",
-              "color": "negro",
-              "date": "2026-03-07",
-              "url": "/images/jeep/wrangler/rubicon/frontal.jpg"
-            },
-            {
-              "id": "wr_rub_rear",
-              "view": "rear",
-              "color": "negro",
-              "date": "2026-03-07",
-              "url": "/images/jeep/wrangler/rubicon/posterior.jpg"
-            }
-          ]
-        },
-        {
-          "id": "rubicon_2door",
-          "name": "Wrangler Rubicon 2 Puertas",
-          "year": 2026,
-          "colors": [
-            "negro",
-            "verde",
-            "naranja"
-          ],
-          "description": "Rubicon 2 puertas: máxima agilidad y capacidad off-road en formato compacto.",
-          "images": [
-            {
-              "id": "wr_rub2d_front",
-              "view": "front",
-              "color": "negro",
-              "date": "2026-03-10",
-              "url": "/images/jeep/wrangler/rubicon_2door/frontal.jpg"
-            },
-            {
-              "id": "wr_rub2d_rear",
-              "view": "rear",
-              "color": "negro",
-              "date": "2026-03-10",
-              "url": "/images/jeep/wrangler/rubicon_2door/posterior.jpg"
-            }
-          ]
-        },
         {
           "id": "rubicon_4door",
           "name": "Wrangler Rubicon 4 Puertas",
@@ -619,60 +150,6 @@
               "view": "rear",
               "color": "negro",
               "url": "/images/jeep/wrangler/rubicon_4door/posterior.jpeg"
-            }
-          ]
-        },
-        {
-          "id": "unlimitedsahara",
-          "name": "Wrangler Unlimited Sahara",
-          "year": 2026,
-          "colors": [
-            "azul",
-            "blanco",
-            "negro"
-          ],
-          "description": "El clásico Wrangler con 4 puertas y el confort que necesitas para la aventura.",
-          "images": [
-            {
-              "id": "wr_sah_front",
-              "view": "front",
-              "color": "azul",
-              "date": "2026-03-07",
-              "url": "/images/jeep/wrangler/unlimitedsahara/frontal.jpg"
-            },
-            {
-              "id": "wr_sah_rear",
-              "view": "rear",
-              "color": "azul",
-              "date": "2026-03-07",
-              "url": "/images/jeep/wrangler/unlimitedsahara/posterior.jpg"
-            }
-          ]
-        },
-        {
-          "id": "sahara_4door",
-          "name": "Wrangler Sahara 4 Puertas",
-          "year": 2026,
-          "colors": [
-            "azul",
-            "blanco",
-            "negro"
-          ],
-          "description": "Sahara 4 puertas con el equilibrio perfecto entre confort y capacidad off-road.",
-          "images": [
-            {
-              "id": "wr_sah4d_front",
-              "view": "front",
-              "color": "azul",
-              "date": "2026-03-10",
-              "url": "/images/jeep/wrangler/sahara_4door/frontal.jpg"
-            },
-            {
-              "id": "wr_sah4d_rear",
-              "view": "rear",
-              "color": "azul",
-              "date": "2026-03-10",
-              "url": "/images/jeep/wrangler/sahara_4door/posterior.jpg"
             }
           ]
         }
