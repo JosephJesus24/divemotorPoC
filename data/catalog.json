@@ -221,101 +221,27 @@
           "name": "Renegade Sport",
           "year": 2026,
           "colors": [
-            "sting gray",
-            "baltic gray metallic",
-            "granite crystal metallic",
-            "diamond black crystal",
-            "negro",
-            "gris",
-            "rojo"
+            "sting gray"
           ],
           "description": "Versión Sport de entrada con el espíritu aventurero Jeep.",
           "images": [
             {
-              "id": "gen_granite_crystal_front_2deae533",
+              "id": "ren_sp_gray_front",
               "view": "front",
-              "color": "Granite Crystal Metallic",
-              "date": "2026-03-10",
-              "url": "/images/jeep_renegade/sport/jeep_renegade_sport_granite_crystal_front_c1f3b4.jpg",
-              "isGenerated": true,
-              "generatedFrom": "/generated/gen_jeep_renegade_sport_granite_crystal_08ec7696.jpg"
-            },
-            {
-              "id": "gen_diamond_black_front_005022be",
-              "view": "front",
-              "color": "Diamond Black Crystal",
-              "date": "2026-03-10",
-              "url": "/images/jeep_renegade/sport/jeep_renegade_sport_diamond_black_front_0e24fc.jpg",
-              "isGenerated": true,
-              "generatedFrom": "/generated/gen_jeep_renegade_sport_diamond_black_41f5d3de.jpg"
-            },
-            {
-              "id": "gen_granite_crystal_rear_ba04dc25",
-              "view": "rear",
-              "color": "Granite Crystal Metallic",
-              "date": "2026-03-10",
-              "url": "/images/jeep_renegade/sport/jeep_renegade_sport_granite_crystal_rear_e57782.jpg",
-              "isGenerated": true,
-              "generatedFrom": "/generated/gen_jeep_renegade_sport_granite_crystal_ae5a7e62.jpg"
-            },
-            {
-              "id": "gen_diamond_black_rear_93e78b50",
-              "view": "rear",
-              "color": "Diamond Black Crystal",
-              "date": "2026-03-10",
-              "url": "/images/jeep_renegade/sport/jeep_renegade_sport_diamond_black_rear_12ba1b.jpg",
-              "isGenerated": true,
-              "generatedFrom": "/generated/gen_jeep_renegade_sport_diamond_black_a0ce7bb4.jpg"
-            },
-            {
-              "id": "gen_diamond_black_side_1cca93b5",
-              "view": "side",
-              "color": "Diamond Black Crystal",
-              "date": "2026-03-10",
-              "url": "/images/jeep_renegade/sport/jeep_renegade_sport_diamond_black_side_efd589.jpg",
-              "isGenerated": true,
-              "generatedFrom": "/generated/gen_jeep_renegade_sport_diamond_black_3100b641.jpg"
-            },
-            {
-              "id": "gen_granite_crystal_side_ed6f0be6",
-              "view": "side",
-              "color": "Granite Crystal Metallic",
-              "date": "2026-03-10",
-              "url": "/images/jeep_renegade/sport/jeep_renegade_sport_granite_crystal_side_1c327e.jpg",
-              "isGenerated": true,
-              "generatedFrom": "/generated/gen_jeep_renegade_sport_granite_crystal_86336951.jpg"
-            },
-            {
-              "id": "gen_granite_crystal_front_1cc82d28",
-              "view": "front",
-              "color": "Granite Crystal Metallic",
-              "date": "2026-03-10",
-              "url": "/images/jeep_renegade/sport/jeep_renegade_sport_granite_crystal_front_ce32ee.jpg",
-              "isGenerated": true,
-              "generatedFrom": "/generated/gen_jeep_renegade_sport_granite_crystal_8d2dc102.jpg"
-            },
-            {
-              "id": "gen_diamond_black_front_329dda98",
-              "view": "front",
-              "color": "Diamond Black Crystal",
-              "date": "2026-03-10",
-              "url": "/images/jeep_renegade/sport/jeep_renegade_sport_diamond_black_front_adb0eb.jpg",
-              "isGenerated": true,
-              "generatedFrom": "/generated/gen_jeep_renegade_sport_diamond_black_708b5919.jpg"
+              "color": "sting gray",
+              "url": "/images/jeep/renegade/sport/gray/frontal.jpeg"
             },
             {
               "id": "ren_sp_gray_side",
               "view": "side",
-              "color": "gris",
-              "date": "2026-03-03",
+              "color": "sting gray",
               "url": "/images/jeep/renegade/sport/gray/lateral.jpeg"
             },
             {
-              "id": "ren_sp_rear",
+              "id": "ren_sp_gray_rear",
               "view": "rear",
-              "color": "gris",
-              "date": "2026-03-03",
-              "url": "/images/jeep/renegade/sport/posterior.jpeg"
+              "color": "sting gray",
+              "url": "/images/jeep/renegade/sport/gray/posterior.jpeg"
             }
           ]
         }
@@ -536,15 +462,13 @@
               "id": "gc_alt_front",
               "view": "front",
               "color": "negro",
-              "date": "2026-03-07",
-              "url": "/images/jeep/grandcherokee/altitude/frontal.jpg"
+              "url": "/images/jeep/grandcherokee/altitude/frontal.jpeg"
             },
             {
-              "id": "gc_alt_side",
-              "view": "side",
+              "id": "gc_alt_rear",
+              "view": "rear",
               "color": "negro",
-              "date": "2026-03-07",
-              "url": "/images/jeep/grandcherokee/altitude/lateral.jpg"
+              "url": "/images/jeep/grandcherokee/altitude/posterior.jpeg"
             }
           ]
         },
@@ -610,7 +534,7 @@
       "id": "jeep_wrangler",
       "name": "Jeep Wrangler",
       "brand": "Jeep",
-      "coverImage": "/images/jeep/wrangler/rubicon_4door/frontal.jpg",
+      "coverImage": "/images/jeep/wrangler/rubicon_4door/frontal.jpeg",
       "description": "El ícono original. El Jeep Wrangler es la referencia del off-road mundial.",
       "variants": [
         {
@@ -682,15 +606,19 @@
               "id": "wr_rub4d_front",
               "view": "front",
               "color": "negro",
-              "date": "2026-03-10",
-              "url": "/images/jeep/wrangler/rubicon_4door/frontal.jpg"
+              "url": "/images/jeep/wrangler/rubicon_4door/frontal.jpeg"
             },
             {
               "id": "wr_rub4d_side",
               "view": "side",
               "color": "negro",
-              "date": "2026-03-10",
-              "url": "/images/jeep/wrangler/rubicon_4door/lateral.jpg"
+              "url": "/images/jeep/wrangler/rubicon_4door/lateral.jpeg"
+            },
+            {
+              "id": "wr_rub4d_rear",
+              "view": "rear",
+              "color": "negro",
+              "url": "/images/jeep/wrangler/rubicon_4door/posterior.jpeg"
             }
           ]
         },
