@@ -5,10 +5,37 @@
 /* ─── Divemotor Brand CSS Variables ─────────────────────────────────────────── */
 
 :root {
+  /* Backgrounds */
   --bg-primary:    #09090b;
   --bg-secondary:  #111113;
-  --accent:        #fe142f;   /* Divemotor Torch Red */
-  --accent-blue:   #003a75;   /* Divemotor Regal Blue */
+  --bg-card:       #16161a;
+  --bg-hover:      #1e1e24;
+  /* Borders */
+  --border:        #2a2a32;
+  --border-light:  #3f3f50;
+  /* Text */
+  --text-primary:   #f5f5f7;
+  --text-secondary: #a0a0b0;
+  --text-muted:     #66667a;
+  /* Accent (dynamic via ThemeCustomizer) */
+  --accent:        #fe142f;
+  --accent-hover:  #ff3347;
+  --accent-muted:  #801020;
+  --accent-blue:   #003a75;
+}
+
+/* ─── Light Theme Overrides ──────────────────────────────────────────────────── */
+
+[data-theme="light"] {
+  --bg-primary:    #f8f8fa;
+  --bg-secondary:  #ffffff;
+  --bg-card:       #ffffff;
+  --bg-hover:      #ededf2;
+  --border:        #e0e0ec;
+  --border-light:  #c8c8dc;
+  --text-primary:  #111113;
+  --text-secondary:#444455;
+  --text-muted:    #888899;
 }
 
 * {
@@ -21,7 +48,7 @@ html {
 
 body {
   background-color: var(--bg-primary);
-  color: #f5f5f7;
+  color: var(--text-primary);
   font-family: 'Inter', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -30,12 +57,12 @@ body {
 /* ─── Scrollbar ──────────────────────────────────────────────────────────────── */
 
 ::-webkit-scrollbar       { width: 5px; height: 5px; }
-::-webkit-scrollbar-track { background: #111113; }
+::-webkit-scrollbar-track { background: var(--bg-secondary); }
 ::-webkit-scrollbar-thumb {
-  background: #fe142f40;    /* Divemotor red, 25% opacity */
+  background: color-mix(in srgb, var(--accent) 25%, transparent);
   border-radius: 3px;
 }
-::-webkit-scrollbar-thumb:hover { background: #fe142f80; }
+::-webkit-scrollbar-thumb:hover { background: color-mix(in srgb, var(--accent) 50%, transparent); }
 
 /* ─── Utilities ──────────────────────────────────────────────────────────────── */
 

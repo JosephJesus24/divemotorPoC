@@ -4,7 +4,7 @@
       "id": "jeep_avenger",
       "name": "Jeep Avenger",
       "brand": "Jeep",
-      "coverImage": "/images/avenger/altitude/frontal.jpg",
+      "coverImage": "/images/jeep/avenger/altitude/frontal.jpg",
       "description": "El Jeep Avenger es compacto y completamente eléctrico. Diseñado para la ciudad y la aventura.",
       "variants": [
         {
@@ -23,21 +23,42 @@
               "view": "front",
               "color": "blanco",
               "date": "2026-03-01",
-              "url": "/images/avenger/altitude/frontal.jpg"
+              "url": "/images/jeep/avenger/altitude/frontal.jpg"
             },
             {
               "id": "av_alt_side",
               "view": "side",
               "color": "blanco",
               "date": "2026-03-01",
-              "url": "/images/avenger/altitude/lateral.jpg"
+              "url": "/images/jeep/avenger/altitude/lateral.jpg"
             },
             {
               "id": "av_alt_rear",
               "view": "rear",
               "color": "blanco",
               "date": "2026-03-01",
-              "url": "/images/avenger/altitude/posterior.jpg"
+              "url": "/images/jeep/avenger/altitude/posterior.jpg"
+            },
+            {
+              "id": "av_alt_red_front",
+              "view": "front",
+              "color": "rojo",
+              "date": "2026-03-10",
+              "url": "/images/jeep/avenger/altitude/red/frontal.jpg"
+            },
+            {
+              "id": "av_alt_red_side",
+              "view": "side",
+              "color": "rojo",
+              "date": "2026-03-10",
+              "url": "/images/jeep/avenger/altitude/red/lateral.jpg"
+            },
+            {
+              "id": "av_alt_red_rear",
+              "view": "rear",
+              "color": "rojo",
+              "date": "2026-03-10",
+              "url": "/images/jeep/avenger/altitude/red/posterior.jpg"
             }
           ]
         }
@@ -47,7 +68,7 @@
       "id": "jeep_commander",
       "name": "Jeep Commander",
       "brand": "Jeep",
-      "coverImage": "/images/commander/limited/frontal.jpeg",
+      "coverImage": "/images/jeep/commander/limited/frontal.jpeg",
       "description": "El Jeep Commander es un SUV de 7 pasajeros con capacidad off-road y confort premium.",
       "variants": [
         {
@@ -66,21 +87,21 @@
               "view": "front",
               "color": "negro",
               "date": "2026-03-01",
-              "url": "/images/commander/blackhawk/frontal.jpg"
+              "url": "/images/jeep/commander/blackhawk/frontal.jpg"
             },
             {
               "id": "cmd_bh_side",
               "view": "side",
               "color": "negro",
               "date": "2026-03-01",
-              "url": "/images/commander/blackhawk/lateral.jpg"
+              "url": "/images/jeep/commander/blackhawk/lateral.jpg"
             },
             {
               "id": "cmd_bh_rear",
               "view": "rear",
               "color": "negro",
               "date": "2026-03-01",
-              "url": "/images/commander/blackhawk/posterior.jpg"
+              "url": "/images/jeep/commander/blackhawk/posterior.jpg"
             }
           ]
         },
@@ -100,21 +121,21 @@
               "view": "front",
               "color": "blanco",
               "date": "2026-03-01",
-              "url": "/images/commander/limited/frontal.jpeg"
+              "url": "/images/jeep/commander/limited/frontal.jpeg"
             },
             {
               "id": "cmd_lim_side",
               "view": "side",
               "color": "blanco",
               "date": "2026-03-01",
-              "url": "/images/commander/limited/lateral.jpeg"
+              "url": "/images/jeep/commander/limited/lateral.jpeg"
             },
             {
               "id": "cmd_lim_rear",
               "view": "rear",
               "color": "blanco",
               "date": "2026-03-01",
-              "url": "/images/commander/limited/posterior.jpeg"
+              "url": "/images/jeep/commander/limited/posterior.jpeg"
             }
           ]
         },
@@ -134,21 +155,21 @@
               "view": "front",
               "color": "gris",
               "date": "2026-03-01",
-              "url": "/images/commander/overland/frontal.jpg"
+              "url": "/images/jeep/commander/overland/frontal.jpg"
             },
             {
               "id": "cmd_ov_side",
               "view": "side",
               "color": "gris",
               "date": "2026-03-01",
-              "url": "/images/commander/overland/lateral.jpg"
+              "url": "/images/jeep/commander/overland/lateral.jpg"
             },
             {
               "id": "cmd_ov_rear",
               "view": "rear",
               "color": "gris",
               "date": "2026-03-01",
-              "url": "/images/commander/overland/posterior.jpg"
+              "url": "/images/jeep/commander/overland/posterior.jpg"
             }
           ]
         }
@@ -158,7 +179,7 @@
       "id": "jeep_renegade",
       "name": "Jeep Renegade",
       "brand": "Jeep",
-      "coverImage": "/images/renegade/sport/gray/frontal.jpeg",
+      "coverImage": "/images/jeep/renegade/sport/gray/frontal.jpeg",
       "description": "El Jeep Renegade combina estilo urbano con capacidad off-road en un paquete compacto.",
       "variants": [
         {
@@ -177,21 +198,21 @@
               "view": "front",
               "color": "blanco",
               "date": "2026-03-01",
-              "url": "/images/renegade/longitude/frontal.jpg"
+              "url": "/images/jeep/renegade/longitude/frontal.jpg"
             },
             {
               "id": "ren_lon_side",
               "view": "side",
               "color": "blanco",
               "date": "2026-03-01",
-              "url": "/images/renegade/longitude/lateral.jpg"
+              "url": "/images/jeep/renegade/longitude/lateral.jpg"
             },
             {
               "id": "ren_lon_rear",
               "view": "rear",
               "color": "blanco",
               "date": "2026-03-01",
-              "url": "/images/renegade/longitude/posterior.jpg"
+              "url": "/images/jeep/renegade/longitude/posterior.jpg"
             }
           ]
         },
@@ -200,6 +221,8 @@
           "name": "Renegade Sport",
           "year": 2026,
           "colors": [
+            "sting gray",
+            "baltic gray metallic",
             "granite crystal metallic",
             "diamond black crystal",
             "negro",
@@ -209,108 +232,90 @@
           "description": "Versión Sport de entrada con el espíritu aventurero Jeep.",
           "images": [
             {
-              "id": "gen_diamond_black_front_7ad687cd",
-              "view": "front",
-              "color": "Diamond Black Crystal",
-              "date": "2026-03-09",
-              "url": "/images/jeep_renegade/sport/jeep_renegade_sport_diamond_black_front_2b69b7.jpg",
-              "isGenerated": true,
-              "generatedFrom": "/generated/gen_jeep_renegade_sport_diamond_black_209d4f16.jpg"
-            },
-            {
-              "id": "gen_granite_crystal_front_5646053c",
+              "id": "gen_granite_crystal_front_2deae533",
               "view": "front",
               "color": "Granite Crystal Metallic",
-              "date": "2026-03-09",
-              "url": "/images/jeep_renegade/sport/jeep_renegade_sport_granite_crystal_front_7dfafe.jpg",
+              "date": "2026-03-10",
+              "url": "/images/jeep_renegade/sport/jeep_renegade_sport_granite_crystal_front_c1f3b4.jpg",
               "isGenerated": true,
-              "generatedFrom": "/generated/gen_jeep_renegade_sport_granite_crystal_bbc2a746.jpg"
+              "generatedFrom": "/generated/gen_jeep_renegade_sport_granite_crystal_08ec7696.jpg"
             },
             {
-              "id": "video_jeep_renegade_sport_mmiilyp0",
-              "type": "video",
-              "view": "360",
-              "color": "sin color",
-              "date": "2026-03-09",
-              "url": "/images/jeep_renegade/sport/veo_jeep_renegade_sport_995d3018.mp4",
-              "isGenerated": true
+              "id": "gen_diamond_black_front_005022be",
+              "view": "front",
+              "color": "Diamond Black Crystal",
+              "date": "2026-03-10",
+              "url": "/images/jeep_renegade/sport/jeep_renegade_sport_diamond_black_front_0e24fc.jpg",
+              "isGenerated": true,
+              "generatedFrom": "/generated/gen_jeep_renegade_sport_diamond_black_41f5d3de.jpg"
             },
             {
-              "id": "gen_granite_crystal_rear_7c66d01b",
+              "id": "gen_granite_crystal_rear_ba04dc25",
               "view": "rear",
               "color": "Granite Crystal Metallic",
-              "date": "2026-03-08",
-              "url": "/images/jeep_renegade/sport/jeep_renegade_sport_granite_crystal_rear_a1408b.jpg",
+              "date": "2026-03-10",
+              "url": "/images/jeep_renegade/sport/jeep_renegade_sport_granite_crystal_rear_e57782.jpg",
               "isGenerated": true,
-              "generatedFrom": "/generated/gen_jeep_renegade_sport_granite_crystal_91a543ed.jpg"
+              "generatedFrom": "/generated/gen_jeep_renegade_sport_granite_crystal_ae5a7e62.jpg"
             },
             {
-              "id": "gen_granite_crystal_side_049436f6",
-              "view": "side",
-              "color": "Granite Crystal Metallic",
-              "date": "2026-03-08",
-              "url": "/images/jeep_renegade/sport/jeep_renegade_sport_granite_crystal_side_93ede6.jpg",
-              "isGenerated": true,
-              "generatedFrom": "/generated/gen_jeep_renegade_sport_granite_crystal_844a2de0.jpg"
-            },
-            {
-              "id": "gen_granite_crystal_front_897009ff",
-              "view": "front",
-              "color": "Granite Crystal Metallic",
-              "date": "2026-03-08",
-              "url": "/images/jeep_renegade/sport/jeep_renegade_sport_granite_crystal_front_fd8e63.jpg",
-              "isGenerated": true,
-              "generatedFrom": "/generated/gen_jeep_renegade_sport_granite_crystal_337584a2.jpg"
-            },
-            {
-              "id": "gen_diamond_black_rear_2d849ed1",
+              "id": "gen_diamond_black_rear_93e78b50",
               "view": "rear",
               "color": "Diamond Black Crystal",
-              "date": "2026-03-08",
-              "url": "/images/jeep_renegade/sport/jeep_renegade_sport_diamond_black_rear_f60a24.jpg",
+              "date": "2026-03-10",
+              "url": "/images/jeep_renegade/sport/jeep_renegade_sport_diamond_black_rear_12ba1b.jpg",
               "isGenerated": true,
-              "generatedFrom": "/generated/gen_jeep_renegade_sport_diamond_black_cd89e617.jpg"
+              "generatedFrom": "/generated/gen_jeep_renegade_sport_diamond_black_a0ce7bb4.jpg"
             },
             {
-              "id": "gen_diamond_black_side_3c7fe8f6",
+              "id": "gen_diamond_black_side_1cca93b5",
               "view": "side",
               "color": "Diamond Black Crystal",
-              "date": "2026-03-08",
-              "url": "/images/jeep_renegade/sport/jeep_renegade_sport_diamond_black_side_cee15e.jpg",
+              "date": "2026-03-10",
+              "url": "/images/jeep_renegade/sport/jeep_renegade_sport_diamond_black_side_efd589.jpg",
               "isGenerated": true,
-              "generatedFrom": "/generated/gen_jeep_renegade_sport_diamond_black_97244868.jpg"
+              "generatedFrom": "/generated/gen_jeep_renegade_sport_diamond_black_3100b641.jpg"
             },
             {
-              "id": "gen_diamond_black_front_268e9e35",
-              "view": "front",
-              "color": "Diamond Black Crystal",
-              "date": "2026-03-08",
-              "url": "/images/jeep_renegade/sport/jeep_renegade_sport_diamond_black_front_c51892.jpg",
+              "id": "gen_granite_crystal_side_ed6f0be6",
+              "view": "side",
+              "color": "Granite Crystal Metallic",
+              "date": "2026-03-10",
+              "url": "/images/jeep_renegade/sport/jeep_renegade_sport_granite_crystal_side_1c327e.jpg",
               "isGenerated": true,
-              "generatedFrom": "/generated/gen_jeep_renegade_sport_diamond_black_4937ea15.jpg"
+              "generatedFrom": "/generated/gen_jeep_renegade_sport_granite_crystal_86336951.jpg"
             },
             {
-              "id": "gen_diamond_black_front_96dff5d2",
+              "id": "gen_granite_crystal_front_1cc82d28",
+              "view": "front",
+              "color": "Granite Crystal Metallic",
+              "date": "2026-03-10",
+              "url": "/images/jeep_renegade/sport/jeep_renegade_sport_granite_crystal_front_ce32ee.jpg",
+              "isGenerated": true,
+              "generatedFrom": "/generated/gen_jeep_renegade_sport_granite_crystal_8d2dc102.jpg"
+            },
+            {
+              "id": "gen_diamond_black_front_329dda98",
               "view": "front",
               "color": "Diamond Black Crystal",
-              "date": "2026-03-08",
-              "url": "/images/jeep_renegade/sport/jeep_renegade_sport_diamond_black_front_f13ced.jpg",
+              "date": "2026-03-10",
+              "url": "/images/jeep_renegade/sport/jeep_renegade_sport_diamond_black_front_adb0eb.jpg",
               "isGenerated": true,
-              "generatedFrom": "/generated/gen_jeep_renegade_sport_diamond_black_c60da701.jpg"
+              "generatedFrom": "/generated/gen_jeep_renegade_sport_diamond_black_708b5919.jpg"
             },
             {
               "id": "ren_sp_gray_side",
               "view": "side",
               "color": "gris",
               "date": "2026-03-03",
-              "url": "/images/renegade/sport/gray/lateral.jpeg"
+              "url": "/images/jeep/renegade/sport/gray/lateral.jpeg"
             },
             {
               "id": "ren_sp_rear",
               "view": "rear",
               "color": "gris",
               "date": "2026-03-03",
-              "url": "/images/renegade/sport/posterior.jpeg"
+              "url": "/images/jeep/renegade/sport/posterior.jpeg"
             }
           ]
         }
@@ -320,9 +325,36 @@
       "id": "jeep_compass",
       "name": "Jeep Compass",
       "brand": "Jeep",
-      "coverImage": "/images/compass/limited/frontal.jpg",
+      "coverImage": "/images/jeep/compass/blackhawk/frontal.jpg",
       "description": "El Jeep Compass es el SUV compacto más versátil, con tecnología de punta y diseño refinado.",
       "variants": [
+        {
+          "id": "blackhawk",
+          "name": "Compass Blackhawk",
+          "year": 2026,
+          "colors": [
+            "negro",
+            "gris",
+            "rojo"
+          ],
+          "description": "Edición Blackhawk con estilo oscuro y detalles deportivos exclusivos.",
+          "images": [
+            {
+              "id": "cmp_bh_front",
+              "view": "front",
+              "color": "negro",
+              "date": "2026-03-10",
+              "url": "/images/jeep/compass/blackhawk/frontal.jpg"
+            },
+            {
+              "id": "cmp_bh_rear",
+              "view": "rear",
+              "color": "negro",
+              "date": "2026-03-10",
+              "url": "/images/jeep/compass/blackhawk/posterior.jpg"
+            }
+          ]
+        },
         {
           "id": "limited",
           "name": "Compass Limited",
@@ -339,14 +371,14 @@
               "view": "front",
               "color": "blanco",
               "date": "2026-03-07",
-              "url": "/images/compass/limited/frontal.jpg"
+              "url": "/images/jeep/compass/limited/frontal.jpg"
             },
             {
               "id": "cmp_lim_side",
               "view": "side",
               "color": "blanco",
               "date": "2026-03-07",
-              "url": "/images/compass/limited/lateral.jpg"
+              "url": "/images/jeep/compass/limited/lateral.jpg"
             }
           ]
         },
@@ -366,14 +398,14 @@
               "view": "front",
               "color": "gris",
               "date": "2026-03-07",
-              "url": "/images/compass/longitude/frontal.jpg"
+              "url": "/images/jeep/compass/longitude/frontal.jpg"
             },
             {
               "id": "cmp_lon_side",
               "view": "side",
               "color": "gris",
               "date": "2026-03-07",
-              "url": "/images/compass/longitude/lateral.jpg"
+              "url": "/images/jeep/compass/longitude/lateral.jpg"
             }
           ]
         },
@@ -393,14 +425,14 @@
               "view": "front",
               "color": "rojo",
               "date": "2026-03-07",
-              "url": "/images/compass/sport/frontal.jpg"
+              "url": "/images/jeep/compass/sport/frontal.jpg"
             },
             {
               "id": "cmp_spt_side",
               "view": "side",
               "color": "rojo",
               "date": "2026-03-07",
-              "url": "/images/compass/sport/lateral.jpg"
+              "url": "/images/jeep/compass/sport/lateral.jpg"
             }
           ]
         }
@@ -410,7 +442,7 @@
       "id": "jeep_gladiator",
       "name": "Jeep Gladiator",
       "brand": "Jeep",
-      "coverImage": "/images/gladiator/rubicon/frontal.jpg",
+      "coverImage": "/images/jeep/gladiator/rubicon_u_12_3/frontal.jpg",
       "description": "El único pickup del mundo con capacidad off-road certificada Jeep.",
       "variants": [
         {
@@ -429,7 +461,54 @@
               "view": "front",
               "color": "negro",
               "date": "2026-03-07",
-              "url": "/images/gladiator/rubicon/frontal.jpg"
+              "url": "/images/jeep/gladiator/rubicon/frontal.jpg"
+            }
+          ]
+        },
+        {
+          "id": "rubicon_u_12_3",
+          "name": "Gladiator Rubicon U 12.3",
+          "year": 2026,
+          "colors": [
+            "negro",
+            "verde",
+            "naranja"
+          ],
+          "description": "Rubicon con pantalla Uconnect 12.3\" para la experiencia más conectada.",
+          "images": [
+            {
+              "id": "gld_u123_front",
+              "view": "front",
+              "color": "negro",
+              "date": "2026-03-10",
+              "url": "/images/jeep/gladiator/rubicon_u_12_3/frontal.jpg"
+            },
+            {
+              "id": "gld_u123_side",
+              "view": "side",
+              "color": "negro",
+              "date": "2026-03-10",
+              "url": "/images/jeep/gladiator/rubicon_u_12_3/lateral.jpg"
+            }
+          ]
+        },
+        {
+          "id": "rubicon_u_8_4",
+          "name": "Gladiator Rubicon U 8.4",
+          "year": 2026,
+          "colors": [
+            "negro",
+            "verde",
+            "naranja"
+          ],
+          "description": "Rubicon con pantalla Uconnect 8.4\" y toda la capacidad off-road Jeep.",
+          "images": [
+            {
+              "id": "gld_u84_front",
+              "view": "front",
+              "color": "negro",
+              "date": "2026-03-10",
+              "url": "/images/jeep/gladiator/rubicon_u_8_4/frontal.jpg"
             }
           ]
         }
@@ -439,7 +518,7 @@
       "id": "jeep_grand_cherokee",
       "name": "Jeep Grand Cherokee",
       "brand": "Jeep",
-      "coverImage": "/images/grandcherokee/limited/frontal.jpg",
+      "coverImage": "/images/jeep/grandcherokee/limited/frontal.jpg",
       "description": "El SUV premium más icónico de Jeep con máximo lujo y capacidad off-road.",
       "variants": [
         {
@@ -458,14 +537,14 @@
               "view": "front",
               "color": "negro",
               "date": "2026-03-07",
-              "url": "/images/grandcherokee/altitude/frontal.jpg"
+              "url": "/images/jeep/grandcherokee/altitude/frontal.jpg"
             },
             {
               "id": "gc_alt_side",
               "view": "side",
               "color": "negro",
               "date": "2026-03-07",
-              "url": "/images/grandcherokee/altitude/lateral.jpg"
+              "url": "/images/jeep/grandcherokee/altitude/lateral.jpg"
             }
           ]
         },
@@ -485,14 +564,14 @@
               "view": "front",
               "color": "negro",
               "date": "2026-03-07",
-              "url": "/images/grandcherokee/limited/frontal.jpg"
+              "url": "/images/jeep/grandcherokee/limited/frontal.jpg"
             },
             {
               "id": "gc_lim_side",
               "view": "side",
               "color": "negro",
               "date": "2026-03-07",
-              "url": "/images/grandcherokee/limited/lateral.jpg"
+              "url": "/images/jeep/grandcherokee/limited/lateral.jpg"
             }
           ]
         }
@@ -502,7 +581,7 @@
       "id": "jeep_grand_cherokee_l",
       "name": "Jeep Grand Cherokee L",
       "brand": "Jeep",
-      "coverImage": "/images/grandcherokeel/summitreserve/frontal.jpg",
+      "coverImage": "/images/jeep/grandcherokeel/summitreserve/frontal.jpg",
       "description": "La versión de 3 filas del Grand Cherokee para familias que no renuncian a nada.",
       "variants": [
         {
@@ -521,7 +600,7 @@
               "view": "front",
               "color": "blanco",
               "date": "2026-03-07",
-              "url": "/images/grandcherokeel/summitreserve/frontal.jpg"
+              "url": "/images/jeep/grandcherokeel/summitreserve/frontal.jpg"
             }
           ]
         }
@@ -531,7 +610,7 @@
       "id": "jeep_wrangler",
       "name": "Jeep Wrangler",
       "brand": "Jeep",
-      "coverImage": "/images/wrangler/rubicon/frontal.jpg",
+      "coverImage": "/images/jeep/wrangler/rubicon_4door/frontal.jpg",
       "description": "El ícono original. El Jeep Wrangler es la referencia del off-road mundial.",
       "variants": [
         {
@@ -550,14 +629,68 @@
               "view": "front",
               "color": "negro",
               "date": "2026-03-07",
-              "url": "/images/wrangler/rubicon/frontal.jpg"
+              "url": "/images/jeep/wrangler/rubicon/frontal.jpg"
             },
             {
               "id": "wr_rub_rear",
               "view": "rear",
               "color": "negro",
               "date": "2026-03-07",
-              "url": "/images/wrangler/rubicon/posterior.jpg"
+              "url": "/images/jeep/wrangler/rubicon/posterior.jpg"
+            }
+          ]
+        },
+        {
+          "id": "rubicon_2door",
+          "name": "Wrangler Rubicon 2 Puertas",
+          "year": 2026,
+          "colors": [
+            "negro",
+            "verde",
+            "naranja"
+          ],
+          "description": "Rubicon 2 puertas: máxima agilidad y capacidad off-road en formato compacto.",
+          "images": [
+            {
+              "id": "wr_rub2d_front",
+              "view": "front",
+              "color": "negro",
+              "date": "2026-03-10",
+              "url": "/images/jeep/wrangler/rubicon_2door/frontal.jpg"
+            },
+            {
+              "id": "wr_rub2d_rear",
+              "view": "rear",
+              "color": "negro",
+              "date": "2026-03-10",
+              "url": "/images/jeep/wrangler/rubicon_2door/posterior.jpg"
+            }
+          ]
+        },
+        {
+          "id": "rubicon_4door",
+          "name": "Wrangler Rubicon 4 Puertas",
+          "year": 2026,
+          "colors": [
+            "negro",
+            "verde",
+            "naranja"
+          ],
+          "description": "Rubicon 4 puertas: toda la capacidad extrema con mayor espacio para los aventureros.",
+          "images": [
+            {
+              "id": "wr_rub4d_front",
+              "view": "front",
+              "color": "negro",
+              "date": "2026-03-10",
+              "url": "/images/jeep/wrangler/rubicon_4door/frontal.jpg"
+            },
+            {
+              "id": "wr_rub4d_side",
+              "view": "side",
+              "color": "negro",
+              "date": "2026-03-10",
+              "url": "/images/jeep/wrangler/rubicon_4door/lateral.jpg"
             }
           ]
         },
@@ -577,16 +710,345 @@
               "view": "front",
               "color": "azul",
               "date": "2026-03-07",
-              "url": "/images/wrangler/unlimitedsahara/frontal.jpg"
+              "url": "/images/jeep/wrangler/unlimitedsahara/frontal.jpg"
             },
             {
               "id": "wr_sah_rear",
               "view": "rear",
               "color": "azul",
               "date": "2026-03-07",
-              "url": "/images/wrangler/unlimitedsahara/posterior.jpg"
+              "url": "/images/jeep/wrangler/unlimitedsahara/posterior.jpg"
             }
           ]
+        },
+        {
+          "id": "sahara_4door",
+          "name": "Wrangler Sahara 4 Puertas",
+          "year": 2026,
+          "colors": [
+            "azul",
+            "blanco",
+            "negro"
+          ],
+          "description": "Sahara 4 puertas con el equilibrio perfecto entre confort y capacidad off-road.",
+          "images": [
+            {
+              "id": "wr_sah4d_front",
+              "view": "front",
+              "color": "azul",
+              "date": "2026-03-10",
+              "url": "/images/jeep/wrangler/sahara_4door/frontal.jpg"
+            },
+            {
+              "id": "wr_sah4d_rear",
+              "view": "rear",
+              "color": "azul",
+              "date": "2026-03-10",
+              "url": "/images/jeep/wrangler/sahara_4door/posterior.jpg"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mb_amg",
+      "name": "Mercedes-AMG",
+      "brand": "Mercedes-Benz",
+      "coverImage": null,
+      "description": "La línea Mercedes-AMG combina el máximo rendimiento con lujo y tecnología de punta.",
+      "variants": [
+        {
+          "id": "amg_a35",
+          "name": "AMG A 35",
+          "year": 2026,
+          "colors": [],
+          "description": "Sedán deportivo de alto rendimiento AMG.",
+          "images": []
+        },
+        {
+          "id": "amg_glc43",
+          "name": "AMG GLC 43",
+          "year": 2026,
+          "colors": [],
+          "description": "SUV con motor V6 biturbo AMG 385 HP.",
+          "images": []
+        }
+      ]
+    },
+    {
+      "id": "mb_clase_c",
+      "name": "Clase C",
+      "brand": "Mercedes-Benz",
+      "coverImage": null,
+      "description": "El Clase C redefine el sedán premium con tecnología MBUX y confort excepcional.",
+      "variants": [
+        {
+          "id": "c_200",
+          "name": "C 200",
+          "year": 2026,
+          "colors": [],
+          "description": "Sedán con motor turbo de 204 HP.",
+          "images": []
+        }
+      ]
+    },
+    {
+      "id": "mb_cla",
+      "name": "CLA",
+      "brand": "Mercedes-Benz",
+      "coverImage": "/images/mercedes-benz/cla/200_coupe_kit_amg/frontal.jpeg",
+      "description": "El CLA combina diseño coupé con tecnología digital y espíritu AMG.",
+      "variants": [
+        {
+          "id": "cla_200_coupe_kit_amg",
+          "name": "CLA 200 Coupé Kit AMG",
+          "year": 2026,
+          "colors": [
+            "blanco"
+          ],
+          "description": "Coupé con Kit AMG exterior y acabados sport.",
+          "images": [
+            {
+              "id": "cla_200_amg_front",
+              "view": "front",
+              "color": "blanco",
+              "date": "2026-03-10",
+              "url": "/images/mercedes-benz/cla/200_coupe_kit_amg/frontal.jpeg"
+            },
+            {
+              "id": "cla_200_amg_rear",
+              "view": "rear",
+              "color": "blanco",
+              "date": "2026-03-10",
+              "url": "/images/mercedes-benz/cla/200_coupe_kit_amg/posterior.jpeg"
+            }
+          ]
+        },
+        {
+          "id": "cla_200_coupe_progressive",
+          "name": "CLA 200 Coupé Progressive",
+          "year": 2026,
+          "colors": [],
+          "description": "Coupé con línea Progressive y acceso digital.",
+          "images": []
+        }
+      ]
+    },
+    {
+      "id": "mb_cle",
+      "name": "CLE",
+      "brand": "Mercedes-Benz",
+      "coverImage": null,
+      "description": "El CLE Coupé une el diseño de dos puertas con la dinámica AMG.",
+      "variants": [
+        {
+          "id": "cle_300_coupe_kit_amg",
+          "name": "CLE 300 Coupé Kit AMG",
+          "year": 2026,
+          "colors": [],
+          "description": "Coupé con Kit AMG y motor turbo 258 HP.",
+          "images": []
+        }
+      ]
+    },
+    {
+      "id": "mb_clase_e",
+      "name": "Clase E",
+      "brand": "Mercedes-Benz",
+      "coverImage": null,
+      "description": "El Clase E establece nuevos estándares en confort, tecnología y eficiencia.",
+      "variants": [
+        {
+          "id": "e_300_kit_amg",
+          "name": "E 300 Kit AMG",
+          "year": 2026,
+          "colors": [],
+          "description": "Berlina con Kit AMG Sport y 258 HP.",
+          "images": []
+        }
+      ]
+    },
+    {
+      "id": "mb_eqa",
+      "name": "EQA",
+      "brand": "Mercedes-Benz",
+      "coverImage": null,
+      "description": "El EQA es el SUV eléctrico compacto de Mercedes-Benz, silencioso y digital.",
+      "variants": [
+        {
+          "id": "eqa_350",
+          "name": "EQA 350",
+          "year": 2026,
+          "colors": [],
+          "description": "SUV eléctrico 4MATIC con 292 HP.",
+          "images": []
+        }
+      ]
+    },
+    {
+      "id": "mb_eqe",
+      "name": "EQE",
+      "brand": "Mercedes-Benz",
+      "coverImage": null,
+      "description": "El EQE es la berlina eléctrica premium con Hyperscreen y autonomía extendida.",
+      "variants": [
+        {
+          "id": "eqe_350plus",
+          "name": "EQE 350+",
+          "year": 2026,
+          "colors": [],
+          "description": "Berlina eléctrica con 292 HP y hasta 660 km de autonomía.",
+          "images": []
+        }
+      ]
+    },
+    {
+      "id": "mb_clase_g",
+      "name": "Clase G",
+      "brand": "Mercedes-Benz",
+      "coverImage": null,
+      "description": "El Clase G es el ícono todoterreno de Mercedes-Benz, ahora disponible en versión eléctrica.",
+      "variants": [
+        {
+          "id": "g_580",
+          "name": "G 580 EQ",
+          "year": 2026,
+          "colors": [],
+          "description": "G-Wagen eléctrico con 587 HP y 4 motores individuales.",
+          "images": []
+        }
+      ]
+    },
+    {
+      "id": "mb_gla",
+      "name": "GLA",
+      "brand": "Mercedes-Benz",
+      "coverImage": null,
+      "description": "El GLA es el SUV compacto premium perfecto para la ciudad y los fines de semana.",
+      "variants": [
+        {
+          "id": "gla_200_advance_plus",
+          "name": "GLA 200 Advance Plus",
+          "year": 2026,
+          "colors": [],
+          "description": "SUV compacto con equipamiento Advance Plus.",
+          "images": []
+        }
+      ]
+    },
+    {
+      "id": "mb_glb",
+      "name": "GLB",
+      "brand": "Mercedes-Benz",
+      "coverImage": null,
+      "description": "El GLB ofrece 3 filas de asientos en un diseño SUV compacto y versátil.",
+      "variants": [
+        {
+          "id": "glb_200_3filas",
+          "name": "GLB 200 3 Filas",
+          "year": 2026,
+          "colors": [],
+          "description": "SUV 7 pasajeros con 3 filas y motor turbo 163 HP.",
+          "images": []
+        }
+      ]
+    },
+    {
+      "id": "mb_glc",
+      "name": "GLC",
+      "brand": "Mercedes-Benz",
+      "coverImage": null,
+      "description": "El GLC es el SUV mediano más vendido de Mercedes-Benz, con variantes AMG.",
+      "variants": [
+        {
+          "id": "glc_200_advance",
+          "name": "GLC 200 Advance",
+          "year": 2026,
+          "colors": [],
+          "description": "SUV mediano con motor 204 HP.",
+          "images": []
+        },
+        {
+          "id": "glc_200_advance_plus",
+          "name": "GLC 200 Advance Plus",
+          "year": 2026,
+          "colors": [],
+          "description": "SUV mediano con equipamiento Advance Plus.",
+          "images": []
+        },
+        {
+          "id": "glc_200_coupe_kit_amg",
+          "name": "GLC 200 Coupé Kit AMG",
+          "year": 2026,
+          "colors": [],
+          "description": "GLC Coupé con Kit AMG Sport.",
+          "images": []
+        },
+        {
+          "id": "glc_300_coupe_kit_amg",
+          "name": "GLC 300 Coupé Kit AMG",
+          "year": 2026,
+          "colors": [],
+          "description": "GLC Coupé 4MATIC con 258 HP y Kit AMG.",
+          "images": []
+        }
+      ]
+    },
+    {
+      "id": "mb_gle",
+      "name": "GLE",
+      "brand": "Mercedes-Benz",
+      "coverImage": null,
+      "description": "El GLE es el SUV grande de Mercedes-Benz, líder en tecnología y confort.",
+      "variants": [
+        {
+          "id": "gle_450_advanced",
+          "name": "GLE 450 Advanced",
+          "year": 2026,
+          "colors": [],
+          "description": "SUV grande con motor 381 HP y 4MATIC.",
+          "images": []
+        },
+        {
+          "id": "gle_450_advanced_plus",
+          "name": "GLE 450 Advanced Plus",
+          "year": 2026,
+          "colors": [],
+          "description": "GLE con equipamiento Advanced Plus y suspensión neumática.",
+          "images": []
+        },
+        {
+          "id": "gle_450_coupe_kit_amg",
+          "name": "GLE 450 Coupé Kit AMG",
+          "year": 2026,
+          "colors": [],
+          "description": "GLE Coupé deportivo con Kit AMG exterior.",
+          "images": []
+        },
+        {
+          "id": "gle_450_kit_amg",
+          "name": "GLE 450 KIT AMG",
+          "year": 2026,
+          "colors": [],
+          "description": "GLE SUV 4MATIC con Kit AMG exterior.",
+          "images": []
+        }
+      ]
+    },
+    {
+      "id": "mb_gls",
+      "name": "GLS",
+      "brand": "Mercedes-Benz",
+      "coverImage": null,
+      "description": "El GLS es el SUV insignia de Mercedes-Benz, el máximo en espacio y lujo.",
+      "variants": [
+        {
+          "id": "gls_450",
+          "name": "GLS 450",
+          "year": 2026,
+          "colors": [],
+          "description": "SUV 7 pasajeros de lujo con 381 HP y 4MATIC.",
+          "images": []
         }
       ]
     }

@@ -2,8 +2,8 @@ import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
   images: {
-    // Allow Vercel Blob Storage URLs in production
     remotePatterns: [
+      // Vercel Blob Storage (production)
       {
         protocol: 'https',
         hostname: '*.public.blob.vercel-storage.com',
@@ -11,8 +11,22 @@ const nextConfig: NextConfig = {
         pathname: '/**',
       },
     ],
-    // Keep unoptimized off so Next.js can optimize remote images
     unoptimized: false,
+  },
+
+  // Security headers applied to all routes
+  async headers() {
+    return [
+      {
+        source: '/(.*)',
+        headers: [
+          { key: 'X-Content-Type-Options', value: 'nosniff' },
+          { key: 'X-Frame-Options',        value: 'DENY'    },
+          { key: 'X-XSS-Protection',       value: '1; mode=block' },
+          { key: 'Referrer-Policy',         value: 'strict-origin-when-cross-origin' },
+        ],
+      },
+    ]
   },
 }
 

@@ -36,6 +36,13 @@ export default async function VariantsPage({ params }: Props) {
               Showroom
             </Link>
             <ChevronRight size={14} />
+            <Link
+              href={`/brand/${model.brand.toLowerCase()}`}
+              className="hover:text-text-primary transition-colors"
+            >
+              {model.brand}
+            </Link>
+            <ChevronRight size={14} />
             <span className="text-text-primary font-medium">{model.name}</span>
           </nav>
         </div>
@@ -43,7 +50,7 @@ export default async function VariantsPage({ params }: Props) {
 
       {/* ── Model Hero ──────────────────────────────────────────────────────── */}
       <section className="relative border-b border-border overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-zinc-950 to-transparent z-10" />
+        <div className="absolute inset-0 bg-gradient-to-r from-bg-primary to-transparent z-10" />
         <div className="absolute inset-0">
           <div
             className="absolute inset-0 opacity-5"

@@ -7,6 +7,7 @@ export interface VehicleImage {
   type?: 'image' | 'video'    // default: 'image'
   view: ImageView
   color: string
+  year?: number
   date: string
   url: string
   isGenerated?: boolean

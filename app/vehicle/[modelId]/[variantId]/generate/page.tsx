@@ -43,18 +43,6 @@ const DEFAULT_COLORS: ColorOption[] = [
       'Neutral balanced gray without blue shift.',
   },
   {
-    id: 'baltic_gray',
-    label: 'Baltic Gray Metallic',
-    hex: '#4B4E52',
-    prompt: 'Baltic Gray Metallic',
-    finishDescription:
-      'Dark steel metallic gray with subtle cool undertone. ' +
-      'High-gloss automotive metallic finish. ' +
-      'Fine metallic particles evenly distributed. ' +
-      'Tone must remain consistent across all body panels. ' +
-      'No black tint dominance.',
-  },
-  {
     id: 'diamond_black',
     label: 'Diamond Black Crystal',
     hex: '#0B0B0C',
@@ -438,12 +426,12 @@ function GenerateContent() {
 
               <div className="rounded-xl border border-border bg-bg-card p-6">
                 <h3 className="font-semibold text-text-primary mb-1">Selecciona colores</h3>
-                <p className="text-xs text-text-muted mb-5">Elige hasta 5 colores para generar variantes.</p>
+                <p className="text-xs text-text-muted mb-5">Elige hasta 3 colores para generar variantes.</p>
                 <ColorSelector
                   colors={availableColors}
                   selected={selectedColors}
                   onSelectionChange={setSelectedColors}
-                  max={5}
+                  max={3}
                 />
               </div>
 

@@ -49,7 +49,7 @@ export function FilterBar({ filters, onFiltersChange, availableColors, available
                 className={`w-5 h-5 rounded-full border-2 transition-all ${
                   filters.color === color
                     ? 'border-accent scale-110 ring-1 ring-accent'
-                    : 'border-white/10 hover:border-white/30'
+                    : 'border-border hover:border-border-light'
                 }`}
                 style={{ backgroundColor: colorToHex(color) }}
               />

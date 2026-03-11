@@ -1,37 +1,55 @@
 'use client'
 
-import { useState, useRef, useCallback } from 'react'
+import { useState, useRef, useCallback, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import { X, Upload, ImageIcon, Sparkles, AlertCircle } from 'lucide-react'
 import type { VehicleImage } from '@/types'
 
 const VIEW_OPTIONS = [
-  { value: 'front', label: 'Frontal' },
-  { value: 'side', label: 'Lateral' },
-  { value: 'rear', label: 'Posterior' },
+  { value: 'front',    label: 'Frontal' },
+  { value: 'side',     label: 'Lateral' },
+  { value: 'rear',     label: 'Posterior' },
   { value: 'interior', label: 'Interior' },
-  { value: 'detail', label: 'Detalle' },
+  { value: 'detail',   label: 'Detalle' },
+]
+
+const UPLOAD_COLORS = [
+  { value: 'granite_crystal', label: 'Granite Crystal Metallic', hex: '#2F3134' },
+  { value: 'sting_gray',      label: 'Sting Gray',               hex: '#55575A' },
+  { value: 'diamond_black',   label: 'Diamond Black Crystal',    hex: '#0B0B0C' },
 ]
 
 interface Props {
   modelId: string
   variantId: string
+  variantYear: number
   onClose: () => void
   onUploaded: (image: VehicleImage) => void
 }
 
-export function ImageUploadModal({ modelId, variantId, onClose, onUploaded }: Props) {
+export function ImageUploadModal({ modelId, variantId, variantYear, onClose, onUploaded }: Props) {
   const router = useRouter()
   const fileRef = useRef<HTMLInputElement>(null)
 
   const [file, setFile] = useState<File | null>(null)
   const [preview, setPreview] = useState<string | null>(null)
+
+  // Revoke object URL when preview changes or modal unmounts (prevents memory leak)
+  useEffect(() => {
+    return () => { if (preview) URL.revokeObjectURL(preview) }
+  }, [preview])
   const [view, setView] = useState<string>('front')
+  const [colorValue, setColorValue] = useState<string>('granite_crystal')
+  const [customColor, setCustomColor] = useState<string>('')
+  const [year, setYear] = useState<number>(variantYear)
   const [isDragging, setIsDragging] = useState(false)
   const [uploading, setUploading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [generateAfter, setGenerateAfter] = useState(true)
+
+  const isCustom = colorValue === '__custom__'
+  const finalColor = isCustom ? customColor.trim() : (UPLOAD_COLORS.find(c => c.value === colorValue)?.label ?? colorValue)
 
   const selectFile = (f: File) => {
     if (!f.type.startsWith('image/')) {
@@ -54,8 +72,10 @@ export function ImageUploadModal({ modelId, variantId, onClose, onUploaded }: Pr
     if (f) selectFile(f)
   }, [])
 
+  const canUpload = !!file && !uploading && !!finalColor && !!year
+
   const handleUpload = async () => {
-    if (!file) return
+    if (!file || !finalColor || !year) return
     setUploading(true)
     setError(null)
 
@@ -65,14 +85,14 @@ export function ImageUploadModal({ modelId, variantId, onClose, onUploaded }: Pr
       formData.append('modelId', modelId)
       formData.append('variantId', variantId)
       formData.append('view', view)
-      formData.append('color', 'sin color')
+      formData.append('color', finalColor)
+      formData.append('year', String(year))
 
       const res = await fetch('/api/upload-image', {
         method: 'POST',
         body: formData,
       })
 
-      // Safely parse JSON — server may return plain text on unexpected errors
       let data: { success: boolean; imageUrl: string; imageId: string; error?: string }
       try {
         data = await res.json()
@@ -88,22 +108,27 @@ export function ImageUploadModal({ modelId, variantId, onClose, onUploaded }: Pr
       const newImage: VehicleImage = {
         id: data.imageId,
         view: view as VehicleImage['view'],
-        color: 'sin color',
+        color: finalColor,
+        year,
         date: new Date().toISOString().split('T')[0],
         url: data.imageUrl,
       }
 
+      // Always add to gallery immediately and persist via localStorage
+      try {
+        const storageKey = `generated_gallery_${modelId}_${variantId}`
+        const saved = JSON.parse(localStorage.getItem(storageKey) ?? '[]') as VehicleImage[]
+        localStorage.setItem(storageKey, JSON.stringify([newImage, ...saved]))
+      } catch { /* localStorage not available */ }
+
+      onUploaded(newImage)
+
       if (generateAfter) {
-        // Redirect to generate page with the uploaded image
         const params = new URLSearchParams({
           imageUrl: data.imageUrl,
           name: file.name,
         })
-        router.push(
-          `/vehicle/${modelId}/${variantId}/generate?${params.toString()}`
-        )
-      } else {
-        onUploaded(newImage)
+        router.push(`/vehicle/${modelId}/${variantId}/generate?${params.toString()}`)
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Error desconocido')
@@ -137,7 +162,7 @@ export function ImageUploadModal({ modelId, variantId, onClose, onUploaded }: Pr
           </button>
         </div>
 
-        <div className="p-6 space-y-5">
+        <div className="p-6 space-y-4">
           {/* Drop zone */}
           <div
             className={`relative rounded-xl border-2 border-dashed transition-all cursor-pointer ${
@@ -192,20 +217,64 @@ export function ImageUploadModal({ modelId, variantId, onClose, onUploaded }: Pr
             }}
           />
 
-          {/* Metadata */}
+          {/* Metadata — 2 columns */}
+          <div className="grid grid-cols-2 gap-3">
+            {/* Vista */}
+            <div>
+              <label className="block text-xs text-text-muted mb-1.5">
+                Vista <span className="text-accent">*</span>
+              </label>
+              <select
+                value={view}
+                onChange={(e) => setView(e.target.value)}
+                className="w-full bg-bg-hover border border-border rounded-lg px-3 py-2.5 text-sm text-text-primary focus:outline-none focus:border-accent transition-colors"
+              >
+                {VIEW_OPTIONS.map((o) => (
+                  <option key={o.value} value={o.value}>{o.label}</option>
+                ))}
+              </select>
+            </div>
+
+            {/* Año */}
+            <div>
+              <label className="block text-xs text-text-muted mb-1.5">
+                Año <span className="text-accent">*</span>
+              </label>
+              <input
+                type="number"
+                value={year}
+                onChange={(e) => setYear(Number(e.target.value))}
+                min={2000}
+                max={2030}
+                className="w-full bg-bg-hover border border-border rounded-lg px-3 py-2.5 text-sm text-text-primary focus:outline-none focus:border-accent transition-colors"
+              />
+            </div>
+          </div>
+
+          {/* Color */}
           <div>
-            <label className="block text-xs text-text-muted mb-1.5">Vista</label>
-            <select
-              value={view}
-              onChange={(e) => setView(e.target.value)}
-              className="w-full bg-bg-hover border border-border rounded-lg px-3 py-2.5 text-sm text-text-primary focus:outline-none focus:border-accent transition-colors"
-            >
-              {VIEW_OPTIONS.map((o) => (
-                <option key={o.value} value={o.value}>
-                  {o.label}
-                </option>
-              ))}
-            </select>
+            <label className="block text-xs text-text-muted mb-1.5">
+              Color del vehículo <span className="text-accent">*</span>
+            </label>
+            <div className="flex gap-2">
+              <select
+                value={colorValue}
+                onChange={(e) => setColorValue(e.target.value)}
+                className="flex-1 bg-bg-hover border border-border rounded-lg px-3 py-2.5 text-sm text-text-primary focus:outline-none focus:border-accent transition-colors"
+              >
+                {UPLOAD_COLORS.map((c) => (
+                  <option key={c.value} value={c.value}>{c.label}</option>
+                ))}
+              </select>
+              {/* Color swatch preview */}
+              {!isCustom && (
+                <div
+                  className="w-10 rounded-lg border border-border flex-shrink-0"
+                  style={{ backgroundColor: UPLOAD_COLORS.find(c => c.value === colorValue)?.hex ?? '#888' }}
+                />
+              )}
+            </div>
+
           </div>
 
           {/* Generate toggle */}
@@ -248,7 +317,7 @@ export function ImageUploadModal({ modelId, variantId, onClose, onUploaded }: Pr
             </button>
             <button
               onClick={handleUpload}
-              disabled={!file || uploading}
+              disabled={!canUpload}
               className="btn-primary flex-1"
             >
               {uploading ? (

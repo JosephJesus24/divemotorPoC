@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
 import {
   X, ZoomIn, ZoomOut, Camera, Calendar, Palette,
-  Trash2, AlertTriangle, Play, Download, Info,
+  Trash2, AlertTriangle, Play, Download, Info, CheckCircle2, Circle,
 } from 'lucide-react'
 import type { VehicleImage } from '@/types'
 
@@ -30,13 +30,16 @@ function getFormat(url: string): string {
 // ─── Props ─────────────────────────────────────────────────────────────────────
 
 interface Props {
-  images:    VehicleImage[]
-  onDelete?: (imageId: string) => void | Promise<void>
+  images:          VehicleImage[]
+  onDelete?:       (imageId: string) => void | Promise<void>
+  selectMode?:     boolean
+  selectedIds?:    Set<string>
+  onToggleSelect?: (id: string) => void
 }
 
 // ─── Component ─────────────────────────────────────────────────────────────────
 
-export function ImageGrid({ images, onDelete }: Props) {
+export function ImageGrid({ images, onDelete, selectMode = false, selectedIds = new Set(), onToggleSelect }: Props) {
 
   // ── Grid state ──────────────────────────────────────────────────────────────
   const [lightbox,     setLightbox]     = useState<VehicleImage | null>(null)
@@ -134,18 +137,24 @@ export function ImageGrid({ images, onDelete }: Props) {
         {images.map((image, i) => {
           const isConfirming = confirmingId === image.id
           const isVid        = image.type === 'video'
+          const isSelected   = selectedIds.has(image.id)
 
           return (
             <div
               key={image.id}
-              className="group relative rounded-xl overflow-hidden border border-border
-                         bg-bg-secondary aspect-square animate-scale-in
-                         hover:border-accent/40 transition-all duration-200"
+              className={`group relative rounded-xl overflow-hidden border bg-bg-secondary aspect-square animate-scale-in transition-all duration-200 ${
+                selectMode && isSelected
+                  ? 'border-accent ring-2 ring-accent/50'
+                  : 'border-border hover:border-accent/40'
+              }`}
               style={{ animationDelay: `${i * 30}ms` }}
             >
               {/* Media */}
               <button
-                onClick={() => !isConfirming && setLightbox(image)}
+                onClick={() => {
+                  if (selectMode) { onToggleSelect?.(image.id); return }
+                  if (!isConfirming) setLightbox(image)
+                }}
                 className="absolute inset-0 w-full h-full"
               >
                 {isVid ? (
@@ -200,6 +209,13 @@ export function ImageGrid({ images, onDelete }: Props) {
                 </div>
               )}
 
+              {/* Badge ORIGINAL */}
+              {!image.isGenerated && !isVid && !isConfirming && (
+                <div className="absolute top-1.5 left-1.5 pointer-events-none">
+                  <span className="badge bg-emerald-600/90 text-white text-[10px] font-bold px-1.5 py-0.5">ORIGINAL</span>
+                </div>
+              )}
+
               {/* Delete button */}
               {onDelete && !isConfirming && (
                 <button
@@ -214,6 +230,16 @@ export function ImageGrid({ images, onDelete }: Props) {
                 >
                   <Trash2 size={13} className="text-white" />
                 </button>
+              )}
+
+              {/* Select mode checkbox */}
+              {selectMode && !isConfirming && (
+                <div className="absolute top-1.5 right-1.5 pointer-events-none">
+                  {isSelected
+                    ? <CheckCircle2 size={20} className="text-accent drop-shadow-md" fill="currentColor" />
+                    : <Circle      size={20} className="text-white/60 drop-shadow-md" />
+                  }
+                </div>
               )}
 
               {/* Confirm delete */}
@@ -243,7 +269,7 @@ export function ImageGrid({ images, onDelete }: Props) {
       {/* ── Lightbox ─────────────────────────────────────────────────────────── */}
       {lightbox && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/92 backdrop-blur-sm animate-fade-in"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-zinc-950 animate-fade-in"
           onClick={() => setLightbox(null)}
         >
           {/* Close */}
@@ -343,9 +369,13 @@ export function ImageGrid({ images, onDelete }: Props) {
                     {imgInfo ? ` · ${imgInfo.width} × ${imgInfo.height} px` : ''}
                   </span>
                 </div>
-                {lightbox.isGenerated && (
+                {lightbox.isGenerated ? (
                   <span className="badge bg-accent/20 text-accent border border-accent/30 text-xs">
                     {isVideo ? 'Video IA' : 'Generada con IA'}
+                  </span>
+                ) : !isVideo && (
+                  <span className="badge bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs">
+                    Foto original
                   </span>
                 )}
               </div>

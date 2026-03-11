@@ -172,8 +172,7 @@ export async function generateColorVariant(
     )
   }
 
-  // Gemini API key goes as a query parameter
-  const url = `${GEMINI_API_URL}?key=${GEMINI_API_KEY}`
+  const url = GEMINI_API_URL
   const imageMimeType = request.mimeType ?? 'image/jpeg'
 
   // Deterministic seed per color: same color hex → same seed → more consistent output
@@ -208,6 +207,7 @@ export async function generateColorVariant(
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      'x-goog-api-key': GEMINI_API_KEY,
     },
     body: JSON.stringify(requestBody),
   })

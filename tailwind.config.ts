@@ -11,29 +11,28 @@ const config: Config = {
       colors: {
         // ── Automotive dark base ────────────────────────────────────────────────
         bg: {
-          primary:   '#09090b',
-          secondary: '#111113',
-          card:      '#16161a',
-          hover:     '#1e1e24',
+          primary:   'var(--bg-primary)',
+          secondary: 'var(--bg-secondary)',
+          card:      'var(--bg-card)',
+          hover:     'var(--bg-hover)',
         },
         border: {
-          DEFAULT: '#2a2a32',
-          light:   '#3f3f50',
+          DEFAULT: 'var(--border)',
+          light:   'var(--border-light)',
         },
         // ── Divemotor brand colors ──────────────────────────────────────────────
-        // Torch Red  #fe142f  — primary CTA, accent
-        // Regal Blue #003a75  — secondary, informational, nav stripe
+        // Dynamic accent — controlled via CSS vars + ThemeCustomizer
         accent: {
-          DEFAULT: '#fe142f',   // Divemotor Torch Red
-          hover:   '#ff3347',   // lighter red for hover
-          muted:   '#801020',   // dark red for subtle tints
-          blue:    '#003a75',   // Divemotor Regal Blue
+          DEFAULT: 'var(--accent)',
+          hover:   'var(--accent-hover)',
+          muted:   'var(--accent-muted)',
+          blue:    '#003a75',   // Divemotor Regal Blue (fixed)
           'blue-hover': '#004d9e',
         },
         text: {
-          primary:   '#f5f5f7',
-          secondary: '#a0a0b0',
-          muted:     '#66667a',
+          primary:   'var(--text-primary)',
+          secondary: 'var(--text-secondary)',
+          muted:     'var(--text-muted)',
         },
       },
       fontFamily: {

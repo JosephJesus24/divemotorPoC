@@ -2,12 +2,12 @@
 
 import { notFound, useParams } from 'next/navigation'
 import Link from 'next/link'
-import { ChevronRight, Plus, Video } from 'lucide-react'
-import { getModelById, getVariantById, colorToHex } from '@/lib/catalog'
+import { ChevronRight, Plus, Video, CheckSquare, Download, X as XIcon } from 'lucide-react'
+import { getModelById, getVariantById } from '@/lib/catalog'
 import { ImageGrid } from '@/components/ImageGrid'
 import { FilterBar } from '@/components/FilterBar'
 import { ImageUploadModal } from '@/components/ImageUploadModal'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import type { VehicleImage, GalleryFilters } from '@/types'
 
 export default function GalleryPage() {
@@ -28,12 +28,18 @@ export default function GalleryPage() {
   )
   const [showUpload, setShowUpload] = useState(false)
 
+  // ── Multi-select state ────────────────────────────────────────────────────
+  const [selectMode,  setSelectMode]  = useState(false)
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
+  const [downloading, setDownloading] = useState(false)
+
   // ── Load generated images saved from the AI generation page ──────────────
   useEffect(() => {
+    let isMounted = true
     try {
       const storageKey = `generated_gallery_${modelId}_${variantId}`
       const saved = JSON.parse(localStorage.getItem(storageKey) ?? '[]') as VehicleImage[]
-      if (saved.length > 0) {
+      if (saved.length > 0 && isMounted) {
         setImages((prev) => {
           const existingIds = new Set(prev.map((img) => img.id))
           const newImages = saved.filter((img) => !existingIds.has(img.id))
@@ -43,21 +49,22 @@ export default function GalleryPage() {
     } catch {
       // localStorage not available
     }
+    return () => { isMounted = false }
   }, [modelId, variantId])
 
   if (!model || !variant) return notFound()
 
-  // Apply filters
-  const filteredImages = images.filter((img) => {
+  // Apply filters (memoized — avoids recalculating on unrelated state changes)
+  const filteredImages = useMemo(() => images.filter((img) => {
     if (filters.color && img.color !== filters.color) return false
     if (filters.view && img.view !== filters.view) return false
     if (filters.dateFrom && img.date < filters.dateFrom) return false
     if (filters.dateTo && img.date > filters.dateTo) return false
     return true
-  })
+  }), [images, filters])
 
-  const availableColors = Array.from(new Set(images.map((i) => i.color)))
-  const availableViews = Array.from(new Set(images.map((i) => i.view)))
+  const availableColors = useMemo(() => Array.from(new Set(images.map((i) => i.color))), [images])
+  const availableViews  = useMemo(() => Array.from(new Set(images.map((i) => i.view))),  [images])
 
   const handleImageUploaded = (newImage: VehicleImage) => {
     setImages((prev) => [newImage, ...prev])
@@ -65,20 +72,15 @@ export default function GalleryPage() {
   }
 
   const handleDeleteImage = async (imageId: string) => {
-    // 1. Quitar del state visual inmediatamente (UX rápido)
     setImages((prev) => prev.filter((img) => img.id !== imageId))
+    setSelectedIds((prev) => { const s = new Set(prev); s.delete(imageId); return s })
 
-    // 2. Limpiar localStorage por si acaso
     try {
       const storageKey = `generated_gallery_${modelId}_${variantId}`
       const saved = JSON.parse(localStorage.getItem(storageKey) ?? '[]') as VehicleImage[]
-      const filtered = saved.filter((img) => img.id !== imageId)
-      localStorage.setItem(storageKey, JSON.stringify(filtered))
-    } catch {
-      // localStorage no disponible
-    }
+      localStorage.setItem(storageKey, JSON.stringify(saved.filter((img) => img.id !== imageId)))
+    } catch { /* localStorage no disponible */ }
 
-    // 3. Borrar permanentemente de catalog.json (y archivo físico si aplica)
     try {
       await fetch('/api/delete-image', {
         method:  'DELETE',
@@ -90,6 +92,53 @@ export default function GalleryPage() {
     }
   }
 
+  // ── Multi-select handlers ─────────────────────────────────────────────────
+  const toggleSelectMode = () => {
+    setSelectMode((v) => !v)
+    setSelectedIds(new Set())
+  }
+
+  const handleToggleSelect = (id: string) => {
+    setSelectedIds((prev) => {
+      const next = new Set(prev)
+      if (next.has(id)) next.delete(id)
+      else next.add(id)
+      return next
+    })
+  }
+
+  const handleBulkDownload = async () => {
+    if (selectedIds.size === 0 || downloading) return
+    setDownloading(true)
+    try {
+      const JSZip = (await import('jszip')).default
+      const zip = new JSZip()
+      const selectedImages = filteredImages.filter((img) => selectedIds.has(img.id))
+
+      await Promise.all(
+        selectedImages.map(async (img) => {
+          const res = await fetch(img.url)
+          const blob = await res.blob()
+          const ext = img.url.split('.').pop()?.split('?')[0] ?? 'jpg'
+          const filename = `${img.color}_${img.view}_${img.id.slice(-6)}.${ext}`
+          zip.file(filename, blob)
+        })
+      )
+
+      const content = await zip.generateAsync({ type: 'blob' })
+      const url = URL.createObjectURL(content)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = `galeria-${variantId}.zip`
+      a.click()
+      URL.revokeObjectURL(url)
+    } catch (err) {
+      console.error('[handleBulkDownload] Error:', err)
+    } finally {
+      setDownloading(false)
+    }
+  }
+
   return (
     <div className="min-h-screen">
       {/* ── Breadcrumb ──────────────────────────────────────────────────────── */}
@@ -98,6 +147,13 @@ export default function GalleryPage() {
           <nav className="flex items-center gap-2 text-sm text-text-muted flex-wrap">
             <Link href="/" className="hover:text-text-primary transition-colors">
               Showroom
+            </Link>
+            <ChevronRight size={14} />
+            <Link
+              href={`/brand/${model.brand.toLowerCase()}`}
+              className="hover:text-text-primary transition-colors"
+            >
+              {model.brand}
             </Link>
             <ChevronRight size={14} />
             <Link
@@ -126,24 +182,11 @@ export default function GalleryPage() {
                   {variant.description}
                 </p>
               )}
-
-              {/* Color dots */}
-              <div className="flex items-center gap-2 mt-4">
-                <span className="text-xs text-text-muted">Colores:</span>
-                {variant.colors.map((color) => (
-                  <span
-                    key={color}
-                    title={color}
-                    className="w-4 h-4 rounded-full border border-border ring-1 ring-transparent hover:ring-accent transition-all cursor-default"
-                    style={{ backgroundColor: colorToHex(color) }}
-                  />
-                ))}
-              </div>
             </div>
 
             {/* Action buttons */}
             <div className="flex items-center gap-3 flex-wrap shrink-0">
-              {/* Generate video 360° — only pass images (not videos) */}
+              {/* Generate video 360° */}
               <Link
                 href={`/vehicle/${modelId}/${variantId}/video?${images
                   .filter((img) => img.type !== 'video')
@@ -158,6 +201,15 @@ export default function GalleryPage() {
                 <Video size={16} />
                 Video 360°
               </Link>
+
+              {/* Multi-select toggle */}
+              <button
+                onClick={toggleSelectMode}
+                className={`btn-ghost shrink-0 ${selectMode ? 'border-accent text-accent' : ''}`}
+              >
+                <CheckSquare size={16} />
+                {selectMode ? 'Cancelar selección' : 'Seleccionar'}
+              </button>
 
               {/* Upload new image */}
               <button
@@ -201,7 +253,13 @@ export default function GalleryPage() {
         </div>
 
         {filteredImages.length > 0 ? (
-          <ImageGrid images={filteredImages} onDelete={handleDeleteImage} />
+          <ImageGrid
+            images={filteredImages}
+            onDelete={handleDeleteImage}
+            selectMode={selectMode}
+            selectedIds={selectedIds}
+            onToggleSelect={handleToggleSelect}
+          />
         ) : (
           <div className="text-center py-24">
             <p className="text-text-muted text-lg mb-2">Sin imágenes</p>
@@ -218,11 +276,48 @@ export default function GalleryPage() {
         )}
       </section>
 
+      {/* ── Floating multi-select bar ─────────────────────────────────────────── */}
+      {selectMode && (
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 animate-scale-in">
+          <div className="flex items-center gap-3 bg-zinc-900 border border-border rounded-2xl shadow-2xl px-5 py-3">
+            <span className="text-sm text-text-secondary whitespace-nowrap">
+              <span className="font-semibold text-text-primary">{selectedIds.size}</span> seleccionada{selectedIds.size !== 1 ? 's' : ''}
+            </span>
+            <div className="w-px h-5 bg-border" />
+            <button
+              onClick={handleBulkDownload}
+              disabled={selectedIds.size === 0 || downloading}
+              className="flex items-center gap-2 btn-primary text-sm py-2 px-4 disabled:opacity-40"
+            >
+              {downloading ? (
+                <>
+                  <div className="w-3.5 h-3.5 rounded-full border-2 border-zinc-950 border-t-transparent animate-spin" />
+                  Descargando...
+                </>
+              ) : (
+                <>
+                  <Download size={14} />
+                  Descargar ZIP
+                </>
+              )}
+            </button>
+            <button
+              onClick={toggleSelectMode}
+              className="w-8 h-8 rounded-lg flex items-center justify-center text-text-muted hover:text-text-primary hover:bg-bg-hover transition-colors"
+              title="Cancelar selección"
+            >
+              <XIcon size={16} />
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* ── Upload Modal ─────────────────────────────────────────────────────── */}
       {showUpload && (
         <ImageUploadModal
           modelId={modelId}
           variantId={variantId}
+          variantYear={variant.year}
           onClose={() => setShowUpload(false)}
           onUploaded={handleImageUploaded}
         />

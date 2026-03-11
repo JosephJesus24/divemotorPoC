@@ -89,7 +89,7 @@ export function VariantCard({ variant, modelId, index = 0 }: Props) {
               <span
                 key={color}
                 title={color}
-                className="w-4 h-4 rounded-full border border-white/10 shrink-0"
+                className="w-4 h-4 rounded-full border border-border shrink-0"
                 style={{ backgroundColor: colorToHex(color) }}
               />
             ))}
