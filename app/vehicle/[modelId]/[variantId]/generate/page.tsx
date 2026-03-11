@@ -12,6 +12,7 @@ import {
   FlaskConical,
   Save,
   CheckCircle,
+  Info,
 } from 'lucide-react'
 import { getModelById, getVariantById } from '@/lib/catalog'
 import { ColorSelector } from '@/components/ColorSelector'
@@ -67,38 +68,43 @@ function GenerateContent() {
   const { modelId, variantId } = params
   const searchParams = useSearchParams()
   const imageUrl  = searchParams.get('imageUrl') ?? ''
-  const imageName = searchParams.get('name')     ?? 'Imagen subida'
+  const imageName     = searchParams.get('name')  ?? 'Imagen subida'
+  const originColorId  = searchParams.get('color') ?? ''
 
   const model   = getModelById(modelId)
   const variant = getVariantById(modelId, variantId)
 
-  const [selectedColors, setSelectedColors] = useState<ColorOption[]>([
-    DEFAULT_COLORS[0],
-    DEFAULT_COLORS[1],
-    DEFAULT_COLORS[2],
-  ])
+  // Derive original color info for exclusion
+  const originColorObj   = DEFAULT_COLORS.find((col) => col.id === originColorId)
+  const originColorLabel = originColorObj?.label ?? originColorId
+
+  // Exclude the uploaded image's original color + mark variant colors
+  const availableColors = DEFAULT_COLORS
+    .filter((col) => col.id !== originColorId)
+    .map((col) => ({
+      ...col,
+      isVariantColor: variant?.colors.includes(col.label.toLowerCase()),
+    }))
+
+  const [selectedColors, setSelectedColors] = useState<ColorOption[]>(
+    availableColors.slice(0, 3)
+  )
   const [results,      setResults]      = useState<GenerationResult[]>([])
   const [isGenerating, setIsGenerating] = useState(false)
   const [error,        setError]        = useState<string | null>(null)
   const [isDemoMode,   setIsDemoMode]   = useState(false)
 
-  // ── Per-result view selection & save state ────────────────────────────────
-  const [resultViews,  setResultViews]  = useState<Record<string, ImageView | null>>({})
+  // ── Global view selection (chosen before generating) ─────────────────────
+  const [globalView,   setGlobalView]   = useState<ImageView>('front')
   const [savedResults, setSavedResults] = useState<Record<string, boolean>>({})
   const [savingIds,    setSavingIds]    = useState<Record<string, boolean>>({})
 
-  // Mark variant colors so the selector can highlight them
-  const availableColors = DEFAULT_COLORS.map((c) => ({
-    ...c,
-    isVariantColor: variant?.colors.includes(c.label.toLowerCase()),
-  }))
 
   // ── Generate handler ──────────────────────────────────────────────────────
   const handleGenerate = async () => {
     if (selectedColors.length === 0) return
     setIsGenerating(true)
     setError(null)
-    setResultViews({})
     setSavedResults({})
 
     setResults(
@@ -138,8 +144,7 @@ function GenerateContent() {
 
   // ── Save a result to the gallery — copies to correct folder + updates catalog ─
   const handleSaveToGallery = async (result: GenerationResult) => {
-    const view = resultViews[result.colorId]
-    if (!view) return
+    const view = globalView
 
     setSavingIds((prev) => ({ ...prev, [result.colorId]: true }))
 
@@ -332,79 +337,37 @@ function GenerateContent() {
                         </div>
                       </div>
 
-                      {/* ── View selector + Save (only for completed images) ── */}
+                      {/* ── Save to gallery ── */}
                       {result.status === 'done' && result.imageUrl && (
-                        <>
-                          {savedResults[result.colorId] ? (
-                            /* ✓ Already saved */
-                            <div className="flex flex-col gap-1 px-1 py-1">
-                              <div className="flex items-center gap-2 text-xs text-green-400">
-                                <CheckCircle size={14} className="shrink-0" />
-                                <span className="font-semibold">Guardada en galería</span>
-                              </div>
-                              <p className="text-[10px] text-text-muted pl-5">
-                                Imagen copiada a{' '}
-                                <span className="font-mono text-text-secondary">
-                                  /images/{modelId}/{variantId}/
-                                </span>
-                              </p>
+                        savedResults[result.colorId] ? (
+                          <div className="flex flex-col gap-1 px-1 py-1">
+                            <div className="flex items-center gap-2 text-xs text-green-400">
+                              <CheckCircle size={14} className="shrink-0" />
+                              <span className="font-semibold">Guardada en galeria</span>
                             </div>
-                          ) : (
-                            /* View picker + save button */
-                            <div className="space-y-2">
-                              <p className="text-xs text-text-muted font-medium">
-                                Vista de la imagen:
-                              </p>
-
-                              {/* Frontal / Lateral / Posterior */}
-                              <div className="flex gap-1.5">
-                                {VIEW_OPTIONS.map((opt) => (
-                                  <button
-                                    key={opt.value}
-                                    onClick={() =>
-                                      setResultViews((prev) => ({
-                                        ...prev,
-                                        [result.colorId]: opt.value,
-                                      }))
-                                    }
-                                    className={`flex-1 text-xs py-1.5 rounded-lg border transition-all ${
-                                      resultViews[result.colorId] === opt.value
-                                        ? 'border-accent bg-accent/10 text-accent font-semibold'
-                                        : 'border-border text-text-muted hover:border-accent/40 hover:text-text-secondary'
-                                    }`}
-                                  >
-                                    {opt.label}
-                                  </button>
-                                ))}
-                              </div>
-
-                              {/* Save button */}
-                              <button
-                                onClick={() => handleSaveToGallery(result)}
-                                disabled={!resultViews[result.colorId] || savingIds[result.colorId]}
-                                className="btn-primary w-full text-xs py-2 disabled:opacity-40 disabled:cursor-not-allowed"
-                              >
-                                {savingIds[result.colorId] ? (
-                                  <>
-                                    <div className="w-3 h-3 rounded-full border-2 border-white border-t-transparent animate-spin" />
-                                    Guardando...
-                                  </>
-                                ) : (
-                                  <>
-                                    <Save size={12} />
-                                    Guardar en galería
-                                  </>
-                                )}
-                              </button>
-
-                              {!resultViews[result.colorId] && (
-                                <p className="text-[10px] text-text-muted text-center">
-                                  Elige una vista antes de guardar
-                                </p>
-                              )}
-                            </div>
-                          )}
-                        </>
+                            <p className="text-[10px] text-text-muted pl-5">
+                              Vista: <span className="text-text-secondary font-medium capitalize">{globalView}</span>
+                            </p>
+                          </div>
+                        ) : (
+                          <button
+                            onClick={() => handleSaveToGallery(result)}
+                            disabled={savingIds[result.colorId]}
+                            className="btn-primary w-full text-xs py-2 disabled:opacity-40 disabled:cursor-not-allowed"
+                          >
+                            {savingIds[result.colorId] ? (
+                              <>
+                                <div className="w-3 h-3 rounded-full border-2 border-white border-t-transparent animate-spin" />
+                                Guardando...
+                              </>
+                            ) : (
+                              <>
+                                <Save size={12} />
+                                Guardar en galeria
+                              </>
+                            )}
+                          </button>
+                        )
                       )}
                     </div>
                   ))}
@@ -426,7 +389,16 @@ function GenerateContent() {
 
               <div className="rounded-xl border border-border bg-bg-card p-6">
                 <h3 className="font-semibold text-text-primary mb-1">Selecciona colores</h3>
-                <p className="text-xs text-text-muted mb-5">Elige hasta 3 colores para generar variantes.</p>
+                <p className="text-xs text-text-muted mb-4">Elige hasta 3 colores para generar.</p>
+                {originColorObj && (
+                  <div className="flex items-start gap-2 mb-4 px-3 py-2 rounded-lg bg-bg-hover border border-border">
+                    <Info size={13} className="text-text-muted mt-0.5 shrink-0" />
+                    <p className="text-[11px] text-text-muted leading-snug">
+                      <span className="text-text-secondary font-medium">{originColorLabel}</span>
+                      {' '}excluido — es el color original.
+                    </p>
+                  </div>
+                )}
                 <ColorSelector
                   colors={availableColors}
                   selected={selectedColors}
@@ -435,28 +407,25 @@ function GenerateContent() {
                 />
               </div>
 
-              {/* Colores oficiales Jeep */}
-              <div className="rounded-xl border border-border bg-bg-card p-4">
-                <p className="text-xs font-semibold text-text-secondary mb-1">
-                  Colores oficiales Jeep®
-                </p>
-                <p className="text-[10px] text-text-muted mb-3">
-                  Especificación exacta de fábrica — tonalidad bloqueada.
-                </p>
-                <div className="space-y-2">
-                  {DEFAULT_COLORS.map((c) => (
-                    <div key={c.id} className="flex items-center gap-2.5">
-                      <span
-                        className="w-5 h-5 rounded border border-white/10 shrink-0"
-                        style={{ backgroundColor: c.hex }}
-                      />
-                      <div className="min-w-0">
-                        <p className="text-[10px] text-text-secondary font-medium leading-tight truncate">
-                          {c.label}
-                        </p>
-                        <p className="text-[9px] text-text-muted font-mono">{c.hex}</p>
-                      </div>
-                    </div>
+
+              {/* View angle selector — global, chosen before generating */}
+              <div className="rounded-xl border border-border bg-bg-card p-6">
+                <h3 className="font-semibold text-text-primary mb-1">Vista a generar</h3>
+                <p className="text-xs text-text-muted mb-4">Angulo de camara del resultado.</p>
+                <div className="flex gap-2">
+                  {VIEW_OPTIONS.map((opt) => (
+                    <button
+                      key={opt.value}
+                      onClick={() => setGlobalView(opt.value)}
+                      className={
+                        'flex-1 text-xs py-2.5 rounded-lg border transition-all ' +
+                        (globalView === opt.value
+                          ? 'border-accent bg-accent/10 text-accent font-semibold'
+                          : 'border-border text-text-muted hover:border-accent/40 hover:text-text-secondary')
+                      }
+                    >
+                      {opt.label}
+                    </button>
                   ))}
                 </div>
               </div>
@@ -468,7 +437,7 @@ function GenerateContent() {
                   <li>✓ Mantiene el ángulo de cámara</li>
                   <li>✓ Solo modifica el color de la pintura</li>
                   <li>✓ Tonalidad exacta (hex bloqueado)</li>
-                  <li>✓ Etiqueta la vista antes de guardar</li>
+                  <li>✓ Vista seleccionada al guardar</li>
                 </ul>
               </div>
 
@@ -497,7 +466,6 @@ function GenerateContent() {
                 <button
                   onClick={() => {
                     setResults([])
-                    setResultViews({})
                     setSavedResults({})
                   }}
                   className="btn-ghost w-full text-sm"

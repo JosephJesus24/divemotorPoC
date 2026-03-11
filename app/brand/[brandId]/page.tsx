@@ -30,7 +30,7 @@ export default async function BrandPage({ params }: Props) {
         <div className="absolute inset-0 opacity-[0.06] bg-[radial-gradient(ellipse_60%_40%_at_0%_100%,_#003a75,_transparent)]" />
         <div className="absolute top-0 right-0 bottom-0 w-1 bg-gradient-to-b from-accent via-accent/40 to-transparent" />
 
-        <div className="relative max-w-7xl mx-auto px-6 py-20 lg:py-28">
+        <div className="relative max-w-7xl mx-auto px-6 py-10 lg:py-14">
           <div className="max-w-3xl">
 
             {/* Breadcrumb */}
@@ -72,7 +72,7 @@ export default async function BrandPage({ params }: Props) {
 
             {/* Stats bar */}
             {models.length > 0 && (
-              <div className="flex flex-wrap gap-10 mt-10 pt-8 border-t border-border">
+              <div className="flex flex-wrap gap-10 mt-8 pt-6 border-t border-border">
                 <div>
                   <p className="text-3xl font-black text-text-primary">{models.length}</p>
                   <p className="text-xs text-text-muted mt-0.5 uppercase tracking-wider">Modelos</p>
@@ -82,8 +82,10 @@ export default async function BrandPage({ params }: Props) {
                   <p className="text-xs text-text-muted mt-0.5 uppercase tracking-wider">Submodelos</p>
                 </div>
                 <div>
-                  <p className="text-3xl font-black text-accent">IA</p>
-                  <p className="text-xs text-text-muted mt-0.5 uppercase tracking-wider">Color AI</p>
+                  <p className="leading-none">
+                    <span className="inline-flex items-center bg-accent text-zinc-950 font-black px-2.5 py-1 rounded-lg text-2xl tracking-wide">IA</span>
+                  </p>
+                  <p className="text-xs text-text-muted mt-1.5 uppercase tracking-wider">Color AI</p>
                 </div>
               </div>
             )}

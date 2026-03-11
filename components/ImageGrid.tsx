@@ -205,7 +205,7 @@ export function ImageGrid({ images, onDelete, selectMode = false, selectedIds = 
               {/* Badge IA */}
               {image.isGenerated && !isVid && !isConfirming && (
                 <div className="absolute top-1.5 left-1.5 pointer-events-none">
-                  <span className="badge bg-accent/90 text-white text-[10px] font-bold px-1.5 py-0.5">IA</span>
+                  <span className="badge bg-accent text-zinc-950 text-[10px] font-bold px-1.5 py-0.5">IA</span>
                 </div>
               )}
 

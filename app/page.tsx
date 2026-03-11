@@ -68,7 +68,7 @@ export default function ShowroomPage() {
         <div className="absolute inset-0 opacity-[0.06] bg-[radial-gradient(ellipse_60%_40%_at_0%_100%,_#003a75,_transparent)]" />
         <div className="absolute top-0 right-0 bottom-0 w-1 bg-gradient-to-b from-accent via-accent/40 to-transparent" />
 
-        <div className="relative max-w-7xl mx-auto px-6 py-24 lg:py-32">
+        <div className="relative max-w-7xl mx-auto px-6 py-10 lg:py-14">
           <div className="max-w-3xl">
             <div className="flex items-center gap-3 mb-6">
               <div className="h-px w-8 bg-accent" />
@@ -86,7 +86,7 @@ export default function ShowroomPage() {
           </div>
 
           {/* Stats bar */}
-          <div className="flex flex-wrap gap-10 mt-14 pt-8 border-t border-border">
+          <div className="flex flex-wrap gap-10 mt-8 pt-6 border-t border-border">
             <div>
               <p className="text-3xl font-black text-text-primary">5</p>
               <p className="text-xs text-text-muted mt-0.5 uppercase tracking-wider">Marcas</p>
@@ -96,8 +96,10 @@ export default function ShowroomPage() {
               <p className="text-xs text-text-muted mt-0.5 uppercase tracking-wider">Modelos</p>
             </div>
             <div>
-              <p className="text-3xl font-black text-accent">IA</p>
-              <p className="text-xs text-text-muted mt-0.5 uppercase tracking-wider">Color AI</p>
+              <p className="leading-none">
+                <span className="inline-flex items-center bg-accent text-zinc-950 font-black px-2.5 py-1 rounded-lg text-2xl tracking-wide">IA</span>
+              </p>
+              <p className="text-xs text-text-muted mt-1.5 uppercase tracking-wider">Color AI</p>
             </div>
             <div>
               <p className="text-3xl font-black" style={{ color: '#003a75' }}>28</p>
@@ -159,8 +161,10 @@ export default function ShowroomPage() {
                     <p className="text-[10px] text-text-muted uppercase tracking-wider">Submodelos</p>
                   </div>
                   <div>
-                    <p className="text-xl font-black text-accent">IA</p>
-                    <p className="text-[10px] text-text-muted uppercase tracking-wider">Color AI</p>
+                    <p className="leading-none">
+                      <span className="inline-flex items-center bg-accent text-zinc-950 font-black px-2 py-0.5 rounded-md text-sm tracking-wide">IA</span>
+                    </p>
+                    <p className="text-[10px] text-text-muted mt-1 uppercase tracking-wider">Color AI</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-2 text-sm font-semibold text-accent group-hover:gap-3 transition-all">
@@ -205,8 +209,10 @@ export default function ShowroomPage() {
                     <p className="text-[10px] text-text-muted uppercase tracking-wider">Submodelos</p>
                   </div>
                   <div>
-                    <p className="text-xl font-black text-accent">IA</p>
-                    <p className="text-[10px] text-text-muted uppercase tracking-wider">Color AI</p>
+                    <p className="leading-none">
+                      <span className="inline-flex items-center bg-accent text-zinc-950 font-black px-2 py-0.5 rounded-md text-sm tracking-wide">IA</span>
+                    </p>
+                    <p className="text-[10px] text-text-muted mt-1 uppercase tracking-wider">Color AI</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-2 text-sm font-semibold text-text-secondary group-hover:text-text-primary group-hover:gap-3 transition-all">

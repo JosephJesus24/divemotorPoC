@@ -127,6 +127,7 @@ export function ImageUploadModal({ modelId, variantId, variantYear, onClose, onU
         const params = new URLSearchParams({
           imageUrl: data.imageUrl,
           name: file.name,
+          color: colorValue,
         })
         router.push(`/vehicle/${modelId}/${variantId}/generate?${params.toString()}`)
       }
