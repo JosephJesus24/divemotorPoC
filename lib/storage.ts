@@ -37,6 +37,7 @@ export async function saveFile(
       access:           'public',
       contentType,
       addRandomSuffix:  false,
+      allowOverwrite:   true,
     })
     return blob.url
   }
