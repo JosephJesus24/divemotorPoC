@@ -98,6 +98,7 @@ function GenerateContent() {
   const [globalView,   setGlobalView]   = useState<ImageView>('front')
   const [savedResults, setSavedResults] = useState<Record<string, boolean>>({})
   const [savingIds,    setSavingIds]    = useState<Record<string, boolean>>({})
+  const [isSavingAll,  setIsSavingAll]  = useState(false)
 
 
   // ── Generate handler ──────────────────────────────────────────────────────
@@ -177,7 +178,23 @@ function GenerateContent() {
     }
   }
 
-  if (!model || !variant) {
+  // ── Save ALL completed results to the gallery at once ────────────────────
+  const handleSaveAll = async () => {
+    const pending = results.filter(
+      (r) => r.status === 'done' && r.imageUrl && !savedResults[r.colorId]
+    )
+    if (pending.length === 0) return
+    setIsSavingAll(true)
+    await Promise.all(pending.map((r) => handleSaveToGallery(r)))
+    setIsSavingAll(false)
+  }
+
+  // Derived state for the single save button
+  const doneResults    = results.filter((r) => r.status === 'done' && r.imageUrl)
+  const unsavedResults = doneResults.filter((r) => !savedResults[r.colorId])
+  const allSaved       = doneResults.length > 0 && unsavedResults.length === 0
+
+    if (!model || !variant) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <p className="text-text-muted">Modelo no encontrado.</p>
@@ -337,37 +354,12 @@ function GenerateContent() {
                         </div>
                       </div>
 
-                      {/* ── Save to gallery ── */}
-                      {result.status === 'done' && result.imageUrl && (
-                        savedResults[result.colorId] ? (
-                          <div className="flex flex-col gap-1 px-1 py-1">
-                            <div className="flex items-center gap-2 text-xs text-green-400">
-                              <CheckCircle size={14} className="shrink-0" />
-                              <span className="font-semibold">Guardada en galeria</span>
-                            </div>
-                            <p className="text-[10px] text-text-muted pl-5">
-                              Vista: <span className="text-text-secondary font-medium capitalize">{globalView}</span>
-                            </p>
-                          </div>
-                        ) : (
-                          <button
-                            onClick={() => handleSaveToGallery(result)}
-                            disabled={savingIds[result.colorId]}
-                            className="btn-primary w-full text-xs py-2 disabled:opacity-40 disabled:cursor-not-allowed"
-                          >
-                            {savingIds[result.colorId] ? (
-                              <>
-                                <div className="w-3 h-3 rounded-full border-2 border-white border-t-transparent animate-spin" />
-                                Guardando...
-                              </>
-                            ) : (
-                              <>
-                                <Save size={12} />
-                                Guardar en galeria
-                              </>
-                            )}
-                          </button>
-                        )
+                      {/* ── Saved indicator ── */}
+                      {savedResults[result.colorId] && (
+                        <div className="flex items-center gap-2 text-xs text-green-400 px-1 py-1">
+                          <CheckCircle size={13} className="shrink-0" />
+                          <span className="font-semibold">Guardada</span>
+                        </div>
                       )}
                     </div>
                   ))}
@@ -440,6 +432,39 @@ function GenerateContent() {
                   <li>✓ Vista seleccionada al guardar</li>
                 </ul>
               </div>
+
+              {/* Single save-all button — shown when there are completed results */}
+              {doneResults.length > 0 && (
+                allSaved ? (
+                  <div className="flex items-center justify-center gap-2 py-3.5 rounded-xl border border-green-500/30 bg-green-500/5">
+                    <CheckCircle size={16} className="text-green-400 shrink-0" />
+                    <span className="text-sm font-semibold text-green-400">
+                      {doneResults.length === 1 ? 'Imagen guardada' : 'Todas guardadas'} en galeria
+                    </span>
+                  </div>
+                ) : (
+                  <button
+                    onClick={handleSaveAll}
+                    disabled={isSavingAll || isGenerating}
+                    className="btn-primary w-full py-3.5 text-sm disabled:opacity-40 disabled:cursor-not-allowed"
+                  >
+                    {isSavingAll ? (
+                      <>
+                        <div className="w-4 h-4 rounded-full border-2 border-zinc-950 border-t-transparent animate-spin" />
+                        Guardando...
+                      </>
+                    ) : (
+                      <>
+                        <Save size={16} />
+                        Guardar en galeria
+                        {unsavedResults.length > 1 && (
+                          <span className="ml-1 text-zinc-950/60 text-xs">({unsavedResults.length})</span>
+                        )}
+                      </>
+                    )}
+                  </button>
+                )
+              )}
 
               <button
                 onClick={handleGenerate}
