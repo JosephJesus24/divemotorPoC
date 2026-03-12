@@ -303,21 +303,21 @@ export function ImageGrid({ images, onDelete, selectMode = false, selectedIds = 
             <X size={18} className="text-white" />
           </button>
 
-          {/* Navigation arrows */}
+          {/* Navigation arrows — positioned in the dark margins outside the image */}
           {currentIndex > 0 && (
             <button
               onClick={(e) => { e.stopPropagation(); goToPrev() }}
-              className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/10 border border-white/20 flex items-center justify-center opacity-60 hover:opacity-100 hover:bg-white/20 transition-all z-10"
+              className="absolute left-[calc(50%-28rem)] top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10 border border-white/20 flex items-center justify-center opacity-70 hover:opacity-100 hover:bg-white/20 transition-all z-10 max-[960px]:left-2"
             >
-              <ChevronLeft size={20} className="text-white" />
+              <ChevronLeft size={24} className="text-white" />
             </button>
           )}
           {currentIndex < images.length - 1 && (
             <button
               onClick={(e) => { e.stopPropagation(); goToNext() }}
-              className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/10 border border-white/20 flex items-center justify-center opacity-60 hover:opacity-100 hover:bg-white/20 transition-all z-10"
+              className="absolute right-[calc(50%-28rem)] top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10 border border-white/20 flex items-center justify-center opacity-70 hover:opacity-100 hover:bg-white/20 transition-all z-10 max-[960px]:right-2"
             >
-              <ChevronRight size={20} className="text-white" />
+              <ChevronRight size={24} className="text-white" />
             </button>
           )}
 
