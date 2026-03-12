@@ -322,19 +322,19 @@
               "id": "cmd_lim_front",
               "view": "front",
               "color": "negro",
-              "url": "/images/commander/limited/frontal.jpeg"
+              "url": "/images/jeep/commander/limited/frontal.jpeg"
             },
             {
               "id": "cmd_lim_side",
               "view": "side",
               "color": "negro",
-              "url": "/images/commander/limited/lateral.jpeg"
+              "url": "/images/jeep/commander/limited/lateral.jpeg"
             },
             {
               "id": "cmd_lim_rear",
               "view": "rear",
               "color": "negro",
-              "url": "/images/commander/limited/posterior.jpeg"
+              "url": "/images/jeep/commander/limited/posterior.jpeg"
             }
           ]
         },
@@ -454,6 +454,12 @@
             "negro"
           ],
           "images": [
+            {
+              "id": "wr_rub4d_front",
+              "view": "front",
+              "color": "negro",
+              "url": "/images/jeep/wrangler/rubicon_4door/frontal.jpeg"
+            },
             {
               "id": "wr_rub4d_side",
               "view": "side",
