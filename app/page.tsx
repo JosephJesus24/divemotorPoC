@@ -53,10 +53,10 @@ function ComingSoonCard({
 // ─────────────────────────────────────────────────────────────────────────────
 
 export default function ShowroomPage() {
-  const jeepModels    = getModelsByBrand('Jeep')
-  const jeepVariants  = jeepModels.reduce((acc, m) => acc + m.variants.length, 0)
-  const mbModels      = getModelsByBrand('Mercedes-Benz')
-  const mbVariants    = mbModels.reduce((acc, m) => acc + m.variants.length, 0)
+  const jeepModels = getModelsByBrand('Jeep')
+  const jeepVariants = jeepModels.reduce((acc, m) => acc + m.variants.length, 0)
+  const mbModels = getModelsByBrand('Mercedes-Benz')
+  const mbVariants = mbModels.reduce((acc, m) => acc + m.variants.length, 0)
 
   return (
     <div className="min-h-screen">
@@ -129,7 +129,7 @@ export default function ShowroomPage() {
             <Link href="/brand/jeep" className="group relative overflow-hidden rounded-2xl border border-border bg-bg-secondary hover:border-accent/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-accent/10">
               <div className="relative h-52 overflow-hidden">
                 <Image
-                  src="/images/jeep/wrangler/rubicon/frontal.jpg"
+                  src="/images/jeep/wrangler/rubicon_4door/frontal.jpeg"
                   alt="Jeep Wrangler"
                   fill
                   priority

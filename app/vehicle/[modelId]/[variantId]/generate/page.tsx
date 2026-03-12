@@ -58,24 +58,24 @@ const DEFAULT_COLORS: ColorOption[] = [
 
 // ─── View options for tagging saved images ────────────────────────────────────
 const VIEW_OPTIONS: { value: ImageView; label: string }[] = [
-  { value: 'front', label: 'Frontal'   },
-  { value: 'side',  label: 'Lateral'   },
-  { value: 'rear',  label: 'Posterior' },
+  { value: 'front', label: 'Frontal' },
+  { value: 'side', label: 'Lateral' },
+  { value: 'rear', label: 'Posterior' },
 ]
 
 function GenerateContent() {
   const params = useParams<{ modelId: string; variantId: string }>()
   const { modelId, variantId } = params
   const searchParams = useSearchParams()
-  const imageUrl  = searchParams.get('imageUrl') ?? ''
-  const imageName     = searchParams.get('name')  ?? 'Imagen subida'
-  const originColorId  = searchParams.get('color') ?? ''
+  const imageUrl = searchParams.get('imageUrl') ?? ''
+  const imageName = searchParams.get('name') ?? 'Imagen subida'
+  const originColorId = searchParams.get('color') ?? ''
 
-  const model   = getModelById(modelId)
+  const model = getModelById(modelId)
   const variant = getVariantById(modelId, variantId)
 
   // Derive original color info for exclusion
-  const originColorObj   = DEFAULT_COLORS.find((col) => col.id === originColorId)
+  const originColorObj = DEFAULT_COLORS.find((col) => col.id === originColorId)
   const originColorLabel = originColorObj?.label ?? originColorId
 
   // Exclude the uploaded image's original color + mark variant colors
@@ -89,16 +89,16 @@ function GenerateContent() {
   const [selectedColors, setSelectedColors] = useState<ColorOption[]>(
     availableColors.slice(0, 3)
   )
-  const [results,      setResults]      = useState<GenerationResult[]>([])
+  const [results, setResults] = useState<GenerationResult[]>([])
   const [isGenerating, setIsGenerating] = useState(false)
-  const [error,        setError]        = useState<string | null>(null)
-  const [isDemoMode,   setIsDemoMode]   = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const [isDemoMode, setIsDemoMode] = useState(false)
 
   // ── Global view selection (chosen before generating) ─────────────────────
-  const [globalView,   setGlobalView]   = useState<ImageView>('front')
+  const [globalView, setGlobalView] = useState<ImageView>('front')
   const [savedResults, setSavedResults] = useState<Record<string, boolean>>({})
-  const [savingIds,    setSavingIds]    = useState<Record<string, boolean>>({})
-  const [isSavingAll,  setIsSavingAll]  = useState(false)
+  const [savingIds, setSavingIds] = useState<Record<string, boolean>>({})
+  const [isSavingAll, setIsSavingAll] = useState(false)
 
 
   // ── Generate handler ──────────────────────────────────────────────────────
@@ -110,19 +110,19 @@ function GenerateContent() {
 
     setResults(
       selectedColors.map((c) => ({
-        colorId:    c.id,
+        colorId: c.id,
         colorLabel: c.label,
-        hex:        c.hex,
-        imageUrl:   '',
-        status:     'generating',
+        hex: c.hex,
+        imageUrl: '',
+        status: 'generating',
       }))
     )
 
     try {
       const response = await fetch('/api/generate-color', {
-        method:  'POST',
+        method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify({ imageUrl, colors: selectedColors, modelId, variantId }),
+        body: JSON.stringify({ imageUrl, colors: selectedColors, modelId, variantId }),
       })
 
       const data = await response.json()
@@ -151,13 +151,13 @@ function GenerateContent() {
 
     try {
       const response = await fetch('/api/save-to-catalog', {
-        method:  'POST',
+        method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify({
-          imageUrl:  result.imageUrl,
+        body: JSON.stringify({
+          imageUrl: result.imageUrl,
           view,
-          color:     result.colorLabel,
-          colorId:   result.colorId,
+          color: result.colorLabel,
+          colorId: result.colorId,
           modelId,
           variantId,
         }),
@@ -185,16 +185,18 @@ function GenerateContent() {
     )
     if (pending.length === 0) return
     setIsSavingAll(true)
-    await Promise.all(pending.map((r) => handleSaveToGallery(r)))
+    for (const r of pending) {
+      await handleSaveToGallery(r)
+    }
     setIsSavingAll(false)
   }
 
   // Derived state for the single save button
-  const doneResults    = results.filter((r) => r.status === 'done' && r.imageUrl)
+  const doneResults = results.filter((r) => r.status === 'done' && r.imageUrl)
   const unsavedResults = doneResults.filter((r) => !savedResults[r.colorId])
-  const allSaved       = doneResults.length > 0 && unsavedResults.length === 0
+  const allSaved = doneResults.length > 0 && unsavedResults.length === 0
 
-    if (!model || !variant) {
+  if (!model || !variant) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <p className="text-text-muted">Modelo no encontrado.</p>

@@ -11,11 +11,11 @@
 
 import { put, list } from '@vercel/blob'
 import { readFile, writeFile } from 'fs/promises'
-import { join }  from 'path'
+import { join } from 'path'
 import type { Catalog } from '@/types'
 import { USE_BLOB } from './storage'
 
-const CATALOG_LOCAL     = join(process.cwd(), 'data', 'catalog.json')
+const CATALOG_LOCAL = join(process.cwd(), 'data', 'catalog.json')
 const CATALOG_BLOB_PATH = 'catalog/catalog.json'
 
 // ─── Read ─────────────────────────────────────────────────────────────────────
@@ -47,9 +47,10 @@ export async function writeCatalog(catalog: Catalog): Promise<void> {
 
   if (USE_BLOB) {
     await put(CATALOG_BLOB_PATH, content, {
-      access:          'public',
-      contentType:     'application/json',
+      access: 'public',
+      contentType: 'application/json',
       addRandomSuffix: false,
+      allowOverwrite: true,
     })
     return
   }

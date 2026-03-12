@@ -17,11 +17,13 @@ export function VehicleCard({ model, index = 0 }: Props) {
   )
   const hasImages = model.coverImage && !model.coverImage.includes('placeholder')
 
-  // ── Coming Soon card (non-clickable) ──────────────────────────────────────
+  // ── Coming Soon card — still clickable so users can enter and upload photos ─
   if (model.comingSoon) {
     return (
-      <div
-        className="block rounded-2xl overflow-hidden border border-border bg-bg-card opacity-60 animate-fade-in cursor-default"
+      <Link
+        href={`/vehicle/${model.id}`}
+        className="group block rounded-2xl overflow-hidden border border-border border-dashed bg-bg-card
+                   opacity-60 hover:opacity-80 animate-fade-in transition-opacity duration-200"
         style={{ animationDelay: `${index * 60}ms` }}
       >
         <div className="relative aspect-[4/3] overflow-hidden bg-bg-secondary">
@@ -39,9 +41,11 @@ export function VehicleCard({ model, index = 0 }: Props) {
           <div className="flex items-start justify-between gap-2 mb-3">
             <div>
               <p className="text-xs text-text-muted font-medium mb-0.5">{model.brand}</p>
-              <h3 className="font-bold text-text-secondary text-lg leading-tight">{model.name}</h3>
+              <h3 className="font-bold text-text-secondary text-lg leading-tight group-hover:text-text-primary transition-colors">
+                {model.name}
+              </h3>
             </div>
-            <div className="w-8 h-8 rounded-lg bg-bg-hover border border-border flex items-center justify-center shrink-0 mt-0.5">
+            <div className="w-8 h-8 rounded-lg bg-bg-hover border border-dashed border-border flex items-center justify-center shrink-0 mt-0.5">
               <Clock size={14} className="text-text-muted" />
             </div>
           </div>
@@ -54,7 +58,7 @@ export function VehicleCard({ model, index = 0 }: Props) {
             </span>
           </div>
         </div>
-      </div>
+      </Link>
     )
   }
 

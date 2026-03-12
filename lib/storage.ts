@@ -36,8 +36,7 @@ export async function saveFile(
     const blob = await put(blobPath, data, {
       access:           'public',
       contentType,
-      addRandomSuffix:  false,
-      allowOverwrite:   true,
+      addRandomSuffix:  true,   // always unique — prevents blob already exists error
     })
     return blob.url
   }
