@@ -14,6 +14,7 @@ import { readFile, writeFile } from 'fs/promises'
 import { join } from 'path'
 import type { Catalog } from '@/types'
 import { USE_BLOB } from './storage'
+import bundledCatalog from '@/data/catalog.json'
 
 const CATALOG_LOCAL = join(process.cwd(), 'data', 'catalog.json')
 const CATALOG_BLOB_PATH = 'catalog/catalog.json'
@@ -35,9 +36,14 @@ export async function readCatalog(): Promise<Catalog> {
     }
   }
 
-  // Local dev or fallback: read from bundled data/catalog.json
-  const raw = await readFile(CATALOG_LOCAL, 'utf8')
-  return JSON.parse(raw) as Catalog
+  // Local dev: try filesystem first
+  try {
+    const raw = await readFile(CATALOG_LOCAL, 'utf8')
+    return JSON.parse(raw) as Catalog
+  } catch {
+    // Serverless / production fallback: use bundled import (always available)
+    return JSON.parse(JSON.stringify(bundledCatalog)) as Catalog
+  }
 }
 
 // ─── Write ────────────────────────────────────────────────────────────────────
