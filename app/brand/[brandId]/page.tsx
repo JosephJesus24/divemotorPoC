@@ -66,7 +66,7 @@ export default async function BrandPage({ params }: Props) {
 
             <p className="text-lg text-text-secondary leading-relaxed max-w-xl">
               {isMercedes
-                ? 'La línea Mercedes-Benz llegará pronto al Showroom Digital Divemotor.'
+                ? 'Descubre el catálogo Mercedes-Benz, explora variantes y genera nuevas combinaciones de color con inteligencia artificial.'
                 : 'Descubre cada modelo, explora variantes y genera nuevas combinaciones de color con inteligencia artificial.'}
             </p>
 
