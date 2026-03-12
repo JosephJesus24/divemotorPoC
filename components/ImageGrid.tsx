@@ -292,7 +292,7 @@ export function ImageGrid({ images, onDelete, selectMode = false, selectedIds = 
       {/* ── Lightbox ─────────────────────────────────────────────────────────── */}
       {lightbox && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-zinc-950 animate-fade-in"
+          className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-zinc-950 animate-fade-in"
           onClick={() => setLightbox(null)}
         >
           {/* Close */}
@@ -315,7 +315,7 @@ export function ImageGrid({ images, onDelete, selectMode = false, selectedIds = 
           {currentIndex < images.length - 1 && (
             <button
               onClick={(e) => { e.stopPropagation(); goToNext() }}
-              className="absolute right-[calc(50%-28rem)] top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10 border border-white/20 flex items-center justify-center opacity-70 hover:opacity-100 hover:bg-white/20 transition-all z-10 max-[960px]:right-2"
+              className="absolute right-[calc(50%-28rem)] top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10 border border-white/20 flex items-center justify-center opacity-70 hover:opacity-100 hover:bg-white/20 transition-all z-10 max-[960px]:right-14"
             >
               <ChevronRight size={24} className="text-white" />
             </button>
