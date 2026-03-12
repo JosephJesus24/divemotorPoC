@@ -78,12 +78,58 @@ export const PREDEFINED_COLORS: { value: string; hex: string }[] = [
   { value: 'beige',    hex: '#d4b483' },
 ]
 
-// Single lookup map for all known colors (Spanish + generated English names)
+// Single lookup map for all known colors (Spanish + manufacturer color names)
 const _colorHexMap: Record<string, string> = {
   ...Object.fromEntries(PREDEFINED_COLORS.map(c => [c.value, c.hex])),
+
+  // Generic English names
+  'black':                    '#0a0a0a',
+  'white':                    '#f2f2f0',
   'baltic gray metallic':     '#8c9aab',
   'diamond black crystal':    '#1a1a2e',
-  'granite crystal metallic': '#6b6b6b',
+  'granite crystal metallic': '#4a4d50',
+
+  // Jeep Commander colors (Portuguese/Brazilian names)
+  'preto carbon':             '#000000',
+  'cinza granite':            '#5b5b58',
+  'cinza granite bicolor':    '#5b5b58',
+  'azul jazz':                '#11264b',
+  'azul jazz bicolor':        '#11264b',
+  'prata billet':             '#868b8d',
+  'prata billet bicolor':     '#868b8d',
+  'slash gold bicolor':       '#bcafa9',
+  'branco polar':             '#f4f4f4',
+  'branco polar bicolor':     '#f4f4f4',
+
+  // Jeep Renegade / Wrangler / Grand Cherokee colors
+  'sting gray':               '#7d818a',
+  'cinza sting bicolor':      '#7d818a',
+  'sting gray bicolor':       '#7d818a',
+  'bright white':             '#f2f2f0',
+  'firecracker red':          '#d6201e',
+  'hydro blue pearl-coat':    '#1e5faf',
+  'gobi':                     '#6f643f',
+  'earl':                     '#6f7f84',
+  'sarge green':              '#66b70e',
+  'purple reign pearl-coat':  '#5c2e91',
+
+  // Mercedes-Benz colors
+  'spektralblau metallic':    '#4d85b2',
+  'dolomitgrau metallic':     '#8c8f90',
+  'patagoniared metallic':    '#cb6067',
+  'nachtschwarz':             '#585b5a',
+  'mountaingrau':             '#a6a8a8',
+  'blau metallic (888)':      '#51a9bd',
+  'hightechsilber metallic':  '#d3d8dd',
+  'calcitgelb metallic':      '#535456',
+  'mojavesilber metallic':    '#cacacb',
+  'silber metallic (188)':    '#9baeaf',
+  'brillantsilber metallic':  '#e3e4e6',
+  'selenitgrau metallic':     '#737574',
+  'obsidianschwarz metallic': '#555555',
+  'graphitgrau metallic':     '#565656',
+  'selenitgrau 2':            '#404241',
+  'iridiumsilber metallic':   '#a1a5a6',
 }
 
 /** Returns a hex color for display based on color name */
