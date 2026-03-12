@@ -306,9 +306,9 @@
       "id": "jeep_commander",
       "name": "Jeep Commander",
       "brand": "Jeep",
-      "coverImage": "/images/jeep/commander/limited/frontal.jpeg",
-      "description": "El Jeep Commander combina diseño imponente con la tecnología más avanzada.",
       "comingSoon": false,
+      "coverImage": "/images/jeep/commander/limited/frontal.jpeg",
+      "description": "El Jeep Commander combina diseño imponente con tecnología avanzada.",
       "variants": [
         {
           "id": "limited",
@@ -337,6 +337,20 @@
               "url": "/images/jeep/commander/limited/posterior.jpeg"
             }
           ]
+        },
+        {
+          "id": "blackhawk",
+          "name": "Commander Blackhawk",
+          "year": 2026,
+          "colors": [],
+          "images": []
+        },
+        {
+          "id": "overland",
+          "name": "Commander Overland",
+          "year": 2026,
+          "colors": [],
+          "images": []
         }
       ]
     },
@@ -344,9 +358,9 @@
       "id": "jeep_grand_cherokee",
       "name": "Jeep Grand Cherokee",
       "brand": "Jeep",
-      "coverImage": "/images/jeep/grandcherokee/altitude/frontal.jpeg",
-      "description": "El Grand Cherokee redefine el lujo off-road con tecnología de vanguardia.",
       "comingSoon": false,
+      "coverImage": "/images/jeep/grandcherokee/altitude/frontal.jpeg",
+      "description": "El Grand Cherokee redefine el lujo off-road.",
       "variants": [
         {
           "id": "altitude",
@@ -369,6 +383,13 @@
               "url": "/images/jeep/grandcherokee/altitude/posterior.jpeg"
             }
           ]
+        },
+        {
+          "id": "limited",
+          "name": "Grand Cherokee Limited",
+          "year": 2026,
+          "colors": [],
+          "images": []
         }
       ]
     },
@@ -376,9 +397,9 @@
       "id": "jeep_renegade",
       "name": "Jeep Renegade",
       "brand": "Jeep",
-      "coverImage": "/images/jeep/renegade/sport/gray/frontal.jpeg",
-      "description": "El Renegade lleva el espíritu Jeep a la ciudad con carácter y personalidad únicos.",
       "comingSoon": false,
+      "coverImage": "/images/jeep/renegade/sport/gray/frontal.jpeg",
+      "description": "El Renegade lleva el espíritu Jeep a la ciudad.",
       "variants": [
         {
           "id": "sport",
@@ -407,6 +428,13 @@
               "url": "/images/jeep/renegade/sport/gray/posterior.jpeg"
             }
           ]
+        },
+        {
+          "id": "longitude",
+          "name": "Renegade Longitude",
+          "year": 2026,
+          "colors": [],
+          "images": []
         }
       ]
     },
@@ -414,9 +442,9 @@
       "id": "jeep_wrangler",
       "name": "Jeep Wrangler",
       "brand": "Jeep",
-      "coverImage": "/images/jeep/wrangler/rubicon_4door/frontal.jpeg",
-      "description": "El Wrangler es la leyenda del off-road, diseñado para conquistar cualquier terreno.",
       "comingSoon": false,
+      "coverImage": "/images/jeep/wrangler/rubicon_4door/frontal.jpeg",
+      "description": "El Wrangler es la leyenda del off-road.",
       "variants": [
         {
           "id": "rubicon_4door",
@@ -445,6 +473,34 @@
               "url": "/images/jeep/wrangler/rubicon_4door/posterior.jpeg"
             }
           ]
+        },
+        {
+          "id": "rubicon",
+          "name": "Wrangler Rubicon",
+          "year": 2026,
+          "colors": [],
+          "images": []
+        },
+        {
+          "id": "rubicon_2door",
+          "name": "Wrangler Rubicon 2 Door",
+          "year": 2026,
+          "colors": [],
+          "images": []
+        },
+        {
+          "id": "sahara_4door",
+          "name": "Wrangler Sahara 4 Door",
+          "year": 2026,
+          "colors": [],
+          "images": []
+        },
+        {
+          "id": "unlimitedsahara",
+          "name": "Wrangler Unlimited Sahara",
+          "year": 2026,
+          "colors": [],
+          "images": []
         }
       ]
     },
@@ -452,9 +508,9 @@
       "id": "jeep_avenger",
       "name": "Jeep Avenger",
       "brand": "Jeep",
-      "coverImage": "",
-      "description": "El Jeep Avenger es compacto y completamente eléctrico. Diseñado para la ciudad y la aventura.",
       "comingSoon": true,
+      "coverImage": "",
+      "description": "El Jeep Avenger es compacto y completamente eléctrico.",
       "variants": [
         {
           "id": "altitude",
@@ -469,13 +525,34 @@
       "id": "jeep_compass",
       "name": "Jeep Compass",
       "brand": "Jeep",
+      "comingSoon": true,
       "coverImage": "",
       "description": "El Jeep Compass combina versatilidad urbana con capacidad off-road.",
-      "comingSoon": true,
       "variants": [
         {
           "id": "blackhawk",
           "name": "Compass Blackhawk",
+          "year": 2026,
+          "colors": [],
+          "images": []
+        },
+        {
+          "id": "limited",
+          "name": "Compass Limited",
+          "year": 2026,
+          "colors": [],
+          "images": []
+        },
+        {
+          "id": "longitude",
+          "name": "Compass Longitude",
+          "year": 2026,
+          "colors": [],
+          "images": []
+        },
+        {
+          "id": "sport",
+          "name": "Compass Sport",
           "year": 2026,
           "colors": [],
           "images": []
@@ -486,13 +563,27 @@
       "id": "jeep_gladiator",
       "name": "Jeep Gladiator",
       "brand": "Jeep",
-      "coverImage": "",
-      "description": "El Jeep Gladiator es la pickup con mayor capacidad off-road de la línea.",
       "comingSoon": true,
+      "coverImage": "",
+      "description": "El Jeep Gladiator es la pickup con mayor capacidad off-road.",
       "variants": [
         {
           "id": "rubicon",
           "name": "Gladiator Rubicon",
+          "year": 2026,
+          "colors": [],
+          "images": []
+        },
+        {
+          "id": "rubicon_u_12_3",
+          "name": "Gladiator Rubicon 12.3",
+          "year": 2026,
+          "colors": [],
+          "images": []
+        },
+        {
+          "id": "rubicon_u_8_4",
+          "name": "Gladiator Rubicon 8.4",
           "year": 2026,
           "colors": [],
           "images": []
@@ -503,9 +594,9 @@
       "id": "jeep_grand_cherokee_l",
       "name": "Jeep Grand Cherokee L",
       "brand": "Jeep",
-      "coverImage": "",
-      "description": "El Grand Cherokee L ofrece tres filas de asientos con el lujo y desempeño Jeep.",
       "comingSoon": true,
+      "coverImage": "",
+      "description": "El Grand Cherokee L ofrece tres filas con lujo y desempeño Jeep.",
       "variants": [
         {
           "id": "summitreserve",
