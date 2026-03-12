@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import { X, Upload, ImageIcon, Sparkles, AlertCircle } from 'lucide-react'
 import type { VehicleImage } from '@/types'
+import { getUploadColors } from '@/data/variant-colors'
 
 const VIEW_OPTIONS = [
   { value: 'front',    label: 'Frontal' },
@@ -14,11 +15,8 @@ const VIEW_OPTIONS = [
   { value: 'detail',   label: 'Detalle' },
 ]
 
-const UPLOAD_COLORS = [
-  { value: 'granite_crystal', label: 'Granite Crystal Metallic', hex: '#2F3134' },
-  { value: 'sting_gray',      label: 'Sting Gray',               hex: '#55575A' },
-  { value: 'diamond_black',   label: 'Diamond Black Crystal',    hex: '#0B0B0C' },
-]
+// Persists view selection across modal re-opens within the same page session
+let lastSelectedView: string | null = null
 
 interface Props {
   modelId: string
@@ -32,6 +30,9 @@ export function ImageUploadModal({ modelId, variantId, variantYear, onClose, onU
   const router = useRouter()
   const fileRef = useRef<HTMLInputElement>(null)
 
+  // Get official colors for this variant
+  const UPLOAD_COLORS = getUploadColors(modelId, variantId)
+
   const [file, setFile] = useState<File | null>(null)
   const [preview, setPreview] = useState<string | null>(null)
 
@@ -39,8 +40,8 @@ export function ImageUploadModal({ modelId, variantId, variantYear, onClose, onU
   useEffect(() => {
     return () => { if (preview) URL.revokeObjectURL(preview) }
   }, [preview])
-  const [view, setView] = useState<string>('front')
-  const [colorValue, setColorValue] = useState<string>('granite_crystal')
+  const [view, setView] = useState<string>(lastSelectedView ?? 'front')
+  const [colorValue, setColorValue] = useState<string>(UPLOAD_COLORS[0]?.value ?? '')
   const [customColor, setCustomColor] = useState<string>('')
   const [year, setYear] = useState<number>(variantYear)
   const [isDragging, setIsDragging] = useState(false)
@@ -122,6 +123,7 @@ export function ImageUploadModal({ modelId, variantId, variantYear, onClose, onU
       } catch { /* localStorage not available */ }
 
       onUploaded(newImage)
+      lastSelectedView = view
 
       if (generateAfter) {
         const params = new URLSearchParams({

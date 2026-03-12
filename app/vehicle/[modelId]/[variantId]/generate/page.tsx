@@ -15,46 +15,9 @@ import {
   Info,
 } from 'lucide-react'
 import { getModelById, getVariantById } from '@/lib/catalog'
+import { getVariantColors } from '@/data/variant-colors'
 import { ColorSelector } from '@/components/ColorSelector'
 import type { GenerationResult, ColorOption, ImageView } from '@/types'
-
-// ─── Colores oficiales Jeep — especificación exacta de fabricante ─────────────
-// HEX, RGB y descripción de acabado bloqueados → la IA no puede interpretar libremente
-const DEFAULT_COLORS: ColorOption[] = [
-  {
-    id: 'granite_crystal',
-    label: 'Granite Crystal Metallic',
-    hex: '#2F3134',
-    prompt: 'Granite Crystal Metallic',
-    finishDescription:
-      'Deep dark graphite metallic gray with subtle aluminum metallic particles. ' +
-      'Finish must be glossy automotive paint with high reflectivity. ' +
-      'No blue tint, no brown tint. Neutral graphite tone. ' +
-      'Metallic particles must be fine and evenly distributed.',
-  },
-  {
-    id: 'sting_gray',
-    label: 'Sting Gray',
-    hex: '#55575A',
-    prompt: 'Sting Gray',
-    finishDescription:
-      'Medium industrial gray with slightly warm undertone. ' +
-      'Matte-to-satin appearance when unlit, but glossy under direct reflections. ' +
-      'No metallic sparkle exaggeration. ' +
-      'Neutral balanced gray without blue shift.',
-  },
-  {
-    id: 'diamond_black',
-    label: 'Diamond Black Crystal',
-    hex: '#0B0B0C',
-    prompt: 'Diamond Black Crystal',
-    finishDescription:
-      'Ultra-deep glossy black with micro metallic particles. ' +
-      'High-gloss clear coat. ' +
-      'Reflections must be sharp and mirror-like. ' +
-      'No gray wash or faded black tone.',
-  },
-]
 
 // ─── View options for tagging saved images ────────────────────────────────────
 const VIEW_OPTIONS: { value: ImageView; label: string }[] = [
@@ -74,20 +37,23 @@ function GenerateContent() {
   const model = getModelById(modelId)
   const variant = getVariantById(modelId, variantId)
 
+  // Get official colors for this specific variant
+  const variantColors = getVariantColors(modelId, variantId)
+
   // Derive original color info for exclusion
-  const originColorObj = DEFAULT_COLORS.find((col) => col.id === originColorId)
+  const originColorObj = variantColors.find((col) => col.id === originColorId)
   const originColorLabel = originColorObj?.label ?? originColorId
 
-  // Exclude the uploaded image's original color + mark variant colors
-  const availableColors = DEFAULT_COLORS
-    .filter((col) => col.id !== originColorId)
+  // Mark original color (shown but not selectable)
+  const availableColors = variantColors
     .map((col) => ({
       ...col,
-      isVariantColor: variant?.colors.includes(col.label.toLowerCase()),
+      isVariantColor: true,
+      isOriginalColor: col.id === originColorId,
     }))
 
   const [selectedColors, setSelectedColors] = useState<ColorOption[]>(
-    availableColors.slice(0, 3)
+    availableColors.filter(c => !(c as any).isOriginalColor).slice(0, 3)
   )
   const [results, setResults] = useState<GenerationResult[]>([])
   const [isGenerating, setIsGenerating] = useState(false)
@@ -383,21 +349,12 @@ function GenerateContent() {
 
               <div className="rounded-xl border border-border bg-bg-card p-6">
                 <h3 className="font-semibold text-text-primary mb-1">Selecciona colores</h3>
-                <p className="text-xs text-text-muted mb-4">Elige hasta 3 colores para generar.</p>
-                {originColorObj && (
-                  <div className="flex items-start gap-2 mb-4 px-3 py-2 rounded-lg bg-bg-hover border border-border">
-                    <Info size={13} className="text-text-muted mt-0.5 shrink-0" />
-                    <p className="text-[11px] text-text-muted leading-snug">
-                      <span className="text-text-secondary font-medium">{originColorLabel}</span>
-                      {' '}excluido — es el color original.
-                    </p>
-                  </div>
-                )}
+                <p className="text-xs text-text-muted mb-4">Elige hasta 5 colores para generar.</p>
                 <ColorSelector
                   colors={availableColors}
                   selected={selectedColors}
                   onSelectionChange={setSelectedColors}
-                  max={3}
+                  max={5}
                 />
               </div>
 

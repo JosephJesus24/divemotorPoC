@@ -5,6 +5,7 @@ import Image from 'next/image'
 import {
   X, ZoomIn, ZoomOut, Camera, Calendar, Palette,
   Trash2, AlertTriangle, Play, Download, Info, CheckCircle2, Circle,
+  ChevronLeft, ChevronRight,
 } from 'lucide-react'
 import type { VehicleImage } from '@/types'
 
@@ -53,6 +54,16 @@ export function ImageGrid({ images, onDelete, selectMode = false, selectedIds = 
   const [imgInfo,    setImgInfo]    = useState<{ width: number; height: number } | null>(null)
   const wasDragging = useRef(false)
 
+  // ── Lightbox navigation ─────────────────────────────────────────────────────
+  const currentIndex = lightbox ? images.findIndex(img => img.id === lightbox.id) : -1
+
+  const goToPrev = () => {
+    if (currentIndex > 0) setLightbox(images[currentIndex - 1])
+  }
+  const goToNext = () => {
+    if (currentIndex < images.length - 1) setLightbox(images[currentIndex + 1])
+  }
+
   // Reset zoom & pan when image changes
   useEffect(() => {
     setZoom(1)
@@ -61,6 +72,18 @@ export function ImageGrid({ images, onDelete, selectMode = false, selectedIds = 
     setIsDragging(false)
     wasDragging.current = false
   }, [lightbox])
+
+  // Keyboard navigation for lightbox
+  useEffect(() => {
+    if (!lightbox) return
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowLeft') goToPrev()
+      else if (e.key === 'ArrowRight') goToNext()
+      else if (e.key === 'Escape') setLightbox(null)
+    }
+    window.addEventListener('keydown', handler)
+    return () => window.removeEventListener('keydown', handler)
+  })
 
   // ── Grid handlers ───────────────────────────────────────────────────────────
   const handleDeleteClick = (e: React.MouseEvent, id: string) => {
@@ -280,6 +303,24 @@ export function ImageGrid({ images, onDelete, selectMode = false, selectedIds = 
             <X size={18} className="text-white" />
           </button>
 
+          {/* Navigation arrows */}
+          {currentIndex > 0 && (
+            <button
+              onClick={(e) => { e.stopPropagation(); goToPrev() }}
+              className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/10 border border-white/20 flex items-center justify-center opacity-60 hover:opacity-100 hover:bg-white/20 transition-all z-10"
+            >
+              <ChevronLeft size={20} className="text-white" />
+            </button>
+          )}
+          {currentIndex < images.length - 1 && (
+            <button
+              onClick={(e) => { e.stopPropagation(); goToNext() }}
+              className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/10 border border-white/20 flex items-center justify-center opacity-60 hover:opacity-100 hover:bg-white/20 transition-all z-10"
+            >
+              <ChevronRight size={20} className="text-white" />
+            </button>
+          )}
+
           <div
             className="relative max-w-4xl w-full animate-scale-in"
             onClick={(e) => e.stopPropagation()}
@@ -369,6 +410,12 @@ export function ImageGrid({ images, onDelete, selectMode = false, selectedIds = 
                     {imgInfo ? ` · ${imgInfo.width} × ${imgInfo.height} px` : ''}
                   </span>
                 </div>
+                {/* Image counter */}
+                {images.length > 1 && (
+                  <span className="text-xs text-white/40 font-mono tabular-nums">
+                    {currentIndex + 1} / {images.length}
+                  </span>
+                )}
                 {lightbox.isGenerated ? (
                   <span className="badge bg-accent/20 text-accent border border-accent/30 text-xs">
                     {isVideo ? 'Video IA' : 'Generada con IA'}

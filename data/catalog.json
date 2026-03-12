@@ -315,26 +315,58 @@
           "name": "Commander Limited",
           "year": 2026,
           "colors": [
+            "branco polar bicolor",
+            "slash gold bicolor",
+            "prata billet bicolor",
+            "azul jazz bicolor",
+            "cinza granite bicolor",
             "blanco"
           ],
           "images": [
             {
-              "id": "cmd_lim_front",
+              "id": "gen_branco_polar_bicolor_front_6b87ba6e",
               "view": "front",
-              "color": "blanco",
-              "url": "/images/jeep/commander/limited/frontal.jpeg"
+              "color": "Branco Polar Bicolor",
+              "date": "2026-03-12",
+              "url": "/images/jeep_commander/limited/jeep_commander_limited_branco_polar_bicolor_front_aa6465.jpg",
+              "isGenerated": true,
+              "generatedFrom": "/generated/gen_jeep_commander_limited_branco_polar_bicolor_269f90eb.jpg"
             },
             {
-              "id": "cmd_lim_side",
-              "view": "side",
-              "color": "blanco",
-              "url": "/images/jeep/commander/limited/lateral.jpeg"
+              "id": "gen_slash_gold_bicolor_front_baaec511",
+              "view": "front",
+              "color": "Slash Gold Bicolor",
+              "date": "2026-03-12",
+              "url": "/images/jeep_commander/limited/jeep_commander_limited_slash_gold_bicolor_front_c35262.jpg",
+              "isGenerated": true,
+              "generatedFrom": "/generated/gen_jeep_commander_limited_slash_gold_bicolor_e1bdc890.jpg"
             },
             {
-              "id": "cmd_lim_rear",
-              "view": "rear",
-              "color": "blanco",
-              "url": "/images/jeep/commander/limited/posterior.jpeg"
+              "id": "gen_prata_billet_bicolor_front_0b2aab3e",
+              "view": "front",
+              "color": "Prata Billet Bicolor",
+              "date": "2026-03-12",
+              "url": "/images/jeep_commander/limited/jeep_commander_limited_prata_billet_bicolor_front_f79516.jpg",
+              "isGenerated": true,
+              "generatedFrom": "/generated/gen_jeep_commander_limited_prata_billet_bicolor_8da3a71a.jpg"
+            },
+            {
+              "id": "gen_azul_jazz_bicolor_front_35cbc5f4",
+              "view": "front",
+              "color": "Azul Jazz Bicolor",
+              "date": "2026-03-12",
+              "url": "/images/jeep_commander/limited/jeep_commander_limited_azul_jazz_bicolor_front_4950b2.jpg",
+              "isGenerated": true,
+              "generatedFrom": "/generated/gen_jeep_commander_limited_azul_jazz_bicolor_961dc976.jpg"
+            },
+            {
+              "id": "gen_cinza_granite_bicolor_front_7121b046",
+              "view": "front",
+              "color": "Cinza Granite Bicolor",
+              "date": "2026-03-12",
+              "url": "/images/jeep_commander/limited/jeep_commander_limited_cinza_granite_bicolor_front_10cd95.jpg",
+              "isGenerated": true,
+              "generatedFrom": "/generated/gen_jeep_commander_limited_cinza_granite_bicolor_0b8c23a2.jpg"
             }
           ]
         },
@@ -451,14 +483,58 @@
           "name": "Wrangler Rubicon 4 Door",
           "year": 2026,
           "colors": [
+            "sarge green",
+            "purple reign pearl-coat",
+            "hydro blue pearl-coat",
+            "firecracker red",
+            "bright white",
             "negro"
           ],
           "images": [
             {
-              "id": "wr_rub4d_front",
+              "id": "gen_sarge_green_front_b0bb053f",
               "view": "front",
-              "color": "negro",
-              "url": "/images/jeep/wrangler/rubicon_4door/frontal.jpeg"
+              "color": "Sarge Green",
+              "date": "2026-03-12",
+              "url": "/images/jeep_wrangler/rubicon_4door/jeep_wrangler_rubicon_4door_sarge_green_front_55ff7a.jpg",
+              "isGenerated": true,
+              "generatedFrom": "/generated/gen_jeep_wrangler_rubicon_4door_sarge_green_3aa430df.jpg"
+            },
+            {
+              "id": "gen_purple_reign_front_e9c2bc32",
+              "view": "front",
+              "color": "Purple Reign Pearl-Coat",
+              "date": "2026-03-12",
+              "url": "/images/jeep_wrangler/rubicon_4door/jeep_wrangler_rubicon_4door_purple_reign_front_3d731f.jpg",
+              "isGenerated": true,
+              "generatedFrom": "/generated/gen_jeep_wrangler_rubicon_4door_purple_reign_2a6ff8fe.jpg"
+            },
+            {
+              "id": "gen_hydro_blue_front_ea20656d",
+              "view": "front",
+              "color": "Hydro Blue Pearl-Coat",
+              "date": "2026-03-12",
+              "url": "/images/jeep_wrangler/rubicon_4door/jeep_wrangler_rubicon_4door_hydro_blue_front_9a7cad.jpg",
+              "isGenerated": true,
+              "generatedFrom": "/generated/gen_jeep_wrangler_rubicon_4door_hydro_blue_296c050f.jpg"
+            },
+            {
+              "id": "gen_firecracker_red_front_911b34ab",
+              "view": "front",
+              "color": "Firecracker Red",
+              "date": "2026-03-12",
+              "url": "/images/jeep_wrangler/rubicon_4door/jeep_wrangler_rubicon_4door_firecracker_red_front_a1fe05.jpg",
+              "isGenerated": true,
+              "generatedFrom": "/generated/gen_jeep_wrangler_rubicon_4door_firecracker_red_80baf9a9.jpg"
+            },
+            {
+              "id": "gen_bright_white_front_961fb963",
+              "view": "front",
+              "color": "Bright White",
+              "date": "2026-03-12",
+              "url": "/images/jeep_wrangler/rubicon_4door/jeep_wrangler_rubicon_4door_bright_white_front_1b5ab9.jpg",
+              "isGenerated": true,
+              "generatedFrom": "/generated/gen_jeep_wrangler_rubicon_4door_bright_white_91cd4a63.jpg"
             },
             {
               "id": "wr_rub4d_side",

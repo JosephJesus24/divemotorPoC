@@ -5,6 +5,7 @@ import type { ColorOption } from '@/types'
 
 interface ColorOptionWithVariant extends ColorOption {
   isVariantColor?: boolean
+  isOriginalColor?: boolean
 }
 
 interface Props {
@@ -50,17 +51,20 @@ export function ColorSelector({ colors, selected, onSelectionChange, max = 5 }: 
       {/* Color grid */}
       <div className="grid grid-cols-4 gap-2.5">
         {colors.map((color) => {
+          const isOriginal = color.isOriginalColor === true
           const isSelected = selectedIds.has(color.id)
-          const isDisabled = !isSelected && selected.length >= max
+          const isDisabled = isOriginal || (!isSelected && selected.length >= max)
 
           return (
             <button
               key={color.id}
-              onClick={() => toggle(color)}
+              onClick={() => !isOriginal && toggle(color)}
               disabled={isDisabled}
-              title={color.label}
+              title={isOriginal ? `${color.label} (color original)` : color.label}
               className={`group relative flex flex-col items-center gap-2 p-3 rounded-xl border transition-all ${
-                isSelected
+                isOriginal
+                  ? 'border-amber-500/20 bg-amber-500/5 opacity-60 cursor-not-allowed'
+                  : isSelected
                   ? 'border-accent bg-accent/10'
                   : isDisabled
                   ? 'border-border bg-bg-secondary opacity-40 cursor-not-allowed'
@@ -73,10 +77,10 @@ export function ColorSelector({ colors, selected, onSelectionChange, max = 5 }: 
                   className="w-9 h-9 rounded-full border-2 transition-transform group-hover:scale-105"
                   style={{
                     backgroundColor: color.hex,
-                    borderColor: isSelected ? '#e8a020' : 'rgba(255,255,255,0.1)',
+                    borderColor: isOriginal ? 'rgba(245,158,11,0.4)' : isSelected ? '#e8a020' : 'rgba(255,255,255,0.1)',
                   }}
                 />
-                {isSelected && (
+                {isSelected && !isOriginal && (
                   <div className="absolute inset-0 flex items-center justify-center">
                     <Check
                       size={14}
@@ -86,7 +90,12 @@ export function ColorSelector({ colors, selected, onSelectionChange, max = 5 }: 
                     />
                   </div>
                 )}
-                {color.isVariantColor && !isSelected && (
+                {isOriginal && (
+                  <div className="absolute -top-1 -right-1 text-[8px] bg-amber-500/20 text-amber-400 border border-amber-500/30 px-1 rounded-full font-bold leading-tight">
+                    OG
+                  </div>
+                )}
+                {color.isVariantColor && !isSelected && !isOriginal && (
                   <div className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-accent border border-bg-primary" />
                 )}
               </div>
@@ -94,10 +103,13 @@ export function ColorSelector({ colors, selected, onSelectionChange, max = 5 }: 
               {/* Label */}
               <span
                 className={`text-xs font-medium leading-none text-center transition-colors ${
-                  isSelected ? 'text-accent' : 'text-text-muted group-hover:text-text-primary'
+                  isOriginal
+                    ? 'text-amber-400/70'
+                    : isSelected ? 'text-accent' : 'text-text-muted group-hover:text-text-primary'
                 }`}
               >
                 {color.label}
+                {isOriginal && <span className="block text-[10px] mt-0.5">(Original)</span>}
               </span>
             </button>
           )
