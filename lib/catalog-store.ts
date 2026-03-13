@@ -31,43 +31,47 @@ const CATALOG_BLOB_PATH = 'catalog/catalog.json'
  * catalog and whether any changes were made.
  */
 function mergeCatalogs(bundled: Catalog, blob: Catalog): { merged: Catalog; changed: boolean } {
-  const merged = JSON.parse(JSON.stringify(bundled)) as Catalog
+  // Use Blob as the source of truth for images (so deletions are permanent).
+  // Use bundled as the source of truth for structure (new models/variants added in code
+  // are automatically seeded, but images already present in Blob are not overwritten).
+  const merged = JSON.parse(JSON.stringify(blob)) as Catalog
   let changed = false
 
-  for (const blobModel of blob.models) {
-    const mergedModel = merged.models.find(m => m.id === blobModel.id)
-    if (!mergedModel) continue
+  for (const bundledModel of bundled.models) {
+    let mergedModel = merged.models.find(m => m.id === bundledModel.id)
+    if (!mergedModel) {
+      // New model added in code — seed it into Blob
+      merged.models.push(JSON.parse(JSON.stringify(bundledModel)))
+      changed = true
+      continue
+    }
 
-    for (const blobVariant of blobModel.variants) {
-      const mergedVariant = mergedModel.variants.find(v => v.id === blobVariant.id)
-      if (!mergedVariant) continue
-
-      // Preserve generated images from Blob
-      const bundledUrls = new Set(mergedVariant.images.map(img => img.url))
-      const generatedImages = blobVariant.images.filter(
-        img => img.isGenerated && !bundledUrls.has(img.url)
-      )
-
-      if (generatedImages.length > 0) {
-        mergedVariant.images = [...generatedImages, ...mergedVariant.images]
+    for (const bundledVariant of bundledModel.variants) {
+      let mergedVariant = mergedModel.variants.find(v => v.id === bundledVariant.id)
+      if (!mergedVariant) {
+        // New variant added in code — seed it into Blob
+        mergedModel.variants.push(JSON.parse(JSON.stringify(bundledVariant)))
         changed = true
+        continue
       }
 
-      // Merge colors
+      // Merge colors: add any new colors from bundled that aren't in Blob yet
       const originalSize = mergedVariant.colors.length
       const colorSet = new Set(mergedVariant.colors)
-      for (const c of blobVariant.colors) colorSet.add(c)
+      for (const c of bundledVariant.colors) colorSet.add(c)
       mergedVariant.colors = Array.from(colorSet)
       if (mergedVariant.colors.length !== originalSize) changed = true
-    }
-  }
 
-  // Check if bundled has new models/variants not in blob
-  for (const bundledModel of bundled.models) {
-    const blobModel = blob.models.find(m => m.id === bundledModel.id)
-    if (!blobModel) { changed = true; continue }
-    for (const bundledVariant of bundledModel.variants) {
-      if (!blobModel.variants.find(v => v.id === bundledVariant.id)) {
+      // Images: Blob is source of truth — do NOT restore bundled images.
+      // Only add bundled images that have never appeared in Blob at all
+      // (i.e., brand-new images added in a code deploy).
+      const blobUrls = new Set(mergedVariant.images.map(img => img.url))
+      const blobIds  = new Set(mergedVariant.images.map(img => img.id))
+      const newBundledImages = bundledVariant.images.filter(
+        img => !blobUrls.has(img.url) && !blobIds.has(img.id)
+      )
+      if (newBundledImages.length > 0) {
+        mergedVariant.images = [...mergedVariant.images, ...newBundledImages]
         changed = true
       }
     }
