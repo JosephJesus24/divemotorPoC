@@ -52,8 +52,10 @@ export async function POST(request: NextRequest) {
     // ── Read source file ──────────────────────────────────────────────────────
     const buffer = await readFileBuffer(imageUrl)
 
-    // ── Determine extension ─────────────────────────────────────────────────
-    const ext = imageUrl.split('.').pop()?.toLowerCase() ?? 'jpg'
+    // ── Determine extension (handles Blob URLs with query strings) ──────────
+    const cleanUrl = imageUrl.split('?')[0].split('#')[0]
+    const rawExt = cleanUrl.split('.').pop()?.toLowerCase() ?? 'jpg'
+    const ext = ['jpg', 'jpeg', 'png', 'webp', 'gif', 'svg'].includes(rawExt) ? rawExt : 'jpg'
 
     // ── Copy file with clean name to images/ ────────────────────────────────
     const filename = buildFilename(modelId, variantId, colorId, view, ext)

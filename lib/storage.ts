@@ -81,12 +81,31 @@ export async function saveFile(
 /**
  * Reads a file as Buffer. Handles both relative paths (/images/...) and
  * full https:// URLs (Vercel Blob URLs).
+ * Retries HTTPS fetches up to 3 times with backoff for Blob replication delays.
  */
 export async function readFileBuffer(url: string): Promise<Buffer> {
   if (url.startsWith('http://') || url.startsWith('https://')) {
-    const res = await fetch(url)
-    if (!res.ok) throw new Error(`Failed to fetch ${url}: HTTP ${res.status}`)
-    return Buffer.from(await res.arrayBuffer())
+    const maxRetries = 3
+    for (let attempt = 0; attempt < maxRetries; attempt++) {
+      try {
+        const res = await fetch(url, { cache: 'no-store' })
+        if (res.ok) return Buffer.from(await res.arrayBuffer())
+        if (attempt < maxRetries - 1) {
+          console.warn(`[storage] Blob fetch ${res.status}, retry ${attempt + 1}/${maxRetries}: ${url}`)
+          await new Promise(r => setTimeout(r, 500 * (attempt + 1)))
+          continue
+        }
+        throw new Error(`Failed to fetch ${url}: HTTP ${res.status}`)
+      } catch (err) {
+        if (attempt < maxRetries - 1) {
+          console.warn(`[storage] Blob fetch error, retry ${attempt + 1}/${maxRetries}:`, err)
+          await new Promise(r => setTimeout(r, 500 * (attempt + 1)))
+          continue
+        }
+        throw err
+      }
+    }
+    throw new Error(`Failed to fetch ${url} after ${maxRetries} retries`)
   }
   // Relative path — read from /public/
   const cleaned = url.replace(/^\//, '')
