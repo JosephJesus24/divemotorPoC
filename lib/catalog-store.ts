@@ -31,16 +31,16 @@ const CATALOG_BLOB_PATH = 'catalog/catalog.json'
  * catalog and whether any changes were made.
  */
 function mergeCatalogs(bundled: Catalog, blob: Catalog): { merged: Catalog; changed: boolean } {
-  // Use Blob as the source of truth for images (so deletions are permanent).
-  // Use bundled as the source of truth for structure (new models/variants added in code
-  // are automatically seeded, but images already present in Blob are not overwritten).
+  // Blob is the sole source of truth for images.
+  // The bundled catalog is only used to seed new models/variants that don't
+  // exist in Blob yet, and to add new color options. Deleted images stay deleted.
   const merged = JSON.parse(JSON.stringify(blob)) as Catalog
   let changed = false
 
   for (const bundledModel of bundled.models) {
     let mergedModel = merged.models.find(m => m.id === bundledModel.id)
     if (!mergedModel) {
-      // New model added in code — seed it into Blob
+      // Entire model is new in code — seed it from bundled
       merged.models.push(JSON.parse(JSON.stringify(bundledModel)))
       changed = true
       continue
@@ -49,31 +49,21 @@ function mergeCatalogs(bundled: Catalog, blob: Catalog): { merged: Catalog; chan
     for (const bundledVariant of bundledModel.variants) {
       let mergedVariant = mergedModel.variants.find(v => v.id === bundledVariant.id)
       if (!mergedVariant) {
-        // New variant added in code — seed it into Blob
+        // New variant added in code — seed it from bundled (with its images)
         mergedModel.variants.push(JSON.parse(JSON.stringify(bundledVariant)))
         changed = true
         continue
       }
 
-      // Merge colors: add any new colors from bundled that aren't in Blob yet
+      // Variant already exists in Blob — DO NOT restore any images from bundled.
+      // Blob images are authoritative: deletions are permanent.
+
+      // Merge colors only: add new color values from bundled not yet in Blob
       const originalSize = mergedVariant.colors.length
       const colorSet = new Set(mergedVariant.colors)
       for (const c of bundledVariant.colors) colorSet.add(c)
       mergedVariant.colors = Array.from(colorSet)
       if (mergedVariant.colors.length !== originalSize) changed = true
-
-      // Images: Blob is source of truth — do NOT restore bundled images.
-      // Only add bundled images that have never appeared in Blob at all
-      // (i.e., brand-new images added in a code deploy).
-      const blobUrls = new Set(mergedVariant.images.map(img => img.url))
-      const blobIds  = new Set(mergedVariant.images.map(img => img.id))
-      const newBundledImages = bundledVariant.images.filter(
-        img => !blobUrls.has(img.url) && !blobIds.has(img.id)
-      )
-      if (newBundledImages.length > 0) {
-        mergedVariant.images = [...mergedVariant.images, ...newBundledImages]
-        changed = true
-      }
     }
   }
 
