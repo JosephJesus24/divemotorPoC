@@ -28,11 +28,18 @@ export async function GET(request: NextRequest) {
     const model   = catalog.models.find((m) => m.id === modelId)
     const variant = model?.variants.find((v) => v.id === variantId)
 
-    return NextResponse.json({
-      success: true,
-      images: variant?.images ?? [],
-      colors: variant?.colors ?? [],
-    })
+    return NextResponse.json(
+      {
+        success: true,
+        images: variant?.images ?? [],
+        colors: variant?.colors ?? [],
+      },
+      {
+        headers: {
+          'Cache-Control': 'no-store, no-cache, must-revalidate',
+        },
+      },
+    )
   } catch (err) {
     console.error('[catalog-images] Error:', err)
     return NextResponse.json(

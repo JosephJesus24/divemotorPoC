@@ -151,6 +151,28 @@ export function ImageGrid({ images, onDelete, selectMode = false, selectedIds = 
     if (isZoomed) { resetZoom() } else { setZoom(2.5) }
   }
 
+  // ── Lightbox navigation ────────────────────────────────────────────────────
+  const currentIndex = lightbox ? images.findIndex((img) => img.id === lightbox.id) : -1
+
+  const goToPrev = () => {
+    if (currentIndex > 0) setLightbox(images[currentIndex - 1])
+  }
+  const goToNext = () => {
+    if (currentIndex < images.length - 1) setLightbox(images[currentIndex + 1])
+  }
+
+  // Keyboard navigation (arrows + Escape)
+  useEffect(() => {
+    if (!lightbox) return
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowLeft')  { e.preventDefault(); goToPrev() }
+      if (e.key === 'ArrowRight') { e.preventDefault(); goToNext() }
+      if (e.key === 'Escape')     { e.preventDefault(); setLightbox(null) }
+    }
+    window.addEventListener('keydown', handleKey)
+    return () => window.removeEventListener('keydown', handleKey)
+  })
+
   // ─────────────────────────────────────────────────────────────────────────────
 
   return (
@@ -303,11 +325,12 @@ export function ImageGrid({ images, onDelete, selectMode = false, selectedIds = 
             <X size={18} className="text-white" />
           </button>
 
-          {/* Navigation arrows — positioned in the dark margins outside the image */}
+          {/* Navigation arrows */}
           {currentIndex > 0 && (
             <button
               onClick={(e) => { e.stopPropagation(); goToPrev() }}
               className="absolute left-[calc(50%-28rem)] top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10 border border-white/20 flex items-center justify-center opacity-70 hover:opacity-100 hover:bg-white/20 transition-all z-10 max-[960px]:left-2"
+              title="Anterior (←)"
             >
               <ChevronLeft size={24} className="text-white" />
             </button>
@@ -316,6 +339,7 @@ export function ImageGrid({ images, onDelete, selectMode = false, selectedIds = 
             <button
               onClick={(e) => { e.stopPropagation(); goToNext() }}
               className="absolute right-[calc(50%-28rem)] top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10 border border-white/20 flex items-center justify-center opacity-70 hover:opacity-100 hover:bg-white/20 transition-all z-10 max-[960px]:right-14"
+              title="Siguiente (→)"
             >
               <ChevronRight size={24} className="text-white" />
             </button>
@@ -381,6 +405,13 @@ export function ImageGrid({ images, onDelete, selectMode = false, selectedIds = 
               {!isVideo && !isZoomed && (
                 <div className="absolute bottom-3 right-3 bg-black/50 text-white/50 text-[10px] px-2 py-1 rounded pointer-events-none">
                   Click o scroll → zoom
+                </div>
+              )}
+
+              {/* Image counter */}
+              {images.length > 1 && (
+                <div className="absolute top-3 left-1/2 -translate-x-1/2 bg-black/60 backdrop-blur-sm text-white/80 text-xs font-medium px-3 py-1 rounded-full pointer-events-none">
+                  {currentIndex + 1} / {images.length}
                 </div>
               )}
             </div>
