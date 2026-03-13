@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { ChevronRight } from 'lucide-react'
-import { getModelById } from '@/lib/catalog'
+import { readCatalog } from '@/lib/catalog-store'
 import { VariantCard } from '@/components/VariantCard'
 
 interface Props {
@@ -10,7 +10,8 @@ interface Props {
 
 export async function generateMetadata({ params }: Props) {
   const { modelId } = await params
-  const model = getModelById(modelId)
+  const { catalog } = await readCatalog()
+  const model = catalog.models.find((m) => m.id === modelId)
   if (!model) return { title: 'Modelo no encontrado' }
   return {
     title: `${model.name} — Vehicle Showroom AI`,
@@ -20,7 +21,8 @@ export async function generateMetadata({ params }: Props) {
 
 export default async function VariantsPage({ params }: Props) {
   const { modelId } = await params
-  const model = getModelById(modelId)
+  const { catalog } = await readCatalog()
+  const model = catalog.models.find((m) => m.id === modelId)
   if (!model) notFound()
 
   return (

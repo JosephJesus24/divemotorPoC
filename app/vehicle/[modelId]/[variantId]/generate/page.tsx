@@ -136,16 +136,8 @@ function GenerateContent() {
       }
 
       setSavedResults((prev) => ({ ...prev, [result.colorId]: true }))
-
-      // Also persist in localStorage so gallery shows image immediately on return
-      try {
-        const storageKey = `generated_gallery_${modelId}_${variantId}`
-        const saved = JSON.parse(localStorage.getItem(storageKey) ?? '[]')
-        const newImage = data.image
-        if (newImage && !saved.find((img: { id: string }) => img.id === newImage.id)) {
-          localStorage.setItem(storageKey, JSON.stringify([newImage, ...saved]))
-        }
-      } catch { /* localStorage not available */ }
+      // Image is now persisted to catalog by the save-to-catalog API.
+      // Gallery fetches from API on mount, so no localStorage needed.
     } catch (err) {
       console.error('[handleSaveToGallery]', err)
       alert(`Error al guardar: ${err instanceof Error ? err.message : 'Error desconocido'}`)

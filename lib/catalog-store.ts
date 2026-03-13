@@ -1,16 +1,20 @@
 /**
  * lib/catalog-store.ts
  *
- * Catalog persistence abstraction with optimistic concurrency control:
- *   - Production (BLOB_READ_WRITE_TOKEN set): stored in Vercel Blob as JSON
- *   - Development: local data/catalog.json
+ * Catalog persistence with optimistic concurrency control.
  *
- * On first production request, if no catalog blob exists yet,
- * falls back to the bundled data/catalog.json (committed to git).
+ * Production (BLOB_READ_WRITE_TOKEN set): Vercel Blob JSON
+ * Development: local data/catalog.json
  *
- * Auto-merge: when a Blob catalog exists but is missing models/variants
- * from the latest build, it merges them in automatically while preserving
- * user-generated images.
+ * IMPORTANT — Data ownership:
+ *   - Bundled catalog (data/catalog.json): source of truth for STRUCTURE
+ *     (model names, variant names, descriptions, colors, metadata).
+ *     It contains NO images — images arrays are always empty.
+ *   - Blob catalog: source of truth for USER DATA (images).
+ *     All uploads, deletions, and AI-generated images live here.
+ *
+ * Auto-merge adds new models/variants from bundled and syncs metadata,
+ * but NEVER touches images in the Blob.
  */
 
 import { put, list } from '@vercel/blob'
@@ -52,15 +56,12 @@ async function readCatalogVersion(): Promise<string | null> {
 // ─── Merge helper ────────────────────────────────────────────────────────────
 
 /**
- * Merges the bundled catalog (source of truth for structure) with a Blob
- * catalog (source of truth for user-managed images). Returns the merged
- * catalog and whether any changes were made.
+ * Merges bundled catalog (structure) with Blob catalog (user data).
  *
- * Strategy:
- * - New models/variants from bundled are added to Blob.
- * - Structural metadata (name, description, year, coverImage, comingSoon) synced from bundled.
- * - Images are NEVER restored from bundled — Blob is the sole authority for images.
- * - Colors are merged (union of bundled and Blob colors).
+ * - Adds NEW models/variants from bundled to Blob.
+ * - Syncs metadata fields (name, description, year, coverImage, comingSoon).
+ * - Merges colors (union).
+ * - NEVER touches images — Blob is the sole authority for images.
  */
 function mergeCatalogs(bundled: Catalog, blob: Catalog): { merged: Catalog; changed: boolean } {
   const merged = JSON.parse(JSON.stringify(blob)) as Catalog
@@ -70,12 +71,13 @@ function mergeCatalogs(bundled: Catalog, blob: Catalog): { merged: Catalog; chan
     const mergedModel = merged.models.find(m => m.id === bundledModel.id)
 
     if (!mergedModel) {
+      // New model — add it (images will be empty since bundled has no images)
       merged.models.push(JSON.parse(JSON.stringify(bundledModel)))
       changed = true
       continue
     }
 
-    // Sync structural model-level fields from bundled (source of truth for metadata)
+    // Sync structural model-level fields
     if (mergedModel.coverImage !== bundledModel.coverImage) {
       mergedModel.coverImage = bundledModel.coverImage
       changed = true
@@ -97,12 +99,13 @@ function mergeCatalogs(bundled: Catalog, blob: Catalog): { merged: Catalog; chan
       const mergedVariant = mergedModel.variants.find(v => v.id === bundledVariant.id)
 
       if (!mergedVariant) {
+        // New variant — add it (images will be empty)
         mergedModel.variants.push(JSON.parse(JSON.stringify(bundledVariant)))
         changed = true
         continue
       }
 
-      // Sync structural variant-level fields from bundled
+      // Sync variant metadata
       if (mergedVariant.name !== bundledVariant.name) {
         mergedVariant.name = bundledVariant.name
         changed = true
@@ -116,16 +119,7 @@ function mergeCatalogs(bundled: Catalog, blob: Catalog): { merged: Catalog; chan
         changed = true
       }
 
-      // If bundled model is comingSoon, clear any stale images in Blob
-      if (bundledModel.comingSoon && mergedVariant.images.length > 0 && bundledVariant.images.length === 0) {
-        mergedVariant.images = []
-        changed = true
-      }
-      // NOTE: We intentionally do NOT restore bundled images when Blob has 0.
-      // The Blob catalog is the source of truth for user-managed images.
-      // If a user deleted all images, that decision must be respected.
-      // Bundled images are only used during initial seeding (readCatalog fallback).
-
+      // Merge colors (union) — images are NEVER touched
       const originalSize = mergedVariant.colors.length
       const colorSet = new Set(mergedVariant.colors)
       for (const c of bundledVariant.colors) colorSet.add(c)
@@ -146,10 +140,15 @@ export interface VersionedCatalog {
 
 export async function readCatalog(): Promise<VersionedCatalog> {
   if (USE_BLOB) {
+    // ── Try to read from Blob ─────────────────────────────────────────────
+    let blobReadFailed = false
+
     try {
       const { blobs } = await list({ prefix: 'catalog/' })
       const found = blobs.find((b) => b.pathname === CATALOG_BLOB_PATH)
+
       if (found) {
+        // Blob catalog exists — read it
         const [res, version] = await Promise.all([
           fetch(found.url, { cache: 'no-store' }),
           readCatalogVersion(),
@@ -157,33 +156,42 @@ export async function readCatalog(): Promise<VersionedCatalog> {
         if (res.ok) {
           const blobCatalog = (await res.json()) as Catalog
           const bundled = bundledCatalog as Catalog
-          // Auto-merge if bundled has newer structure or needs recovery
+
+          // Auto-merge new structure from bundled
           const { merged, changed } = mergeCatalogs(bundled, blobCatalog)
           if (changed) {
-            console.log('[catalog-store] Auto-merging bundled catalog updates into Blob')
+            console.log('[catalog-store] Auto-merging bundled structure into Blob')
             const newVersion = await writeCatalog(merged)
-            // Return the NEW version so withCatalogUpdate doesn't get a stale version
             return { catalog: merged, version: newVersion }
           }
           return { catalog: blobCatalog, version }
         }
+      } else {
+        // list() succeeded but no catalog found — this is a genuine first-time.
+        // Seed from bundled (which has empty images — safe).
+        console.log('[catalog-store] No Blob catalog found, seeding from bundled')
+        const bundled = bundledCatalog as Catalog
+        const seedCatalog = JSON.parse(JSON.stringify(bundled)) as Catalog
+        const newVersion = await writeCatalog(seedCatalog)
+        return { catalog: seedCatalog, version: newVersion }
       }
     } catch (e) {
-      console.warn('[catalog-store] Blob read failed, falling back to bundled:', e)
+      // Blob read FAILED (network error, rate limit, etc.)
+      // DO NOT re-seed — that would overwrite user data!
+      console.warn('[catalog-store] Blob read failed, returning bundled as read-only fallback:', e)
+      blobReadFailed = true
     }
 
-    // No blob catalog yet — seed it from bundled
-    try {
-      const bundled = bundledCatalog as Catalog
-      await writeCatalog(bundled)
-      console.log('[catalog-store] Seeded Blob catalog from bundled')
-      return { catalog: JSON.parse(JSON.stringify(bundled)) as Catalog, version: null }
-    } catch (e) {
-      console.warn('[catalog-store] Failed to seed Blob catalog:', e)
+    // If blob read failed, return bundled as read-only (no version = writes will skip concurrency check)
+    if (blobReadFailed) {
+      return {
+        catalog: JSON.parse(JSON.stringify(bundledCatalog)) as Catalog,
+        version: null,
+      }
     }
   }
 
-  // Local dev: try filesystem first
+  // ── Local dev: filesystem ─────────────────────────────────────────────────
   try {
     const raw = await readFile(CATALOG_LOCAL, 'utf8')
     return { catalog: JSON.parse(raw) as Catalog, version: null }
@@ -210,7 +218,6 @@ export async function writeCatalog(
       }
     }
 
-    // Write catalog + version in parallel
     await Promise.all([
       put(CATALOG_BLOB_PATH, content, {
         access: 'public',
@@ -228,7 +235,7 @@ export async function writeCatalog(
     return newVersion
   }
 
-  // Local dev — no version check needed
+  // Local dev
   await writeFile(CATALOG_LOCAL, content, 'utf8')
   return newVersion
 }

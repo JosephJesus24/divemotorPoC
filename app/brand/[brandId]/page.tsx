@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import { getBrandById, getModelsByBrand } from '@/lib/catalog'
+import { getBrandById } from '@/lib/catalog'
+import { readCatalog } from '@/lib/catalog-store'
 import { VehicleCard } from '@/components/VehicleCard'
 import { BrandNavBar } from '@/components/BrandNavBar'
 import { SiteFooter } from '@/components/SiteFooter'
@@ -15,7 +16,11 @@ export default async function BrandPage({ params }: Props) {
   const brand = getBrandById(brandId)
   if (!brand) return notFound()
 
-  const models = getModelsByBrand(brand.name)
+  // Read from runtime catalog (Vercel Blob in prod) so image counts are accurate
+  const { catalog } = await readCatalog()
+  const models = catalog.models.filter(
+    (m) => m.brand.toLowerCase() === brand.name.toLowerCase()
+  )
   const totalVariants = models.reduce((acc, m) => acc + m.variants.length, 0)
 
   const isMercedes = brandId === 'mercedes-benz'

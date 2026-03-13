@@ -59,22 +59,7 @@
             "blanco"
           ],
           "description": "Coupé con Kit AMG exterior y acabados sport.",
-          "images": [
-            {
-              "id": "cla_200_amg_front",
-              "view": "front",
-              "color": "blanco",
-              "date": "2026-03-10",
-              "url": "/images/mercedes-benz/cla/200_coupe_kit_amg/frontal.jpeg"
-            },
-            {
-              "id": "cla_200_amg_rear",
-              "view": "rear",
-              "color": "blanco",
-              "date": "2026-03-10",
-              "url": "/images/mercedes-benz/cla/200_coupe_kit_amg/posterior.jpeg"
-            }
-          ]
+          "images": []
         },
         {
           "id": "cla_200_coupe_progressive",
@@ -330,29 +315,7 @@
             "negro"
           ],
           "description": "Equilibrio perfecto entre sofisticación y versatilidad para toda la familia.",
-          "images": [
-            {
-              "id": "cmd_lim_front",
-              "view": "front",
-              "color": "negro",
-              "date": "2026-03-01",
-              "url": "/images/jeep/commander/limited/frontal.jpeg"
-            },
-            {
-              "id": "cmd_lim_side",
-              "view": "side",
-              "color": "negro",
-              "date": "2026-03-01",
-              "url": "/images/jeep/commander/limited/lateral.jpeg"
-            },
-            {
-              "id": "cmd_lim_rear",
-              "view": "rear",
-              "color": "negro",
-              "date": "2026-03-01",
-              "url": "/images/jeep/commander/limited/posterior.jpeg"
-            }
-          ]
+          "images": []
         },
         {
           "id": "overland",
@@ -387,22 +350,7 @@
           "colors": [
             "negro"
           ],
-          "images": [
-            {
-              "id": "gc_alt_front",
-              "view": "front",
-              "color": "negro",
-              "date": "2026-03-01",
-              "url": "/images/jeep/grandcherokee/altitude/frontal.jpeg"
-            },
-            {
-              "id": "gc_alt_rear",
-              "view": "rear",
-              "color": "negro",
-              "date": "2026-03-01",
-              "url": "/images/jeep/grandcherokee/altitude/posterior.jpeg"
-            }
-          ]
+          "images": []
         },
         {
           "id": "limited",
@@ -430,34 +378,7 @@
             "Granite Crystal Metallic",
             "Sting Gray"
           ],
-          "images": [
-            {
-              "id": "gen_diamond_black_front_4f62cec8",
-              "view": "front",
-              "color": "Diamond Black Crystal",
-              "date": "2026-03-13",
-              "url": "/images/jeep_renegade/sport/jeep_renegade_sport_diamond_black_front_516c24.jpg",
-              "isGenerated": true,
-              "generatedFrom": "/generated/gen_jeep_renegade_sport_diamond_black_4c86c3fc.jpg"
-            },
-            {
-              "id": "gen_granite_crystal_front_abc6112e",
-              "view": "front",
-              "color": "Granite Crystal Metallic",
-              "date": "2026-03-13",
-              "url": "/images/jeep_renegade/sport/jeep_renegade_sport_granite_crystal_front_f3e785.jpg",
-              "isGenerated": true,
-              "generatedFrom": "/generated/gen_jeep_renegade_sport_granite_crystal_d8c757f4.jpg"
-            },
-            {
-              "id": "jeep_renegade_sport_front_1116ab23",
-              "view": "front",
-              "color": "Sting Gray",
-              "year": 2026,
-              "date": "2026-03-13",
-              "url": "/uploads/jeep_renegade_sport_front_1116ab23.jpeg"
-            }
-          ]
+          "images": []
         },
         {
           "id": "longitude",
@@ -483,29 +404,7 @@
           "colors": [
             "negro"
           ],
-          "images": [
-            {
-              "id": "wr_rub4d_front",
-              "view": "front",
-              "color": "negro",
-              "date": "2026-03-01",
-              "url": "/images/jeep/wrangler/rubicon_4door/frontal.jpeg"
-            },
-            {
-              "id": "wr_rub4d_side",
-              "view": "side",
-              "color": "negro",
-              "date": "2026-03-01",
-              "url": "/images/jeep/wrangler/rubicon_4door/lateral.jpeg"
-            },
-            {
-              "id": "wr_rub4d_rear",
-              "view": "rear",
-              "color": "negro",
-              "date": "2026-03-01",
-              "url": "/images/jeep/wrangler/rubicon_4door/posterior.jpeg"
-            }
-          ]
+          "images": []
         },
         {
           "id": "rubicon",
