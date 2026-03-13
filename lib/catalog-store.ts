@@ -117,7 +117,13 @@ function mergeCatalogs(bundled: Catalog, blob: Catalog): { merged: Catalog; chan
         changed = true
       }
 
-      if (mergedVariant.images.length === 0 && bundledVariant.images.length > 0) {
+      // If bundled model is comingSoon, clear any stale images in Blob
+      if (bundledModel.comingSoon && mergedVariant.images.length > 0 && bundledVariant.images.length === 0) {
+        mergedVariant.images = []
+        changed = true
+      }
+      // If Blob variant has no images but bundled does, restore them
+      else if (mergedVariant.images.length === 0 && bundledVariant.images.length > 0) {
         mergedVariant.images = JSON.parse(JSON.stringify(bundledVariant.images))
         changed = true
       }
