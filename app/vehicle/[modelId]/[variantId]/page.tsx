@@ -2,7 +2,7 @@
 
 import { notFound, useParams } from 'next/navigation'
 import Link from 'next/link'
-import { ChevronRight, Plus, Video, CheckSquare, Download, X as XIcon } from 'lucide-react'
+import { ChevronRight, Plus, CheckSquare, Download, X as XIcon } from 'lucide-react'
 import { getModelById, getVariantById } from '@/lib/catalog'
 import { ImageGrid } from '@/components/ImageGrid'
 import { FilterBar } from '@/components/FilterBar'
