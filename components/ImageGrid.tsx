@@ -195,7 +195,7 @@ export function ImageGrid({ images, onDelete, selectMode = false, selectedIds = 
                     fill
                     className="object-cover transition-transform duration-300 group-hover:scale-105"
                     sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
-                    unoptimized={image.url.startsWith('/uploads/') || image.url.startsWith('/generated/')}
+                    unoptimized={image.url.startsWith('http') || image.url.startsWith('/uploads/') || image.url.startsWith('/generated/')}
                   />
                 )}
               </button>
@@ -363,7 +363,7 @@ export function ImageGrid({ images, onDelete, selectMode = false, selectedIds = 
                     alt={lightbox.color}
                     fill
                     className="object-contain pointer-events-none"
-                    unoptimized={lightbox.url.startsWith('/uploads/') || lightbox.url.startsWith('/generated/')}
+                    unoptimized={lightbox.url.startsWith('http') || lightbox.url.startsWith('/uploads/') || lightbox.url.startsWith('/generated/')}
                     onLoad={(e) => {
                       const img = e.currentTarget as HTMLImageElement
                       if (img.naturalWidth) setImgInfo({ width: img.naturalWidth, height: img.naturalHeight })
