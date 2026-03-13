@@ -63,6 +63,7 @@ export function ImageUploadModal({ modelId, variantId, variantYear, onClose, onU
     }
     setError(null)
     setFile(f)
+    if (preview) URL.revokeObjectURL(preview)
     setPreview(URL.createObjectURL(f))
   }
 

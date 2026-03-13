@@ -4,7 +4,8 @@
       "id": "mb_amg",
       "name": "Mercedes-AMG",
       "brand": "Mercedes-Benz",
-      "coverImage": null,
+      "coverImage": "",
+      "comingSoon": true,
       "description": "La línea Mercedes-AMG combina el máximo rendimiento con lujo y tecnología de punta.",
       "variants": [
         {
@@ -29,7 +30,8 @@
       "id": "mb_clase_c",
       "name": "Clase C",
       "brand": "Mercedes-Benz",
-      "coverImage": null,
+      "coverImage": "",
+      "comingSoon": true,
       "description": "El Clase C redefine el sedán premium con tecnología MBUX y confort excepcional.",
       "variants": [
         {
@@ -88,7 +90,8 @@
       "id": "mb_cle",
       "name": "CLE",
       "brand": "Mercedes-Benz",
-      "coverImage": null,
+      "coverImage": "",
+      "comingSoon": true,
       "description": "El CLE Coupé une el diseño de dos puertas con la dinámica AMG.",
       "variants": [
         {
@@ -105,7 +108,8 @@
       "id": "mb_clase_e",
       "name": "Clase E",
       "brand": "Mercedes-Benz",
-      "coverImage": null,
+      "coverImage": "",
+      "comingSoon": true,
       "description": "El Clase E establece nuevos estándares en confort, tecnología y eficiencia.",
       "variants": [
         {
@@ -122,7 +126,8 @@
       "id": "mb_eqa",
       "name": "EQA",
       "brand": "Mercedes-Benz",
-      "coverImage": null,
+      "coverImage": "",
+      "comingSoon": true,
       "description": "El EQA es el SUV eléctrico compacto de Mercedes-Benz, silencioso y digital.",
       "variants": [
         {
@@ -139,7 +144,8 @@
       "id": "mb_eqe",
       "name": "EQE",
       "brand": "Mercedes-Benz",
-      "coverImage": null,
+      "coverImage": "",
+      "comingSoon": true,
       "description": "El EQE es la berlina eléctrica premium con Hyperscreen y autonomía extendida.",
       "variants": [
         {
@@ -156,7 +162,8 @@
       "id": "mb_clase_g",
       "name": "Clase G",
       "brand": "Mercedes-Benz",
-      "coverImage": null,
+      "coverImage": "",
+      "comingSoon": true,
       "description": "El Clase G es el ícono todoterreno de Mercedes-Benz, ahora disponible en versión eléctrica.",
       "variants": [
         {
@@ -173,7 +180,8 @@
       "id": "mb_gla",
       "name": "GLA",
       "brand": "Mercedes-Benz",
-      "coverImage": null,
+      "coverImage": "",
+      "comingSoon": true,
       "description": "El GLA es el SUV compacto premium perfecto para la ciudad y los fines de semana.",
       "variants": [
         {
@@ -190,7 +198,8 @@
       "id": "mb_glb",
       "name": "GLB",
       "brand": "Mercedes-Benz",
-      "coverImage": null,
+      "coverImage": "",
+      "comingSoon": true,
       "description": "El GLB ofrece 3 filas de asientos en un diseño SUV compacto y versátil.",
       "variants": [
         {
@@ -207,7 +216,8 @@
       "id": "mb_glc",
       "name": "GLC",
       "brand": "Mercedes-Benz",
-      "coverImage": null,
+      "coverImage": "",
+      "comingSoon": true,
       "description": "El GLC es el SUV mediano más vendido de Mercedes-Benz, con variantes AMG.",
       "variants": [
         {
@@ -248,7 +258,8 @@
       "id": "mb_gle",
       "name": "GLE",
       "brand": "Mercedes-Benz",
-      "coverImage": null,
+      "coverImage": "",
+      "comingSoon": true,
       "description": "El GLE es el SUV grande de Mercedes-Benz, líder en tecnología y confort.",
       "variants": [
         {
@@ -289,7 +300,8 @@
       "id": "mb_gls",
       "name": "GLS",
       "brand": "Mercedes-Benz",
-      "coverImage": null,
+      "coverImage": "",
+      "comingSoon": true,
       "description": "El GLS es el SUV insignia de Mercedes-Benz, el máximo en espacio y lujo.",
       "variants": [
         {
@@ -308,7 +320,7 @@
       "brand": "Jeep",
       "comingSoon": false,
       "coverImage": "/images/jeep/commander/limited/frontal.jpeg",
-      "description": "El Jeep Commander combina diseño imponente con tecnología avanzada.",
+      "description": "El SUV de 7 plazas que combina lujo, tecnología y el potente motor Hurricane 4 de 2.0L Turbo con 272 HP.",
       "variants": [
         {
           "id": "limited",
@@ -317,39 +329,45 @@
           "colors": [
             "negro"
           ],
+          "description": "Equilibrio perfecto entre sofisticación y versatilidad para toda la familia.",
           "images": [
             {
               "id": "cmd_lim_front",
               "view": "front",
               "color": "negro",
+              "date": "2026-03-01",
               "url": "/images/jeep/commander/limited/frontal.jpeg"
             },
             {
               "id": "cmd_lim_side",
               "view": "side",
               "color": "negro",
+              "date": "2026-03-01",
               "url": "/images/jeep/commander/limited/lateral.jpeg"
             },
             {
               "id": "cmd_lim_rear",
               "view": "rear",
               "color": "negro",
+              "date": "2026-03-01",
               "url": "/images/jeep/commander/limited/posterior.jpeg"
             }
           ]
-        },
-        {
-          "id": "blackhawk",
-          "name": "Commander Blackhawk",
-          "year": 2026,
-          "colors": [],
-          "images": []
         },
         {
           "id": "overland",
           "name": "Commander Overland",
           "year": 2026,
           "colors": [],
+          "description": "El máximo nivel de equipamiento y distinción en la línea Commander.",
+          "images": []
+        },
+        {
+          "id": "blackhawk",
+          "name": "Commander Blackhawk Hurricane 4",
+          "year": 2026,
+          "colors": [],
+          "description": "Edición de alto rendimiento con motor Hurricane 4 y detalles estéticos oscurecidos.",
           "images": []
         }
       ]
@@ -374,12 +392,14 @@
               "id": "gc_alt_front",
               "view": "front",
               "color": "negro",
+              "date": "2026-03-01",
               "url": "/images/jeep/grandcherokee/altitude/frontal.jpeg"
             },
             {
               "id": "gc_alt_rear",
               "view": "rear",
               "color": "negro",
+              "date": "2026-03-01",
               "url": "/images/jeep/grandcherokee/altitude/posterior.jpeg"
             }
           ]
@@ -406,26 +426,36 @@
           "name": "Renegade Sport",
           "year": 2026,
           "colors": [
-            "sting gray"
+            "Diamond Black Crystal",
+            "Granite Crystal Metallic",
+            "Sting Gray"
           ],
           "images": [
             {
-              "id": "ren_sp_gray_front",
+              "id": "gen_diamond_black_front_4f62cec8",
               "view": "front",
-              "color": "sting gray",
-              "url": "/images/jeep/renegade/sport/gray/frontal.jpeg"
+              "color": "Diamond Black Crystal",
+              "date": "2026-03-13",
+              "url": "/images/jeep_renegade/sport/jeep_renegade_sport_diamond_black_front_516c24.jpg",
+              "isGenerated": true,
+              "generatedFrom": "/generated/gen_jeep_renegade_sport_diamond_black_4c86c3fc.jpg"
             },
             {
-              "id": "ren_sp_gray_side",
-              "view": "side",
-              "color": "sting gray",
-              "url": "/images/jeep/renegade/sport/gray/lateral.jpeg"
+              "id": "gen_granite_crystal_front_abc6112e",
+              "view": "front",
+              "color": "Granite Crystal Metallic",
+              "date": "2026-03-13",
+              "url": "/images/jeep_renegade/sport/jeep_renegade_sport_granite_crystal_front_f3e785.jpg",
+              "isGenerated": true,
+              "generatedFrom": "/generated/gen_jeep_renegade_sport_granite_crystal_d8c757f4.jpg"
             },
             {
-              "id": "ren_sp_gray_rear",
-              "view": "rear",
-              "color": "sting gray",
-              "url": "/images/jeep/renegade/sport/gray/posterior.jpeg"
+              "id": "jeep_renegade_sport_front_1116ab23",
+              "view": "front",
+              "color": "Sting Gray",
+              "year": 2026,
+              "date": "2026-03-13",
+              "url": "/uploads/jeep_renegade_sport_front_1116ab23.jpeg"
             }
           ]
         },
@@ -458,18 +488,21 @@
               "id": "wr_rub4d_front",
               "view": "front",
               "color": "negro",
+              "date": "2026-03-01",
               "url": "/images/jeep/wrangler/rubicon_4door/frontal.jpeg"
             },
             {
               "id": "wr_rub4d_side",
               "view": "side",
               "color": "negro",
+              "date": "2026-03-01",
               "url": "/images/jeep/wrangler/rubicon_4door/lateral.jpeg"
             },
             {
               "id": "wr_rub4d_rear",
               "view": "rear",
               "color": "negro",
+              "date": "2026-03-01",
               "url": "/images/jeep/wrangler/rubicon_4door/posterior.jpeg"
             }
           ]
@@ -508,15 +541,32 @@
       "id": "jeep_avenger",
       "name": "Jeep Avenger",
       "brand": "Jeep",
-      "comingSoon": true,
-      "coverImage": "",
-      "description": "El Jeep Avenger es compacto y completamente eléctrico.",
+      "comingSoon": false,
+      "coverImage": "/images/jeep/avenger/altitude/frontal.jpg",
+      "description": "El primer Jeep 100% eléctrico y compacto, diseñado para la ciudad con alma aventurera.",
       "variants": [
         {
           "id": "altitude",
           "name": "Avenger Altitude",
           "year": 2026,
           "colors": [],
+          "description": "Equipamiento tecnológico avanzado y diseño distintivo Jeep.",
+          "images": [
+            {
+              "id": "av_alt_front",
+              "view": "front",
+              "color": "negro",
+              "date": "2026-03-01",
+              "url": "/images/jeep/avenger/altitude/frontal.jpg"
+            }
+          ]
+        },
+        {
+          "id": "summit",
+          "name": "Avenger Summit",
+          "year": 2026,
+          "colors": [],
+          "description": "La expresión máxima de lujo y tecnología en el segmento compacto.",
           "images": []
         }
       ]
@@ -525,22 +575,16 @@
       "id": "jeep_compass",
       "name": "Jeep Compass",
       "brand": "Jeep",
-      "comingSoon": true,
-      "coverImage": "",
-      "description": "El Jeep Compass combina versatilidad urbana con capacidad off-road.",
+      "comingSoon": false,
+      "coverImage": "/images/jeep/compass/limited/frontal.jpg",
+      "description": "SUV moderno con el nuevo motor T270 Turbo de 173 HP, uniendo eficiencia y capacidad.",
       "variants": [
         {
-          "id": "blackhawk",
-          "name": "Compass Blackhawk",
+          "id": "sport",
+          "name": "Compass Sport",
           "year": 2026,
           "colors": [],
-          "images": []
-        },
-        {
-          "id": "limited",
-          "name": "Compass Limited",
-          "year": 2026,
-          "colors": [],
+          "description": "Versión de entrada con gran equipamiento y conectividad.",
           "images": []
         },
         {
@@ -548,13 +592,23 @@
           "name": "Compass Longitude",
           "year": 2026,
           "colors": [],
+          "description": "Mayor confort y detalles de diseño exclusivos.",
           "images": []
         },
         {
-          "id": "sport",
-          "name": "Compass Sport",
+          "id": "limited",
+          "name": "Compass Limited",
           "year": 2026,
           "colors": [],
+          "description": "Elegancia y tecnología premium para cada trayecto.",
+          "images": []
+        },
+        {
+          "id": "blackhawk",
+          "name": "Compass Blackhawk 4x4",
+          "year": 2026,
+          "colors": [],
+          "description": "Edición especial con motor 2.0T y tracción 4x4 avanzada.",
           "images": []
         }
       ]
@@ -594,16 +648,25 @@
       "id": "jeep_grand_cherokee_l",
       "name": "Jeep Grand Cherokee L",
       "brand": "Jeep",
-      "comingSoon": true,
-      "coverImage": "",
-      "description": "El Grand Cherokee L ofrece tres filas con lujo y desempeño Jeep.",
+      "comingSoon": false,
+      "coverImage": "/images/jeep/grandcherokeel/summitreserve/frontal.jpg",
+      "description": "El icono de Jeep con tres filas de asientos y capacidad para 7 pasajeros con el máximo lujo.",
       "variants": [
         {
           "id": "summitreserve",
           "name": "Grand Cherokee L Summit Reserve",
           "year": 2026,
           "colors": [],
-          "images": []
+          "description": "El pináculo del refinamiento y capacidad tecnológica de Jeep.",
+          "images": [
+            {
+              "id": "gcl_sum_front",
+              "view": "front",
+              "color": "negro",
+              "date": "2026-03-01",
+              "url": "/images/jeep/grandcherokeel/summitreserve/frontal.jpg"
+            }
+          ]
         }
       ]
     }

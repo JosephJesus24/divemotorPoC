@@ -28,7 +28,10 @@ export async function GET(request: NextRequest) {
                       )
       }
 
-      return NextResponse.json({ success: true, images: variant.images })
+      return NextResponse.json(
+        { success: true, images: variant.images },
+        { headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' } },
+      )
     } catch (err) {
           console.error('[variant-images] Error:', err)
           return NextResponse.json(

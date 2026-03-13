@@ -74,7 +74,7 @@ export function VehicleCard({ model, index = 0 }: Props) {
       <div className="relative aspect-[4/3] overflow-hidden bg-bg-secondary">
         {hasImages ? (
           <Image
-            src={model.coverImage}
+            src={model.coverImage!}
             alt={model.name}
             fill
             priority={index < 4}
