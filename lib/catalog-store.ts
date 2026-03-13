@@ -53,14 +53,13 @@ async function readCatalogVersion(): Promise<string | null> {
 
 /**
  * Merges the bundled catalog (source of truth for structure) with a Blob
- * catalog (which may contain user-generated images). Returns the merged
+ * catalog (source of truth for user-managed images). Returns the merged
  * catalog and whether any changes were made.
  *
  * Strategy:
- * - New models/variants from bundled are seeded into Blob.
- * - If a variant exists in Blob with NO images, restore bundled images
- *   (this handles the case where images were accidentally wiped by a bug).
- * - If a variant exists in Blob WITH images, keep them (user-managed).
+ * - New models/variants from bundled are added to Blob.
+ * - Structural metadata (name, description, year, coverImage, comingSoon) synced from bundled.
+ * - Images are NEVER restored from bundled — Blob is the sole authority for images.
  * - Colors are merged (union of bundled and Blob colors).
  */
 function mergeCatalogs(bundled: Catalog, blob: Catalog): { merged: Catalog; changed: boolean } {
@@ -162,9 +161,11 @@ export async function readCatalog(): Promise<VersionedCatalog> {
           const { merged, changed } = mergeCatalogs(bundled, blobCatalog)
           if (changed) {
             console.log('[catalog-store] Auto-merging bundled catalog updates into Blob')
-            await writeCatalog(merged)
+            const newVersion = await writeCatalog(merged)
+            // Return the NEW version so withCatalogUpdate doesn't get a stale version
+            return { catalog: merged, version: newVersion }
           }
-          return { catalog: changed ? merged : blobCatalog, version }
+          return { catalog: blobCatalog, version }
         }
       }
     } catch (e) {
@@ -240,7 +241,7 @@ export async function writeCatalog(
  */
 export async function withCatalogUpdate(
   mutate: (catalog: Catalog) => Catalog | Promise<Catalog>,
-  maxRetries = 3,
+  maxRetries = 5,
 ): Promise<Catalog> {
   for (let attempt = 0; attempt < maxRetries; attempt++) {
     const { catalog, version } = await readCatalog()
