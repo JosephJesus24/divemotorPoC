@@ -13,6 +13,7 @@ import {
   Save,
   CheckCircle,
   Info,
+  Images,
 } from 'lucide-react'
 import { getModelById, getVariantById } from '@/lib/catalog'
 import { getVariantColors } from '@/data/variant-colors'
@@ -408,11 +409,20 @@ function GenerateContent() {
               {/* Single save-all button — shown when there are completed results */}
               {doneResults.length > 0 && (
                 allSaved ? (
-                  <div className="flex items-center justify-center gap-2 py-3.5 rounded-xl border border-green-500/30 bg-green-500/5">
-                    <CheckCircle size={16} className="text-green-400 shrink-0" />
-                    <span className="text-sm font-semibold text-green-400">
-                      {doneResults.length === 1 ? 'Imagen guardada' : 'Todas guardadas'} en galeria
-                    </span>
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-center gap-2 py-3 rounded-xl border border-green-500/30 bg-green-500/5">
+                      <CheckCircle size={16} className="text-green-400 shrink-0" />
+                      <span className="text-sm font-semibold text-green-400">
+                        {doneResults.length === 1 ? 'Imagen guardada' : `${doneResults.length} imágenes guardadas`}
+                      </span>
+                    </div>
+                    <Link
+                      href={`/vehicle/${modelId}/${variantId}?_r=${Date.now()}`}
+                      className="btn-primary w-full py-3.5 text-sm flex items-center justify-center gap-2"
+                    >
+                      <Images size={16} />
+                      Ver galería actualizada
+                    </Link>
                   </div>
                 ) : (
                   <button

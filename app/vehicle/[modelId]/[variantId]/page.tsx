@@ -1,18 +1,21 @@
 'use client'
 
-import { notFound, useParams } from 'next/navigation'
+import { notFound, useParams, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { ChevronRight, Plus, CheckSquare, Download, X as XIcon } from 'lucide-react'
 import { getModelById, getVariantById } from '@/lib/catalog'
 import { ImageGrid } from '@/components/ImageGrid'
 import { FilterBar } from '@/components/FilterBar'
 import { ImageUploadModal } from '@/components/ImageUploadModal'
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect, useMemo, useCallback, Suspense } from 'react'
 import type { VehicleImage, GalleryFilters } from '@/types'
 
-export default function GalleryPage() {
+function GalleryContent() {
   const params = useParams<{ modelId: string; variantId: string }>()
   const { modelId, variantId } = params
+  const searchParams = useSearchParams()
+  // _r param is a refresh token — changes when coming from generate page
+  const refreshToken = searchParams.get('_r') ?? ''
 
   const model = getModelById(modelId)
   const variant = getVariantById(modelId, variantId)
@@ -25,30 +28,44 @@ export default function GalleryPage() {
   })
   const [images, setImages] = useState<VehicleImage[]>([])
   const [showUpload, setShowUpload] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
 
   // ── Multi-select state ────────────────────────────────────────────────────
   const [selectMode,  setSelectMode]  = useState(false)
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
   const [downloading, setDownloading] = useState(false)
 
-  // ── Fetch latest images from runtime catalog (reflects Vercel Blob state) ─
+  // ── Fetch images from API — runs on mount AND when refreshToken changes ──
+  const fetchImages = useCallback(async () => {
+    setIsLoading(true)
+    try {
+      const res = await fetch(
+        `/api/catalog-images?modelId=${modelId}&variantId=${variantId}&_t=${Date.now()}`,
+        { cache: 'no-store', headers: { Pragma: 'no-cache' } },
+      )
+      const data = await res.json()
+      if (data.success && data.images) {
+        setImages(data.images)
+      }
+    } catch {
+      // fallback: use bundled images if API fails
+      setImages(variant?.images ?? [])
+    } finally {
+      setIsLoading(false)
+    }
+  }, [modelId, variantId, variant])
+
+  // Fetch on mount, on refreshToken change, and when page becomes visible
   useEffect(() => {
-    let isMounted = true
-    fetch(`/api/catalog-images?modelId=${modelId}&variantId=${variantId}&_t=${Date.now()}`, {
-      cache: 'no-store',
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (isMounted && data.success && data.images) {
-          setImages(data.images)
-        }
-      })
-      .catch(() => {
-        // fallback: use bundled images if API fails
-        if (isMounted) setImages(variant?.images ?? [])
-      })
-    return () => { isMounted = false }
-  }, [modelId, variantId])
+    fetchImages()
+  }, [fetchImages, refreshToken])
+
+  // Re-fetch when user returns to this tab (e.g. after saving in generate page)
+  useEffect(() => {
+    const handleFocus = () => { fetchImages() }
+    window.addEventListener('focus', handleFocus)
+    return () => window.removeEventListener('focus', handleFocus)
+  }, [fetchImages])
 
   if (!model || !variant) return notFound()
 
@@ -226,7 +243,7 @@ export default function GalleryPage() {
       <section className="max-w-7xl mx-auto px-6 py-10">
         <div className="flex items-center justify-between mb-6">
           <p className="text-sm text-text-muted">
-            {filteredImages.length} de {images.length} elemento{images.length !== 1 ? 's' : ''}
+            {isLoading ? 'Cargando...' : `${filteredImages.length} de ${images.length} elemento${images.length !== 1 ? 's' : ''}`}
           </p>
           {filteredImages.length !== images.length && (
             <button
@@ -310,5 +327,19 @@ export default function GalleryPage() {
         />
       )}
     </div>
+  )
+}
+
+export default function GalleryPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="w-8 h-8 rounded-full border-2 border-accent border-t-transparent animate-spin" />
+        </div>
+      }
+    >
+      <GalleryContent />
+    </Suspense>
   )
 }
