@@ -29,6 +29,15 @@ const CATALOG_LOCAL = join(process.cwd(), 'data', 'catalog.json')
 const CATALOG_BLOB_PATH = 'catalog/catalog.json'
 const CATALOG_VERSION_BLOB = 'catalog/catalog.version'
 
+// ─── Cache-busting helper ──────────────────────────────────────────────────────
+// Vercel Blob serves files through a CDN that may cache content briefly.
+// Adding a unique query parameter forces the CDN to treat each request
+// as a cache miss, ensuring we always get the freshest data.
+let _fetchCounter = 0
+function bustCache(url: string): string {
+  return `${url}${url.includes('?') ? '&' : '?'}_cb=${Date.now()}_${++_fetchCounter}`
+}
+
 // ─── Concurrency Error ────────────────────────────────────────────────────────
 
 export class ConcurrencyError extends Error {
@@ -46,7 +55,10 @@ async function readCatalogVersion(): Promise<string | null> {
     const { blobs } = await list({ prefix: 'catalog/' })
     const vBlob = blobs.find((b) => b.pathname === CATALOG_VERSION_BLOB)
     if (!vBlob) return null
-    const res = await fetch(vBlob.url, { cache: 'no-store' })
+    const res = await fetch(bustCache(vBlob.url), {
+      cache: 'no-store',
+      headers: { 'Cache-Control': 'no-cache, no-store, must-revalidate', Pragma: 'no-cache' },
+    })
     return res.ok ? (await res.text()).trim() : null
   } catch {
     return null
@@ -71,13 +83,11 @@ function mergeCatalogs(bundled: Catalog, blob: Catalog): { merged: Catalog; chan
     const mergedModel = merged.models.find(m => m.id === bundledModel.id)
 
     if (!mergedModel) {
-      // New model — add it (images will be empty since bundled has no images)
       merged.models.push(JSON.parse(JSON.stringify(bundledModel)))
       changed = true
       continue
     }
 
-    // Sync structural model-level fields
     if (mergedModel.coverImage !== bundledModel.coverImage) {
       mergedModel.coverImage = bundledModel.coverImage
       changed = true
@@ -99,13 +109,11 @@ function mergeCatalogs(bundled: Catalog, blob: Catalog): { merged: Catalog; chan
       const mergedVariant = mergedModel.variants.find(v => v.id === bundledVariant.id)
 
       if (!mergedVariant) {
-        // New variant — add it (images will be empty)
         mergedModel.variants.push(JSON.parse(JSON.stringify(bundledVariant)))
         changed = true
         continue
       }
 
-      // Sync variant metadata
       if (mergedVariant.name !== bundledVariant.name) {
         mergedVariant.name = bundledVariant.name
         changed = true
@@ -119,7 +127,6 @@ function mergeCatalogs(bundled: Catalog, blob: Catalog): { merged: Catalog; chan
         changed = true
       }
 
-      // Merge colors (union) — images are NEVER touched
       const originalSize = mergedVariant.colors.length
       const colorSet = new Set(mergedVariant.colors)
       for (const c of bundledVariant.colors) colorSet.add(c)
@@ -140,7 +147,6 @@ export interface VersionedCatalog {
 
 export async function readCatalog(): Promise<VersionedCatalog> {
   if (USE_BLOB) {
-    // ── Try to read from Blob ─────────────────────────────────────────────
     let blobReadFailed = false
 
     try {
@@ -148,16 +154,18 @@ export async function readCatalog(): Promise<VersionedCatalog> {
       const found = blobs.find((b) => b.pathname === CATALOG_BLOB_PATH)
 
       if (found) {
-        // Blob catalog exists — read it
+        // Blob catalog exists — read it with cache-busting
         const [res, version] = await Promise.all([
-          fetch(found.url, { cache: 'no-store' }),
+          fetch(bustCache(found.url), {
+            cache: 'no-store',
+            headers: { 'Cache-Control': 'no-cache, no-store, must-revalidate', Pragma: 'no-cache' },
+          }),
           readCatalogVersion(),
         ])
         if (res.ok) {
           const blobCatalog = (await res.json()) as Catalog
           const bundled = bundledCatalog as Catalog
 
-          // Auto-merge new structure from bundled
           const { merged, changed } = mergeCatalogs(bundled, blobCatalog)
           if (changed) {
             console.log('[catalog-store] Auto-merging bundled structure into Blob')
@@ -167,8 +175,6 @@ export async function readCatalog(): Promise<VersionedCatalog> {
           return { catalog: blobCatalog, version }
         }
       } else {
-        // list() succeeded but no catalog found — this is a genuine first-time.
-        // Seed from bundled (which has empty images — safe).
         console.log('[catalog-store] No Blob catalog found, seeding from bundled')
         const bundled = bundledCatalog as Catalog
         const seedCatalog = JSON.parse(JSON.stringify(bundled)) as Catalog
@@ -176,13 +182,10 @@ export async function readCatalog(): Promise<VersionedCatalog> {
         return { catalog: seedCatalog, version: newVersion }
       }
     } catch (e) {
-      // Blob read FAILED (network error, rate limit, etc.)
-      // DO NOT re-seed — that would overwrite user data!
       console.warn('[catalog-store] Blob read failed, returning bundled as read-only fallback:', e)
       blobReadFailed = true
     }
 
-    // If blob read failed, return bundled as read-only (no version = writes will skip concurrency check)
     if (blobReadFailed) {
       return {
         catalog: JSON.parse(JSON.stringify(bundledCatalog)) as Catalog,
@@ -206,7 +209,8 @@ export async function writeCatalog(
   catalog: Catalog,
   expectedVersion: string | null = null,
 ): Promise<string> {
-  const content = JSON.stringify(catalog, null, 2)
+  // Compact JSON (no pretty-print) — smaller payload = faster write + read
+  const content = JSON.stringify(catalog)
   const newVersion = randomUUID()
 
   if (USE_BLOB) {
@@ -224,12 +228,14 @@ export async function writeCatalog(
         contentType: 'application/json',
         addRandomSuffix: false,
         allowOverwrite: true,
+        cacheControlMaxAge: 0, // Tell CDN: never cache this blob
       }),
       put(CATALOG_VERSION_BLOB, newVersion, {
         access: 'public',
         contentType: 'text/plain',
         addRandomSuffix: false,
         allowOverwrite: true,
+        cacheControlMaxAge: 0,
       }),
     ])
     return newVersion

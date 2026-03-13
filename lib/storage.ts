@@ -88,7 +88,8 @@ export async function readFileBuffer(url: string): Promise<Buffer> {
     const maxRetries = 3
     for (let attempt = 0; attempt < maxRetries; attempt++) {
       try {
-        const res = await fetch(url, { cache: 'no-store' })
+        const cacheBustedUrl = `${url}${url.includes('?') ? '&' : '?'}_cb=${Date.now()}`
+        const res = await fetch(cacheBustedUrl, { cache: 'no-store' })
         if (res.ok) return Buffer.from(await res.arrayBuffer())
         if (attempt < maxRetries - 1) {
           console.warn(`[storage] Blob fetch ${res.status}, retry ${attempt + 1}/${maxRetries}: ${url}`)
