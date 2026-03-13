@@ -38,7 +38,11 @@ export default function GalleryPage() {
       .then((r) => r.ok ? r.json() : null)
       .then((data) => {
         if (isMounted && data?.success && Array.isArray(data.images)) {
-          setImages(data.images as VehicleImage[])
+          // Filter out images with broken/relative URLs (no hostname)
+          const validImages = (data.images as VehicleImage[]).filter(
+            (img) => img.url && img.url.startsWith('http')
+          )
+          setImages(validImages)
         }
       })
       .catch(() => {
