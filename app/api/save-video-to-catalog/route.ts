@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { saveFile, readFileBuffer } from '@/lib/storage'
-import { readCatalog, writeCatalog } from '@/lib/catalog-store'
+import { saveFile, readFileBuffer, deleteFile } from '@/lib/storage'
+import { withCatalogUpdate } from '@/lib/catalog-store'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -38,21 +38,7 @@ export async function POST(request: NextRequest) {
       'video/mp4',
     )
 
-    // ── Update catalog ────────────────────────────────────────────────────────
-    const catalog = await readCatalog()
-
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const model   = catalog.models.find((m: any) => m.id === modelId)
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const variant = model?.variants?.find((v: any) => v.id === variantId)
-
-    if (!variant) {
-      return NextResponse.json(
-        { success: false, error: `Variante "${variantId}" no encontrada en catálogo` },
-        { status: 404 },
-      )
-    }
-
+    // ── Update catalog (with concurrency protection) ────────────────────────
     const newId = `video_${modelId}_${variantId}_${Date.now().toString(36)}`
     const today = new Date().toISOString().split('T')[0]
 
@@ -66,11 +52,24 @@ export async function POST(request: NextRequest) {
       isGenerated: true,
     }
 
-    variant.images = [newEntry, ...(variant.images ?? [])]
-    await writeCatalog(catalog)
+    await withCatalogUpdate((catalog) => {
+      const model   = catalog.models.find((m) => m.id === modelId)
+      const variant = model?.variants?.find((v) => v.id === variantId)
+
+      if (!variant) return catalog
+
+      variant.images = [newEntry, ...(variant.images ?? [])]
+      return catalog
+    })
+
+    // ── Clean up the generated source file (best-effort) ────────────────────
+    try {
+      await deleteFile(videoUrl)
+    } catch (e) {
+      console.warn('[save-video-to-catalog] Generated cleanup failed (non-critical):', e)
+    }
 
     console.log(`[save-video-to-catalog] Guardado: ${savedUrl}`)
-
     return NextResponse.json({ success: true, savedUrl, savedId: newId })
 
   } catch (err) {

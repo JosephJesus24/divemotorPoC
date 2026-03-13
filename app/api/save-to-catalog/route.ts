@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { randomUUID } from 'crypto'
-import { saveFile, readFileBuffer } from '@/lib/storage'
-import { readCatalog, writeCatalog } from '@/lib/catalog-store'
+import { saveFile, readFileBuffer, deleteFile } from '@/lib/storage'
+import { withCatalogUpdate } from '@/lib/catalog-store'
 import type { ImageView, VehicleImage } from '@/types'
 
 export const runtime = 'nodejs'
@@ -52,10 +52,10 @@ export async function POST(request: NextRequest) {
     // ── Read source file ──────────────────────────────────────────────────────
     const buffer = await readFileBuffer(imageUrl)
 
-    // ── Determine extension ───────────────────────────────────────────────────
+    // ── Determine extension ─────────────────────────────────────────────────
     const ext = imageUrl.split('.').pop()?.toLowerCase() ?? 'jpg'
 
-    // ── Copy file with clean name to images/ ──────────────────────────────────
+    // ── Copy file with clean name to images/ ────────────────────────────────
     const filename = buildFilename(modelId, variantId, colorId, view, ext)
     const newImageUrl = await saveFile(
       'images/' + modelId + '/' + variantId + '/' + filename,
@@ -63,7 +63,7 @@ export async function POST(request: NextRequest) {
       ext === 'png' ? 'image/png' : 'image/jpeg',
     )
 
-    // ── Build VehicleImage entry ──────────────────────────────────────────────
+    // ── Build VehicleImage entry ────────────────────────────────────────────
     const imageId = `gen_${colorId}_${view}_${randomUUID().slice(0, 8)}`
     const today   = new Date().toISOString().split('T')[0]
 
@@ -77,29 +77,31 @@ export async function POST(request: NextRequest) {
       generatedFrom: imageUrl,
     }
 
-    // ── Update catalog ────────────────────────────────────────────────────────
-    const catalog = await readCatalog()
+    // ── Update catalog (with concurrency protection) ─────────────────────────
+    await withCatalogUpdate((catalog) => {
+      const model   = catalog.models.find((m) => m.id === modelId)
+      const variant = model?.variants.find((v) => v.id === variantId)
 
-    const model   = catalog.models.find((m) => m.id === modelId)
-    const variant = model?.variants.find((v) => v.id === variantId)
+      if (!variant) return catalog
 
-    if (!variant) {
-      return NextResponse.json(
-        { success: false, error: `Variante no encontrada: ${modelId}/${variantId}` },
-        { status: 404 },
-      )
+      // Prepend so the new image appears first in the gallery
+      variant.images = [newImage, ...variant.images]
+
+      // If color not yet in variant colors list, add it
+      const colorNormalized = color.toLowerCase()
+      if (!variant.colors.includes(colorNormalized)) {
+        variant.colors = [colorNormalized, ...variant.colors]
+      }
+
+      return catalog
+    })
+
+    // ── Clean up the generated source file (best-effort) ────────────────────
+    try {
+      await deleteFile(imageUrl)
+    } catch (e) {
+      console.warn('[save-to-catalog] Generated file cleanup failed (non-critical):', e)
     }
-
-    // Prepend so the new image appears first in the gallery
-    variant.images = [newImage, ...variant.images]
-
-    // If color not yet in variant colors list, add it
-    const colorNormalized = color.toLowerCase()
-    if (!variant.colors.includes(colorNormalized)) {
-      variant.colors = [colorNormalized, ...variant.colors]
-    }
-
-    await writeCatalog(catalog)
 
     return NextResponse.json({
       success:  true,

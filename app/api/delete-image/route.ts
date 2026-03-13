@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { deleteFile } from '@/lib/storage'
-import { readCatalog, writeCatalog } from '@/lib/catalog-store'
-import type { Catalog } from '@/types'
+import { withCatalogUpdate } from '@/lib/catalog-store'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -22,36 +21,30 @@ export async function DELETE(request: NextRequest) {
       )
     }
 
-    // ── Read catalog ──────────────────────────────────────────────────────────
-    const catalog: Catalog = await readCatalog()
+    // ── Find and remove from catalog (with concurrency protection) ─────────
+    let imageUrl: string | null = null
 
-    const model   = catalog.models.find((m) => m.id === modelId)
-    const variant = model?.variants.find((v) => v.id === variantId)
+    await withCatalogUpdate((catalog) => {
+      const model   = catalog.models.find((m) => m.id === modelId)
+      const variant = model?.variants.find((v) => v.id === variantId)
 
-    if (!variant) {
-      return NextResponse.json(
-        { success: false, error: `Variante no encontrada: ${modelId}/${variantId}` },
-        { status: 404 },
-      )
+      if (!variant) return catalog // variant not found — no-op
+
+      const imageToDelete = variant.images.find((img) => img.id === imageId)
+      if (imageToDelete) {
+        imageUrl = imageToDelete.url
+        variant.images = variant.images.filter((img) => img.id !== imageId)
+      }
+
+      return catalog
+    })
+
+    // ── Delete physical file (best-effort) ──────────────────────────────────
+    if (imageUrl) {
+      await deleteFile(imageUrl)
     }
 
-    // ── Find the image to delete ──────────────────────────────────────────────
-    const imageToDelete = variant.images.find((img) => img.id === imageId)
-
-    if (!imageToDelete) {
-      // Already gone — still return success so the UI stays clean
-      return NextResponse.json({ success: true, deleted: false })
-    }
-
-    // ── Remove from catalog ───────────────────────────────────────────────────
-    variant.images = variant.images.filter((img) => img.id !== imageId)
-
-    await writeCatalog(catalog)
-
-    // ── Delete physical file ──────────────────────────────────────────────────
-    await deleteFile(imageToDelete.url)
-
-    return NextResponse.json({ success: true, deleted: true, imageId })
+    return NextResponse.json({ success: true, deleted: !!imageUrl, imageId })
   } catch (err) {
     console.error('[delete-image] Error:', err)
     return NextResponse.json(

@@ -15,6 +15,31 @@ import { join } from 'path'
 
 export const USE_BLOB = !!process.env.BLOB_READ_WRITE_TOKEN
 
+// ─── Validation ───────────────────────────────────────────────────────────────
+
+const ALLOWED_EXTENSIONS = new Set(['jpg', 'jpeg', 'png', 'webp', 'svg', 'gif', 'mp4'])
+const VALID_PREFIXES = ['uploads/', 'generated/', 'images/', 'catalog/']
+
+/** Validates a blob path against traversal attacks and extension allowlist. */
+export function validateBlobPath(blobPath: string): void {
+  if (blobPath.includes('..') || blobPath.startsWith('/') || blobPath.includes('\\')) {
+    throw new Error('Invalid path: traversal not allowed')
+  }
+  const ext = blobPath.split('.').pop()?.toLowerCase()
+  if (!ext || !ALLOWED_EXTENSIONS.has(ext)) {
+    throw new Error(`Invalid file type: .${ext}`)
+  }
+  if (!VALID_PREFIXES.some((p) => blobPath.startsWith(p))) {
+    throw new Error(`Invalid path prefix: ${blobPath}`)
+  }
+}
+
+/** Normalizes a URL for consistent frontend consumption. */
+export function normalizeImageUrl(url: string): string {
+  if (url.startsWith('http://') || url.startsWith('https://')) return url
+  return url.startsWith('/') ? url : `/${url}`
+}
+
 // ─── Save a file ──────────────────────────────────────────────────────────────
 
 /**
@@ -32,6 +57,8 @@ export async function saveFile(
   data:        Buffer,
   contentType: string,
 ): Promise<string> {
+  validateBlobPath(blobPath)
+
   if (USE_BLOB) {
     const blob = await put(blobPath, data, {
       access:           'public',
@@ -62,7 +89,11 @@ export async function readFileBuffer(url: string): Promise<Buffer> {
     return Buffer.from(await res.arrayBuffer())
   }
   // Relative path — read from /public/
-  const localPath = join(process.cwd(), 'public', url.replace(/^\//, ''))
+  const cleaned = url.replace(/^\//, '')
+  if (cleaned.includes('..') || cleaned.includes('\\')) {
+    throw new Error('Invalid path: traversal not allowed')
+  }
+  const localPath = join(process.cwd(), 'public', cleaned)
   if (existsSync(localPath)) return readFile(localPath)
   throw new Error(`File not found: ${url}`)
 }

@@ -115,13 +115,7 @@ export function ImageUploadModal({ modelId, variantId, variantYear, onClose, onU
         url: data.imageUrl,
       }
 
-      // Always add to gallery immediately and persist via localStorage
-      try {
-        const storageKey = `generated_gallery_${modelId}_${variantId}`
-        const saved = JSON.parse(localStorage.getItem(storageKey) ?? '[]') as VehicleImage[]
-        localStorage.setItem(storageKey, JSON.stringify([newImage, ...saved]))
-      } catch { /* localStorage not available */ }
-
+      // Image is now persisted to catalog by the upload API
       onUploaded(newImage)
       lastSelectedView = view
 

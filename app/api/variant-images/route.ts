@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
                       )
       }
 
-      const catalog = await readCatalog()
+      const { catalog } = await readCatalog()
           const model = catalog.models.find((m) => m.id === modelId)
           const variant = model?.variants.find((v) => v.id === variantId)
 

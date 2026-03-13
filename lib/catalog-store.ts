@@ -1,9 +1,9 @@
 /**
  * lib/catalog-store.ts
  *
- * Catalog persistence abstraction:
- * - Production (BLOB_READ_WRITE_TOKEN set): stored in Vercel Blob as JSON
- * - Development: local data/catalog.json
+ * Catalog persistence abstraction with optimistic concurrency control:
+ *   - Production (BLOB_READ_WRITE_TOKEN set): stored in Vercel Blob as JSON
+ *   - Development: local data/catalog.json
  *
  * On first production request, if no catalog blob exists yet,
  * falls back to the bundled data/catalog.json (committed to git).
@@ -16,66 +16,86 @@
 import { put, list } from '@vercel/blob'
 import { readFile, writeFile } from 'fs/promises'
 import { join } from 'path'
+import { randomUUID } from 'crypto'
 import type { Catalog } from '@/types'
 import { USE_BLOB } from './storage'
 import bundledCatalog from '@/data/catalog.json'
 
 const CATALOG_LOCAL = join(process.cwd(), 'data', 'catalog.json')
 const CATALOG_BLOB_PATH = 'catalog/catalog.json'
+const CATALOG_VERSION_BLOB = 'catalog/catalog.version'
+
+// ─── Concurrency Error ────────────────────────────────────────────────────────
+
+export class ConcurrencyError extends Error {
+  constructor(message = 'Catalog was modified by another request') {
+    super(message)
+    this.name = 'ConcurrencyError'
+  }
+}
+
+// ─── Version helpers (Blob only) ──────────────────────────────────────────────
+
+async function readCatalogVersion(): Promise<string | null> {
+  if (!USE_BLOB) return null
+  try {
+    const { blobs } = await list({ prefix: 'catalog/' })
+    const vBlob = blobs.find((b) => b.pathname === CATALOG_VERSION_BLOB)
+    if (!vBlob) return null
+    const res = await fetch(vBlob.url, { cache: 'no-store' })
+    return res.ok ? (await res.text()).trim() : null
+  } catch {
+    return null
+  }
+}
 
 // ─── Merge helper ────────────────────────────────────────────────────────────
 
 /**
-   * Merges the bundled catalog (source of truth for structure) with a Blob
-   * catalog (which may contain user-generated images). Returns the merged
-   * catalog and whether any changes were made.
-   *
-   * Strategy:
-   * - New models/variants from bundled are seeded into Blob.
-   * - If a variant exists in Blob with NO images, restore bundled images
-   *   (this handles the case where images were accidentally wiped by a bug).
-   * - If a variant exists in Blob WITH images, keep them (user-managed).
-   * - Colors are merged (union of bundled and Blob colors).
-   */
+ * Merges the bundled catalog (source of truth for structure) with a Blob
+ * catalog (which may contain user-generated images). Returns the merged
+ * catalog and whether any changes were made.
+ *
+ * Strategy:
+ * - New models/variants from bundled are seeded into Blob.
+ * - If a variant exists in Blob with NO images, restore bundled images
+ *   (this handles the case where images were accidentally wiped by a bug).
+ * - If a variant exists in Blob WITH images, keep them (user-managed).
+ * - Colors are merged (union of bundled and Blob colors).
+ */
 function mergeCatalogs(bundled: Catalog, blob: Catalog): { merged: Catalog; changed: boolean } {
-    const merged = JSON.parse(JSON.stringify(blob)) as Catalog
-    let changed = false
+  const merged = JSON.parse(JSON.stringify(blob)) as Catalog
+  let changed = false
 
   for (const bundledModel of bundled.models) {
-        let mergedModel = merged.models.find(m => m.id === bundledModel.id)
+    const mergedModel = merged.models.find(m => m.id === bundledModel.id)
 
-      if (!mergedModel) {
-              // Entire model is new in code — seed it from bundled
-          merged.models.push(JSON.parse(JSON.stringify(bundledModel)))
-              changed = true
-              continue
+    if (!mergedModel) {
+      merged.models.push(JSON.parse(JSON.stringify(bundledModel)))
+      changed = true
+      continue
+    }
+
+    for (const bundledVariant of bundledModel.variants) {
+      const mergedVariant = mergedModel.variants.find(v => v.id === bundledVariant.id)
+
+      if (!mergedVariant) {
+        mergedModel.variants.push(JSON.parse(JSON.stringify(bundledVariant)))
+        changed = true
+        continue
       }
 
-      for (const bundledVariant of bundledModel.variants) {
-              let mergedVariant = mergedModel.variants.find(v => v.id === bundledVariant.id)
-
-          if (!mergedVariant) {
-                    // New variant added in code — seed it from bundled (with its images)
-                mergedModel.variants.push(JSON.parse(JSON.stringify(bundledVariant)))
-                    changed = true
-                    continue
-          }
-
-          // Variant already exists in Blob.
-          // If it has NO images, restore from bundled (recovery from accidental wipe).
-          // If it has images already, keep them as-is (user-managed).
-          if (mergedVariant.images.length === 0 && bundledVariant.images.length > 0) {
-                    mergedVariant.images = JSON.parse(JSON.stringify(bundledVariant.images))
-                    changed = true
-          }
-
-          // Merge colors: add new color values from bundled not yet in Blob
-          const originalSize = mergedVariant.colors.length
-              const colorSet = new Set(mergedVariant.colors)
-              for (const c of bundledVariant.colors) colorSet.add(c)
-              mergedVariant.colors = Array.from(colorSet)
-              if (mergedVariant.colors.length !== originalSize) changed = true
+      if (mergedVariant.images.length === 0 && bundledVariant.images.length > 0) {
+        mergedVariant.images = JSON.parse(JSON.stringify(bundledVariant.images))
+        changed = true
       }
+
+      const originalSize = mergedVariant.colors.length
+      const colorSet = new Set(mergedVariant.colors)
+      for (const c of bundledVariant.colors) colorSet.add(c)
+      mergedVariant.colors = Array.from(colorSet)
+      if (mergedVariant.colors.length !== originalSize) changed = true
+    }
   }
 
   return { merged, changed }
@@ -83,62 +103,121 @@ function mergeCatalogs(bundled: Catalog, blob: Catalog): { merged: Catalog; chan
 
 // ─── Read ────────────────────────────────────────────────────────────────────
 
-export async function readCatalog(): Promise<Catalog> {
-    if (USE_BLOB) {
-          try {
-                  const { blobs } = await list({ prefix: 'catalog/' })
-                  const found = blobs.find((b) => b.pathname === CATALOG_BLOB_PATH)
-                  if (found) {
-                            const res = await fetch(`${found.url}?t=${Date.now()}`)
-                            if (res.ok) {
-                                        const blobCatalog = (await res.json()) as Catalog
-                                        const bundled = bundledCatalog as Catalog
-                                        // Auto-merge if bundled has newer structure or needs recovery
-                              const { merged, changed } = mergeCatalogs(bundled, blobCatalog)
-                                        if (changed) {
-                                                      console.log('[catalog-store] Auto-merging bundled catalog updates into Blob')
-                                                      await writeCatalog(merged)
-                                        }
-                                        return changed ? merged : blobCatalog
-                            }
-                  }
-          } catch (e) {
-                  console.warn('[catalog-store] Blob read failed, falling back to bundled:', e)
-          }
+export interface VersionedCatalog {
+  catalog: Catalog
+  version: string | null
+}
 
-      // No blob catalog yet — seed it from bundled
-      try {
-              const bundled = bundledCatalog as Catalog
-              await writeCatalog(bundled)
-              console.log('[catalog-store] Seeded Blob catalog from bundled')
-              return JSON.parse(JSON.stringify(bundled)) as Catalog
-      } catch (e) {
-              console.warn('[catalog-store] Failed to seed Blob catalog:', e)
+export async function readCatalog(): Promise<VersionedCatalog> {
+  if (USE_BLOB) {
+    try {
+      const { blobs } = await list({ prefix: 'catalog/' })
+      const found = blobs.find((b) => b.pathname === CATALOG_BLOB_PATH)
+      if (found) {
+        const [res, version] = await Promise.all([
+          fetch(found.url, { cache: 'no-store' }),
+          readCatalogVersion(),
+        ])
+        if (res.ok) {
+          const blobCatalog = (await res.json()) as Catalog
+          const bundled = bundledCatalog as Catalog
+          // Auto-merge if bundled has newer structure or needs recovery
+          const { merged, changed } = mergeCatalogs(bundled, blobCatalog)
+          if (changed) {
+            console.log('[catalog-store] Auto-merging bundled catalog updates into Blob')
+            await writeCatalog(merged)
+          }
+          return { catalog: changed ? merged : blobCatalog, version }
+        }
       }
+    } catch (e) {
+      console.warn('[catalog-store] Blob read failed, falling back to bundled:', e)
     }
+
+    // No blob catalog yet — seed it from bundled
+    try {
+      const bundled = bundledCatalog as Catalog
+      await writeCatalog(bundled)
+      console.log('[catalog-store] Seeded Blob catalog from bundled')
+      return { catalog: JSON.parse(JSON.stringify(bundled)) as Catalog, version: null }
+    } catch (e) {
+      console.warn('[catalog-store] Failed to seed Blob catalog:', e)
+    }
+  }
 
   // Local dev: try filesystem first
   try {
-        const raw = await readFile(CATALOG_LOCAL, 'utf8')
-        return JSON.parse(raw) as Catalog
+    const raw = await readFile(CATALOG_LOCAL, 'utf8')
+    return { catalog: JSON.parse(raw) as Catalog, version: null }
   } catch {
-        return JSON.parse(JSON.stringify(bundledCatalog)) as Catalog
+    return { catalog: JSON.parse(JSON.stringify(bundledCatalog)) as Catalog, version: null }
   }
 }
 
 // ─── Write ───────────────────────────────────────────────────────────────────
 
-export async function writeCatalog(catalog: Catalog): Promise<void> {
-    const content = JSON.stringify(catalog, null, 2)
-    if (USE_BLOB) {
-          await put(CATALOG_BLOB_PATH, content, {
-                  access: 'public',
-                  contentType: 'application/json',
-                  addRandomSuffix: false,
-                  allowOverwrite: true,
-          })
-          return
+export async function writeCatalog(
+  catalog: Catalog,
+  expectedVersion: string | null = null,
+): Promise<string> {
+  const content = JSON.stringify(catalog, null, 2)
+  const newVersion = randomUUID()
+
+  if (USE_BLOB) {
+    // Optimistic concurrency check
+    if (expectedVersion !== null) {
+      const currentVersion = await readCatalogVersion()
+      if (currentVersion !== null && currentVersion !== expectedVersion) {
+        throw new ConcurrencyError()
+      }
     }
-    // Local dev
+
+    // Write catalog + version in parallel
+    await Promise.all([
+      put(CATALOG_BLOB_PATH, content, {
+        access: 'public',
+        contentType: 'application/json',
+        addRandomSuffix: false,
+        allowOverwrite: true,
+      }),
+      put(CATALOG_VERSION_BLOB, newVersion, {
+        access: 'public',
+        contentType: 'text/plain',
+        addRandomSuffix: false,
+        allowOverwrite: true,
+      }),
+    ])
+    return newVersion
+  }
+
+  // Local dev — no version check needed
   await writeFile(CATALOG_LOCAL, content, 'utf8')
+  return newVersion
+}
+
+// ─── Safe catalog mutation with retry ─────────────────────────────────────────
+
+/**
+ * Reads the catalog, applies a mutation, and writes it back with concurrency
+ * protection. Retries automatically on conflict (up to maxRetries times).
+ */
+export async function withCatalogUpdate(
+  mutate: (catalog: Catalog) => Catalog | Promise<Catalog>,
+  maxRetries = 3,
+): Promise<Catalog> {
+  for (let attempt = 0; attempt < maxRetries; attempt++) {
+    const { catalog, version } = await readCatalog()
+    const updated = await mutate(catalog)
+    try {
+      await writeCatalog(updated, version)
+      return updated
+    } catch (err) {
+      if (err instanceof ConcurrencyError && attempt < maxRetries - 1) {
+        console.warn(`[catalog-store] Concurrency conflict, retrying (${attempt + 1}/${maxRetries})`)
+        continue
+      }
+      throw err
+    }
+  }
+  throw new Error('Failed to update catalog after retries')
 }
