@@ -23,15 +23,30 @@ export default function GalleryPage() {
     dateFrom: null,
     dateTo: null,
   })
-  const [images, setImages] = useState<VehicleImage[]>(
-    variant?.images ?? []
-  )
+  const [images, setImages] = useState<VehicleImage[]>([])
   const [showUpload, setShowUpload] = useState(false)
 
   // ── Multi-select state ────────────────────────────────────────────────────
   const [selectMode,  setSelectMode]  = useState(false)
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
   const [downloading, setDownloading] = useState(false)
+
+  // ── Load images from Blob catalog (source of truth) ───────────────────────
+  useEffect(() => {
+    let isMounted = true
+    fetch(`/api/variant-images?modelId=${modelId}&variantId=${variantId}`)
+      .then((r) => r.ok ? r.json() : null)
+      .then((data) => {
+        if (isMounted && data?.success && Array.isArray(data.images)) {
+          setImages(data.images as VehicleImage[])
+        }
+      })
+      .catch(() => {
+        // fallback: use bundled images if API fails
+        if (isMounted) setImages(variant?.images ?? [])
+      })
+    return () => { isMounted = false }
+  }, [modelId, variantId])
 
   // ── Load generated images saved from the AI generation page ──────────────
   useEffect(() => {
