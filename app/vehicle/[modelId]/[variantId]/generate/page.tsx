@@ -109,23 +109,32 @@ function GenerateContent() {
     }
   }
 
-  // ── Save a result to the gallery — copies to correct folder + updates catalog ─
-  const handleSaveToGallery = async (result: GenerationResult) => {
-    const view = globalView
+  // ── Save ALL completed results to the gallery in a single batch request ───
+  const handleSaveAll = async () => {
+    const pending = results.filter(
+      (r) => r.status === 'done' && r.imageUrl && !savedResults[r.colorId]
+    )
+    if (pending.length === 0) return
+    setIsSavingAll(true)
 
-    setSavingIds((prev) => ({ ...prev, [result.colorId]: true }))
+    // Mark all as saving
+    const savingMap: Record<string, boolean> = {}
+    for (const r of pending) savingMap[r.colorId] = true
+    setSavingIds((prev) => ({ ...prev, ...savingMap }))
 
     try {
       const response = await fetch('/api/save-to-catalog', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          imageUrl: result.imageUrl,
-          view,
-          color: result.colorLabel,
-          colorId: result.colorId,
           modelId,
           variantId,
+          items: pending.map((r) => ({
+            imageUrl: r.imageUrl,
+            view: globalView,
+            color: r.colorLabel,
+            colorId: r.colorId,
+          })),
         }),
       })
 
@@ -135,28 +144,30 @@ function GenerateContent() {
         throw new Error(data.error ?? 'Error al guardar')
       }
 
-      setSavedResults((prev) => ({ ...prev, [result.colorId]: true }))
-      // Image is now persisted to catalog by the save-to-catalog API.
-      // Gallery fetches from API on mount, so no localStorage needed.
+      // Mark all as saved
+      const saved: Record<string, boolean> = {}
+      for (const r of pending) saved[r.colorId] = true
+      setSavedResults((prev) => ({ ...prev, ...saved }))
+
+      // Report partial failures if any
+      if (data.errors && data.errors.length > 0) {
+        const failedColors = data.errors.map((e: { colorId: string }) => e.colorId).join(', ')
+        alert(`Algunas imágenes no se guardaron: ${failedColors}`)
+        // Un-mark failed ones
+        for (const e of data.errors as { colorId: string }[]) {
+          setSavedResults((prev) => { const n = { ...prev }; delete n[e.colorId]; return n })
+        }
+      }
     } catch (err) {
-      console.error('[handleSaveToGallery]', err)
+      console.error('[handleSaveAll]', err)
       alert(`Error al guardar: ${err instanceof Error ? err.message : 'Error desconocido'}`)
     } finally {
-      setSavingIds((prev) => ({ ...prev, [result.colorId]: false }))
+      // Clear all saving states
+      const cleared: Record<string, boolean> = {}
+      for (const r of pending) cleared[r.colorId] = false
+      setSavingIds((prev) => ({ ...prev, ...cleared }))
+      setIsSavingAll(false)
     }
-  }
-
-  // ── Save ALL completed results to the gallery at once ────────────────────
-  const handleSaveAll = async () => {
-    const pending = results.filter(
-      (r) => r.status === 'done' && r.imageUrl && !savedResults[r.colorId]
-    )
-    if (pending.length === 0) return
-    setIsSavingAll(true)
-    for (const r of pending) {
-      await handleSaveToGallery(r)
-    }
-    setIsSavingAll(false)
   }
 
   // Derived state for the single save button
