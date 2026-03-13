@@ -151,28 +151,6 @@ export function ImageGrid({ images, onDelete, selectMode = false, selectedIds = 
     if (isZoomed) { resetZoom() } else { setZoom(2.5) }
   }
 
-  // ── Lightbox navigation ────────────────────────────────────────────────────
-  const currentIndex = lightbox ? images.findIndex((img) => img.id === lightbox.id) : -1
-
-  const goToPrev = () => {
-    if (currentIndex > 0) setLightbox(images[currentIndex - 1])
-  }
-  const goToNext = () => {
-    if (currentIndex < images.length - 1) setLightbox(images[currentIndex + 1])
-  }
-
-  // Keyboard navigation (arrows + Escape)
-  useEffect(() => {
-    if (!lightbox) return
-    const handleKey = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowLeft')  { e.preventDefault(); goToPrev() }
-      if (e.key === 'ArrowRight') { e.preventDefault(); goToNext() }
-      if (e.key === 'Escape')     { e.preventDefault(); setLightbox(null) }
-    }
-    window.addEventListener('keydown', handleKey)
-    return () => window.removeEventListener('keydown', handleKey)
-  })
-
   // ─────────────────────────────────────────────────────────────────────────────
 
   return (

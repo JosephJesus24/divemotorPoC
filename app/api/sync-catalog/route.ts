@@ -30,7 +30,8 @@ export async function POST() {
     // Try to read existing Blob catalog
     let blobCatalog: Catalog | null = null
     try {
-      blobCatalog = await readCatalog()
+      const result = await readCatalog()
+      blobCatalog = result.catalog
     } catch {
       // No blob catalog yet
     }
