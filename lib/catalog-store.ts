@@ -16,7 +16,7 @@
 import { put, list } from '@vercel/blob'
 import { readFile, writeFile } from 'fs/promises'
 import { join } from 'path'
-import type { Catalog, VehicleModel } from '@/types'
+import type { Catalog } from '@/types'
 import { USE_BLOB } from './storage'
 import bundledCatalog from '@/data/catalog.json'
 
