@@ -76,6 +76,24 @@ function mergeCatalogs(bundled: Catalog, blob: Catalog): { merged: Catalog; chan
       continue
     }
 
+    // Sync structural model-level fields from bundled (source of truth for metadata)
+    if (mergedModel.coverImage !== bundledModel.coverImage) {
+      mergedModel.coverImage = bundledModel.coverImage
+      changed = true
+    }
+    if (mergedModel.comingSoon !== bundledModel.comingSoon) {
+      mergedModel.comingSoon = bundledModel.comingSoon
+      changed = true
+    }
+    if (mergedModel.name !== bundledModel.name) {
+      mergedModel.name = bundledModel.name
+      changed = true
+    }
+    if (mergedModel.description !== bundledModel.description) {
+      mergedModel.description = bundledModel.description
+      changed = true
+    }
+
     for (const bundledVariant of bundledModel.variants) {
       const mergedVariant = mergedModel.variants.find(v => v.id === bundledVariant.id)
 
@@ -83,6 +101,20 @@ function mergeCatalogs(bundled: Catalog, blob: Catalog): { merged: Catalog; chan
         mergedModel.variants.push(JSON.parse(JSON.stringify(bundledVariant)))
         changed = true
         continue
+      }
+
+      // Sync structural variant-level fields from bundled
+      if (mergedVariant.name !== bundledVariant.name) {
+        mergedVariant.name = bundledVariant.name
+        changed = true
+      }
+      if (mergedVariant.description !== bundledVariant.description) {
+        mergedVariant.description = bundledVariant.description
+        changed = true
+      }
+      if (mergedVariant.year !== bundledVariant.year) {
+        mergedVariant.year = bundledVariant.year
+        changed = true
       }
 
       if (mergedVariant.images.length === 0 && bundledVariant.images.length > 0) {
