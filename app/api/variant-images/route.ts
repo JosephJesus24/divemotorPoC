@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { readCatalog } from '@/lib/catalog-store'
+import { readCatalog, writeCatalog } from '@/lib/catalog-store'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -28,7 +28,14 @@ export async function GET(request: NextRequest) {
       )
     }
 
-    return NextResponse.json({ success: true, images: variant.images })
+    // Auto-clean: remove images with relative/broken URLs from the catalog
+    const validImages = variant.images.filter((img) => img.url && img.url.startsWith('http'))
+    if (validImages.length !== variant.images.length) {
+      variant.images = validImages
+      await writeCatalog(catalog)
+    }
+
+    return NextResponse.json({ success: true, images: validImages })
   } catch (err) {
     console.error('[variant-images] Error:', err)
     return NextResponse.json(
