@@ -122,11 +122,10 @@ function mergeCatalogs(bundled: Catalog, blob: Catalog): { merged: Catalog; chan
         mergedVariant.images = []
         changed = true
       }
-      // If Blob variant has no images but bundled does, restore them
-      else if (mergedVariant.images.length === 0 && bundledVariant.images.length > 0) {
-        mergedVariant.images = JSON.parse(JSON.stringify(bundledVariant.images))
-        changed = true
-      }
+      // NOTE: We intentionally do NOT restore bundled images when Blob has 0.
+      // The Blob catalog is the source of truth for user-managed images.
+      // If a user deleted all images, that decision must be respected.
+      // Bundled images are only used during initial seeding (readCatalog fallback).
 
       const originalSize = mergedVariant.colors.length
       const colorSet = new Set(mergedVariant.colors)
