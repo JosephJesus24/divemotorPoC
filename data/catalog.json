@@ -541,8 +541,8 @@
       "id": "jeep_avenger",
       "name": "Jeep Avenger",
       "brand": "Jeep",
-      "comingSoon": false,
-      "coverImage": "/images/jeep/avenger/altitude/frontal.jpg",
+      "comingSoon": true,
+      "coverImage": "",
       "description": "El primer Jeep 100% eléctrico y compacto, diseñado para la ciudad con alma aventurera.",
       "variants": [
         {
@@ -551,15 +551,7 @@
           "year": 2026,
           "colors": [],
           "description": "Equipamiento tecnológico avanzado y diseño distintivo Jeep.",
-          "images": [
-            {
-              "id": "av_alt_front",
-              "view": "front",
-              "color": "negro",
-              "date": "2026-03-01",
-              "url": "/images/jeep/avenger/altitude/frontal.jpg"
-            }
-          ]
+          "images": []
         },
         {
           "id": "summit",
@@ -575,8 +567,8 @@
       "id": "jeep_compass",
       "name": "Jeep Compass",
       "brand": "Jeep",
-      "comingSoon": false,
-      "coverImage": "/images/jeep/compass/limited/frontal.jpg",
+      "comingSoon": true,
+      "coverImage": "",
       "description": "SUV moderno con el nuevo motor T270 Turbo de 173 HP, uniendo eficiencia y capacidad.",
       "variants": [
         {
@@ -648,8 +640,8 @@
       "id": "jeep_grand_cherokee_l",
       "name": "Jeep Grand Cherokee L",
       "brand": "Jeep",
-      "comingSoon": false,
-      "coverImage": "/images/jeep/grandcherokeel/summitreserve/frontal.jpg",
+      "comingSoon": true,
+      "coverImage": "",
       "description": "El icono de Jeep con tres filas de asientos y capacidad para 7 pasajeros con el máximo lujo.",
       "variants": [
         {
@@ -658,15 +650,7 @@
           "year": 2026,
           "colors": [],
           "description": "El pináculo del refinamiento y capacidad tecnológica de Jeep.",
-          "images": [
-            {
-              "id": "gcl_sum_front",
-              "view": "front",
-              "color": "negro",
-              "date": "2026-03-01",
-              "url": "/images/jeep/grandcherokeel/summitreserve/frontal.jpg"
-            }
-          ]
+          "images": []
         }
       ]
     }
